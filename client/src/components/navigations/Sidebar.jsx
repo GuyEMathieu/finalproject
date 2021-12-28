@@ -1,68 +1,76 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import Drawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
-import {makeStyles} from '@mui/styles'
+import { styled, useTheme } from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 
-import EmployeeSidebar from "./EmployeeSidebar";
-import CustomerSidebar from "./CustomerSidebar";
-import VehicleSidebar from "./VehicleSidebar";
-import HRSidebar from './HRSidebar'
+const drawerWidth = 240;
 
-
-const drawerWidth = 85;
-
-const useStyles = makeStyles((theme) => ({
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0    
-    },
-    drawerPaper: {
-        width: drawerWidth
-    },
-    drawerContainer: {
-        overflow: "auto",
-        backgroundColor: '#000'
-    },
-    tooltip: {
-        backgroundColor: theme.palette.common.white,
-        color: "rgba(0,0,0.87)",
-        //boxShadow: theme.shadows[1],
-        fontSize: 30
-    }
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
 }));
 
+export default function Header(props) {
+    const theme = useTheme();
 
-
-export default function ClippedDrawer() {
-    const classes = useStyles();
+    const {
+        open, handleDrawerClose
+    } = props
 
     return (
+
         <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-                paper: classes.drawerPaper
+            sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                boxSizing: 'border-box',
+            },
             }}
+            variant="persistent"
+            anchor="left"
+            open={open}
         >
-            <Toolbar />
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <HRSidebar />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <EmployeeSidebar />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <CustomerSidebar />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <VehicleSidebar />
-                </Grid>
-            </Grid>
+            <DrawerHeader>
+                <IconButton onClick={handleDrawerClose}>
+                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
+            </DrawerHeader>
+            <Divider />
+            <List>
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    <ListItem button key={text}>
+                    <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                    </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    <ListItem button key={text}>
+                    <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                    </ListItem>
+                ))}
+            </List>
         </Drawer>
     );
 }
