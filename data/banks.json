@@ -1,0 +1,163 @@
+[
+    {
+        "name": "Reynolds Inc Bank",
+        "terms": [
+            {
+                "apr": 0.05,
+                "termLength": 60
+            },
+            {
+                "apr": 0.16,
+                "termLength": 48
+            },
+            {
+                "apr": 0.2,
+                "termLength": 48
+            }
+        ],
+        "address": {
+        "street": "50566 Wayridge Court",
+        "city": "Arvada",
+        "country": "USA", "state": "CO",
+        "zipcode": "80005"
+        }
+    }, 
+    {
+        "name": "Pollich-Bogisich Bank",
+        "terms": [
+            {
+                "apr": 0.14,
+                "termLength": 48
+            },
+            {
+                "apr": 0.03,
+                "termLength": 48
+            },
+            {
+                "apr": 0.04,
+                "termLength": 60
+            }
+        ],
+        "address": {
+        "street": "9 Northland Center",
+        "city": "Anchorage",
+        "country": "USA", "state": "AK",
+        "zipcode": "99599"
+        }
+    }, 
+    {
+        "name": "Pfannerstill and Sons Bank",
+        "terms": [
+            {
+            "apr": 0.09,
+            "termLength": 48
+            },
+            {
+            "apr": 0.2,
+            "termLength": 60
+            },
+            {
+            "apr": 0.07,
+            "termLength": 72
+            }
+        ],
+        "address": {
+        "street": "6450 Spaight Pass",
+        "city": "Pasadena",
+        "country": "USA", "state": "CA",
+        "zipcode": "91103"
+        }
+    }, 
+    {
+        "name": "Christiansen-Wolf Bank",
+        "terms": [
+            {
+                "apr": 0.23,
+                "termLength": 72
+            },
+            {
+                "apr": 0.07,
+                "termLength": 72
+            },
+            {
+                "apr": 0.06,
+                "termLength": 60
+            }
+        ],
+        "address": {
+        "street": "48913 Kropf Crossing",
+        "city": "San Francisco",
+        "country": "USA", "state": "CA",
+        "zipcode": "94177"
+        }
+    }, 
+    {
+        "name": "Vandervort-Orn Bank",
+        "terms": [
+            {
+                "apr": 0.04,
+                "termLength": 72
+            },
+            {
+                "apr": 0.06,
+                "termLength": 72
+            },
+            {
+                "apr": 0.21,
+                "termLength": 60
+            }
+        ],
+        "address": {
+        "street": "4 American Parkway",
+        "city": "Atlanta",
+        "country": "USA", "state": "GA",
+        "zipcode": "31136"
+        }
+    }, 
+    {
+        "name": "Ziemann LLC Bank",
+        "terms": [
+            {
+                "apr": 0.07,
+                "termLength": 72
+            },
+            {
+                "apr": 0.22,
+                "termLength": 48
+            },
+            {
+                "apr": 0.1,
+                "termLength": 60
+            }
+        ],
+        "address": {
+        "street": "6 Harbort Pass",
+        "city": "Macon",
+        "country": "USA", "state": "GA",
+        "zipcode": "31296"
+        }
+    }, 
+    {
+        "name": "Reynolds and Sons Bank",
+        "terms": [
+            {
+                "apr": 0.24,
+                "termLength": 48
+            },
+            {
+                "apr": 0.08,
+                "termLength": 72
+            },
+            {
+                "apr": 0.07,
+                "termLength": 60
+            }
+        ],
+        "address": {
+        "street": "9 Merchant Place",
+        "city": "Morgantown",
+        "country": "USA", "state": "WV",
+        "zipcode": "26505"
+        }
+    }
+]

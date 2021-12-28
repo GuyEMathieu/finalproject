@@ -1,0 +1,13 @@
+
+export const GET_ALL = 'GET_ALL'
+export const ADD_MANUFACTURER = 'ADD_MANUFACTURER'
+export const DELETE_MANUFACTURER = 'DELETE_DMANUFACTURER'
+
+export const ADD_MODEL = 'ADD_MODEL'
+export const DELETE_MODEL = 'DELETE_MODEL'
+
+export const REMOVE_ERROR = 'REMOVE_ERROR'
+export const SET_ERROR = 'SET_ERROR'
+export const CLEAR_ERRORS = 'CLEAR_ERRORS'
+
+

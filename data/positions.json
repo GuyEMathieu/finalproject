@@ -1,0 +1,12 @@
+[
+    {"name": "Sales Representative", "departmentName": "Sales"},
+    {"name": "Sales Manager", "departmentName": "Sales"},
+    {"name": "HR Manager", "departmentName": "HR"},
+    {"name": "HR Representative", "departmentName": "HR"},
+    {"name": "Service Manager", "departmentName": "Service"},
+    {"name": "Service Representative", "departmentName": "Service"},
+    {"name": "Repair Manager", "departmentName": "Repair"},
+    {"name": "Repair Technician", "departmentName": "Repair"},
+    {"name": "Custodial Manager", "departmentName": "Custodial"},
+    {"name": "Custodial Technician", "departmentName": "Custodial"}
+]

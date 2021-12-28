@@ -1,0 +1,10 @@
+export const GET_ALL = 'GET_ALL'
+export const ADD_EMPLOYEE = 'ADD_EMPLOYEE'
+export const UPDATE_EMPLOYEE = 'UPDATE_EMPLOYEE'
+export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE'
+export const SET_CURRENT_EMPLOYEE = 'SET_CURRENT_EMPLOYEE'
+
+export const SET_ALERTS = 'SET_ALERTS'
+export const REMOVE_ALERT = 'REMOVE_ALERT'
+export const CLEAR_ALERTS = 'CLEAR_ALERTS'
+
