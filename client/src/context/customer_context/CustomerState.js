@@ -4,11 +4,7 @@ import React, {useReducer} from 'react';
 import customerReducer from './customerReducer';
 import axios from 'axios'
 
-import {
-    ADD_CUSTOMER, CURRENT_CUSTOMER,
-    UPDATE_CUSTOMER,  SET_CURRENT_EMPLOYEE,
-    GET_ALL, SET_ALERTS, REMOVE_ALERT, REMOVE_FILTER, FILTER_CUSTOMER
-} from './customerContextTypes'
+import * as ActionTypes from './customerContextTypes'
 
 export const CustomerContext = createContext();
 
@@ -27,13 +23,13 @@ const CustomerState = props => {
         try {
             const res = await axios.get('/api/customers')
             dispatch({
-                type: GET_ALL,
+                type: ActionTypes.GET_ALL,
                 payload: res.data
             })
         } catch (err) {
             console.info(err)
             dispatch({
-                type: SET_ALERTS,
+                type: ActionTypes.SET_ALERTS,
                 payload: err.response.data.errors
             })
         }
@@ -51,13 +47,13 @@ const CustomerState = props => {
             const res = await axios.post(`/api/customers/${vehicle.customerId}/vehicle`, vehicle, config)
             console.info("RES", res.data)
             dispatch({
-                type: UPDATE_CUSTOMER,
+                type: ActionTypes.UPDATE_CUSTOMER,
                 payload: res.data
             })
         } catch (err) {
             console.info(err)
             dispatch({
-                type: SET_ALERTS,
+                type: ActionTypes.SET_ALERTS,
                 payload: err.response.data.errors
             })
         }
@@ -73,13 +69,13 @@ const CustomerState = props => {
             const res = await axios.post('/api/customers', customer, config)
             console.info("RES", res.data)
             dispatch({
-                type: ADD_CUSTOMER,
+                type: ActionTypes.ADD_CUSTOMER,
                 payload: res.data
             })
 
         } catch (err) {
             dispatch({
-                type: SET_ALERTS,
+                type: ActionTypes.SET_ALERTS,
                 payload: err.response.data.errors
             })
         }
@@ -87,14 +83,14 @@ const CustomerState = props => {
 
     const filterCustomers = async criteria => {
         dispatch({
-            type: FILTER_CUSTOMER,
+            type: ActionTypes.FILTER_CUSTOMER,
             payload: criteria
         })
     }
 
     const removeAlert = async id => {
         dispatch({
-            type: REMOVE_ALERT,
+            type: ActionTypes.REMOVE_ALERT,
             payload: id
         })
     }
