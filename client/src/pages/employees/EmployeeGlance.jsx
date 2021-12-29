@@ -5,6 +5,7 @@ import {
 import Loading from '../../components/Loading';
 import {DefaultContext} from '../../context/default_context/DefaultState';
 
+import {getName, formatDate} from '../../utils/Formatter'
 
 export default function EmployeeGlance({employee}) {
     const defaultContext = useContext(DefaultContext);
@@ -40,13 +41,13 @@ export default function EmployeeGlance({employee}) {
                     <Grid item xs={6}>
                         <TextField
                             variant='standard'
-                            label='Gender' disabled value={employee.gender}
+                            label='Gender' disabled value={getName(defaults.genders, employee.gender)}
                         />
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
                             variant='standard'
-                            label='Date of Birth' disabled value={employee.dateOfBirth}
+                            label='Date of Birth' disabled value={formatDate(employee.dateOfBirth)}
                         />
                     </Grid>
                     <Grid item xs={6}>

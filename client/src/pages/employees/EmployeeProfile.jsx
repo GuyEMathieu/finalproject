@@ -24,7 +24,7 @@ export default function EmployeeProfile(props) {
         }
     }, [id, employee, employeeList])
 
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState('Personal Information');
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
