@@ -21,7 +21,7 @@ const DriverLicense = require('./DriverLicense');
 //@route        GET /api/employees
 //@desc         Get Employee List
 //@access       Private
-router.get('/', auth, async (req, res) => {
+router.get('/',  async (req, res) => {
     try {
         const employees = await Employee.find()
             .select('-password')

@@ -1,32 +1,58 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {
-    Box, Tab
+    Box, Tab, Paper
 } from '@mui/material';
 import {
     TabContext, TabList, TabPanel 
 } from '@mui/lab';
 
-export default function DynamicTabs() {
-    const [value, setValue] = useState('1');
+import ClearIcon from '@mui/icons-material/Clear';
 
+export default function DynamicTabs(props) {
+    const {data, handleClose} = props;
+
+    const [tabs, setTabs] = useState([])
+
+    const [value, setValue] = useState(null);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    useEffect(() =>{
+        if(data){
+            setTabs(data)
+            
+            if(value === null || data.length === 1){
+                setValue(data[data.length - 1].label)
+            }
+        }
+    }, [data, setTabs, value])
+
     return (
-        <Box sx={{ width: '100%', typography: 'body1' }}>
-            <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Item One" value="1" />
-                        <Tab label="Item Two" value="2" />
-                        <Tab label="Item Three" value="3" />
+        <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Paper sx={{p:0}}>
+                    <TabList onChange={handleChange} >
+                        
+                        {tabs.map (tab => (
+                            <Tab 
+                                icon={ tab.isInteractable 
+                                    ? <ClearIcon onClick={() => handleClose(tab.label)} />
+                                    : null
+                                }
+                                iconPosition='end'
+                                label={tab.label} value={tab.label}  
+                            />
+                        ))}
                     </TabList>
-                </Box>
-                <TabPanel value="1">Item One</TabPanel>
-                <TabPanel value="2">Item Two</TabPanel>
-                <TabPanel value="3">Item Three</TabPanel>
-            </TabContext>
-        </Box>
+                </Paper>
+            </Box>
+            <TabPanel value="1">Item One</TabPanel>
+            {tabs.map(tab => (
+                <TabPanel value={tab.label} sx={{px: 0, py: 0, my: 0}}>
+                    {tab.panel()}
+                </TabPanel>
+            ))}
+        </TabContext>
     );
 }

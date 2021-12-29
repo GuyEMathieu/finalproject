@@ -30,7 +30,6 @@ const EmployeeState = props => {
                 payload: res.data
             })
         } catch (err) {
-            console.info(err)
             dispatch({
                 type: SET_ALERTS,
                 payload: err.response.data.errors

@@ -1,18 +1,27 @@
 import React from 'react'
 
-import {Typography} from '@mui/material';
+import {Typography, styled} from '@mui/material';
 import {Link} from 'react-router-dom'
+
+const CustomLink = styled(Link)(({theme}) => ({
+    textDecoration: 'none',
+}))
+const Typo = styled(Typography)(({theme}) => ({
+    color:"textSecondary",
+    align:"center",
+    margin: theme.spacing(2)
+}))
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
+        <Typo variant="body2" >
             {'Copyright © '}
-            <Link color="inherit" to="/">
-            Contact Keeper
-            </Link>{' '}
+            <CustomLink color="inherit" to="/">
+                Guy Mathieu
+            </CustomLink>{' '}
             {new Date().getFullYear()}
             {'.'}
-        </Typography>
+        </Typo>
     );
 }
 

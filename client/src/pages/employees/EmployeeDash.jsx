@@ -1,22 +1,31 @@
-import * as React from 'react';
-import { styled} from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-
-import Typography from '@mui/material/Typography';
+import {useState, useEffect} from 'react';
+import {
+    Box, CssBaseline, styled,
+    Tab, Paper
+} from '@mui/material';
+import {
+    TabContext, TabList, TabPanel 
+} from '@mui/lab';
 
 import Header from '../../components/navigations/Header';
 import Sidebar from '../../components/navigations/Sidebar';
+import Copyright from '../../components/Copyright'
+import ClearIcon from '@mui/icons-material/Clear';
+
+import EmployeeSearch from './EmployeeSearch'
+import EmployeeProfile from './EmployeeProfile'
 
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    
     ({ theme, open }) => ({
+        height: '100vh',
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: `-${drawerWidth}px`,
         ...(open && {
@@ -38,8 +47,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
-    const [open, setOpen] = React.useState(false);
+export default function EmployeeDash() {
+    const [open, setOpen] = useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -49,42 +58,79 @@ export default function PersistentDrawerLeft() {
         setOpen(false);
     };
 
+    const [value, setValue] = useState('Employees');
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const [tabs, setTabs] = useState([])
+    const createEmployeeTab = employee => {
+
+
+        if(tabs.filter(t => t.label === `${employee.firstName} ${employee.lastName}`).length == 0) {
+
+            setTabs([...tabs, {
+                label: `${employee.firstName} ${employee.lastName}`,
+                panel: () => <EmployeeProfile id={employee._id}  />
+            }])
+            setValue(`${employee.firstName} ${employee.lastName}`)
+        } 
+        else {
+            setValue(`${employee.firstName} ${employee.lastName}`)
+        }
+    }
+
+    
+
+    const handleCloseCustomerTab = label => {
+        const newTabs = tabs.filter(t => t.label !== label)
+        setTabs(newTabs)
+    }
+
+    useEffect(() => {
+        if(tabs.length === 0){
+            setValue("Employees");
+        }
+    },[tabs])
+
+    
+
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', backgroundColor: "#f5f5f5" }}>
             <CssBaseline />
 
-            <Header open={open} handleDrawerOpen={handleDrawerOpen} title={"Customer Dash"}/>
+            <Header open={open} handleDrawerOpen={handleDrawerOpen} title={"Employee Dash"}/>
             <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
 
             <Main open={open}>
                 <DrawerHeader />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                    imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                    Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                    Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-                    nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-                    leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-                    feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-                    consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                    sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-                    eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-                    neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-                    tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-                    sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-                    tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-                    gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-                    et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-                    tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-                    eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-                    posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
+                <TabContext value={value}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Paper sx={{p:0}}>
+                            <TabList onChange={handleChange} >
+                                <Tab label='Employees' value='Employees'/>
+                                {tabs.map (tab => (
+                                    <Tab 
+                                        key={tab.label}
+                                        icon={ <ClearIcon onClick={() => handleCloseCustomerTab(tab.label)} />}
+                                        iconPosition='end'
+                                        label={tab.label} value={tab.label}  
+                                    />
+                                ))}
+                            </TabList>
+                        </Paper>
+                    </Box>
+                    <TabPanel value="Employees" sx={{px: 0, py: 0, my: 0}}>
+                        <EmployeeSearch createEmployeeTab={createEmployeeTab} />
+                    </TabPanel>
+                    {tabs.map(tab => (
+                        <TabPanel key={tab.label} value={tab.label} sx={{px: 0, py: 0, my: 0}}>
+                            {tab.panel()}
+                        </TabPanel>
+                    ))}
+                </TabContext>
+                
+                <Copyright />
             </Main>
         </Box>
     );

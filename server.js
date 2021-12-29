@@ -2,11 +2,11 @@ const express = require('express');
 const colors = require('colors')
 const app = express();
 
-// const { connect } = require("mongoose");
-// const connectDB = require("./config/db");
+const { connect } = require("mongoose");
+const connectDB = require("./config/db");
 
-// // Connect Database
-// connectDB();
+// Connect Database
+connectDB();
 
 // //Init Middleware
 app.use(express.json({ extended: false, limit: '50mb' }));
@@ -34,7 +34,7 @@ app.use('/api/basevehicles', require('./routes/vehicleRoutes/baseVehicleControll
 // Employees Routes
 app.use('/api/employees', require('./routes/employeeRoutes/employeeController'))
 
-// Employees Routes
+// Genders Routes
 app.use('/api/genders', require('./routes/genderRoutes/genderController'))
 
 // Departments and Positions Routes

@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -5,11 +6,17 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import ListItemButton from '@mui/material/ListItemButton';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+
+import {Link} from 'react-router-dom'
+
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import BadgeIcon from '@mui/icons-material/Badge';
 
 const drawerWidth = 240;
 
@@ -22,12 +29,22 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
+const CustomLink = styled(Link)(({theme}) => ({
+    textDecoration: 'none',
+    color: theme.palette.text.primary
+}))
+
 export default function Header(props) {
     const theme = useTheme();
 
     const {
         open, handleDrawerClose
     } = props
+
+    const [openAdmin, setOpenAdmin] = useState(false)
+    const handleClick = () => {
+        setOpenAdmin(!openAdmin);
+    };
 
     return (
 
@@ -46,30 +63,36 @@ export default function Header(props) {
         >
             <DrawerHeader>
                 <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    {theme.direction === 'ltr' ? <ChevronLeftIcon color='primary' /> : <ChevronRightIcon color='primary' />}
                 </IconButton>
             </DrawerHeader>
             <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
+            <List
+                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                
+                >
+                <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        <AdminPanelSettingsIcon color='primary'/>
                     </ListItemIcon>
-                    <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                    <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+                    <ListItemText primary="Admin" />
+                    {openAdmin ? <ExpandLess color='primary'/> : <ExpandMore color='primary'/>}
+                </ListItemButton>
+
+                <Collapse in={openAdmin} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <CustomLink to={'/hr/employees'}>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                    <BadgeIcon color='primary'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Employees" />
+                            </ListItemButton>
+                        </CustomLink>
+                    </List>
+                </Collapse>
             </List>
         </Drawer>
     );
