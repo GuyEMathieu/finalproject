@@ -6,6 +6,7 @@ import AccordionShell from '../../components/AccordionShell';
 
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 import EmployeeGlance from './EmployeeGlance';
+import PersonalInfo from '../../components/PersonalInfo';
 
 const CustomGrid = styled(Grid)(({theme}) => ({
     paddingTop: theme.spacing(1)
@@ -43,6 +44,7 @@ export default function EmployeeProfile(props) {
                     handleChange={handleChange}
                     expanded={expanded} 
                     title={'Personal Information'}>
+                        <PersonalInfo data={employee || {}} />
                 </AccordionShell>
                 <AccordionShell 
                     handleChange={handleChange}
