@@ -1,23 +1,12 @@
-import {useContext, useEffect} from 'react';
 import {
     Grid, Paper, TextField
 } from '@mui/material';
 import Loading from '../../components/Loading';
-import {DefaultContext} from '../../context/default_context/DefaultState';
 
 import {getName, formatDate} from '../../utils/Formatter'
 
-export default function EmployeeGlance({employee}) {
-    const defaultContext = useContext(DefaultContext);
-    const {
-        defaults, getAll
-    } = defaultContext;
+export default function EmployeeGlance({employee, defaults}) {
 
-    useEffect(() => {
-        if(!defaults){
-            getAll()
-        }
-    }, [defaults, getAll])
 
     if(defaults === null || employee === null){
         return (

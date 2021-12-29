@@ -80,8 +80,6 @@ export default function EmployeeDash() {
         }
     }
 
-    
-
     const handleCloseCustomerTab = label => {
         const newTabs = tabs.filter(t => t.label !== label)
         setTabs(newTabs)
@@ -107,7 +105,7 @@ export default function EmployeeDash() {
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Paper sx={{p:0}}>
-                            <TabList onChange={handleChange} >
+                            <TabList onChange={handleChange} variant="scrollable" >
                                 <Tab label='Employees' value='Employees'/>
                                 {tabs.map (tab => (
                                     <Tab 
