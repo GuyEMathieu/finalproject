@@ -21,14 +21,14 @@ const DriverLicense = require('./DriverLicense');
 //@route        GET /api/employees
 //@desc         Get Employee List
 //@access       Private
-router.get('/',  async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const employees = await Employee.find()
             .select('-password')
             .select('-__v')
             .select('-dateCreated')
             .select('-lastModified')
-
+        
         res.json(employees)
         
     } catch (err) {
@@ -44,19 +44,8 @@ router.get('/:id', auth, async (req, res) => {
     try {
         const id = req.params.id
         const employee = await Employee.findById(id).select('-__v').select('-lastModified').select('-user')
-        const employeeAddress = await EmployeeAddress.findOne({employee: employee._id}).select('-__v').select('-lastModified')
-        const employmentInfo = await EmploymentInfo.findOne({employee: employee._id}).select('-__v').select('-lastModified')
-        const driverLicense = await DriverLicense.findOne({employee: employee._id}).select('-__v').select('-lastModified')
-        const emergencyContact = await EmergencyContact.findOne({employee: employee._id}).select('-__v').select('-lastModified')
-        
-        const data = {
-            personalInfo: employee, 
-            employmentInfo : employmentInfo,
-            address: employeeAddress,
-            driverLicense: driverLicense,
-            emergencyContact: emergencyContact
-        }
-        res.json(data)
+
+        res.json(employee)
         
     } catch (err) {
         console.error(err.message)
@@ -325,98 +314,70 @@ router.post('/multiple', auth, async (req, res) => {
         let employees = []
         
         for (let i = 0; i < req.body.length; i++) {
+            
             const {
-                firstName, middleName, lastName, dateOfBirth,
-                email, gender, ssn, phone, user, driverLicense, emergencyContact,
-                address, employmentInfo
+                firstName, lastName, dateOfBirth, 
+                middleName, phone, email, ssn, gender
             } = req.body[i]
 
-            const {employeeNum} = employmentInfo
+            let newEmployee = await Employee.findOne({firstName, lastName, dateOfBirth});
 
-            let newUser = await User.findOne({ username: user.username });
-            if (!newUser) {
-                // Creating User
-                const { username, password } = user;
-                const dateCreated = new Date()
-                let newUser = new User({ username, password, dateCreated })
-                const salt = await bcrypt.genSalt(10)
-                newUser.password = await bcrypt.hash(user.password, salt)
-               await newUser.save();
+            if(!newEmployee){
+                const raw = req.body[i]
+                const employeeNum = raw.employmentInfo.employeeNumber;
+                const username = `${raw.firstName}${new Date(dateOfBirth).getFullYear()}`;
+                let password = lastName;
 
-                const _gender = await Gender.findOne({ name: gender })
+                let newUser = await User.findOne({username : username});
 
-                let personalInfo = new Employee({
-                    firstName, lastName, middleName, dateOfBirth,
-                    ssn, employeeNum,
-                    user: newUser._id,
-                    gender: _gender._id, email, phone
+                if(!newUser){
+                    newUser = new User({username, password})
+                    const salt = await bcrypt.genSalt(10);
+                    newUser.password = await bcrypt.hash(password, salt);
+                    await newUser.save();
+                }
+
+                newEmployee = {
+                    firstName, lastName, middleName, employeeNum,
+                    dateOfBirth, email, phone, ssn, user: newUser._id
+                }
+
+                let state = await State.findOne({
+                    code: raw.driverLicense.dlState
                 })
-                await personalInfo.save()
+                newEmployee.driverLicense = {
+                    dlNumber : raw.driverLicense.dlNumber,
+                    dlState: state._id,
+                }
+                await Position.findOne({name: raw.employmentInfo.position}).name
 
-                const posDept = employmentInfo.position.split(' ')
-
-                const department = await Department.findOne({name: posDept[0]})
-                const position = await Position.findOne({name: employmentInfo.position})
-
-                let newEmploymentInfo = new EmploymentInfo({
-                    employeeNum,
-                    salary: posDept[1] === 'Manager' ? 55000 : 35000,
-                    employee: personalInfo._id,
-                    department: department._id, 
-                    position: position._id
-                });
-                await newEmploymentInfo.save()
-
-                const {street, aptNum, city, state, country, zipcode} = address;
-                let _state = await State.findOne({code: state})
-                const _country = await Country.findOne({code: country})
-
-                let employeeAddress = new EmployeeAddress({
-                    employee: personalInfo._id,
-                    street, aptNum, city, zipcode, 
-                    employee: personalInfo._id,
-                    state: _state._id, 
-                    country:_country._id
+                if(raw.employmentInfo){
+                    const position = await Position.findOne({name: raw.employmentInfo.position})
+                    newEmployee.employmentInfo = raw.employmentInfo;
+                    newEmployee.employmentInfo.position = position.name
+                }
+                
+                state = await State.findOne({
+                    code: raw.address.state
                 })
 
-                await employeeAddress.save()
+                const country = await Country.findOne({code: raw.address.country});
 
-                const relations = await EmployeeRelation.find()
-                const randRelation = relations[Math.floor(Math.random() * relations.length)]
+                newEmployee.address = raw.address;
+                newEmployee.address.state = state._id;
+                newEmployee.address.country = country._id
 
-                let employeeContactRelation = new EmergencyContact({
-                    employee: personalInfo._id,
-                    firstName: emergencyContact.firstName,
-                    lastName: emergencyContact.lastName,
-                    phone: emergencyContact.phone,
-                    relationship: randRelation._id
-                })
+                newEmployee.gender = (await Gender.findOne({name: raw.gender}))._id
+                middleName ? newEmployee.middleName = middleName : null;
 
-                await employeeContactRelation.save()
-
-                _state = await State.findOne({code: driverLicense.dlState})
-                let dl = new DriverLicense({
-                    employee: personalInfo._id,
-                    dlNumber: driverLicense.dlNum,
-                    dlState: _state._id
-                })
-
-                await dl.save();
-
-                let employeeData = {}
-                employeeData.user = {username: newUser.username}
-                employeeData.personalInfo = personalInfo
-                employeeData.employmentInfo = newEmploymentInfo
-                employeeData.address = employeeAddress
-                employeeData.driverLicense = driverLicense
-                employeeData.emergencyContact = employeeContactRelation
-                employeeData.driverLicense = dl
-
-                employees.push(employeeData)
+                
+                employees.push(newEmployee);
             }
         }
 
-        res.json(employees)
+        const employeeList = await Employee.insertMany(employees)
+
+        res.json(employeeList)
 
     } catch (err) {
         console.error(err.message)

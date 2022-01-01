@@ -1,20 +1,11 @@
 import {
     Grid, Paper, TextField
 } from '@mui/material';
-import Loading from '../../components/Loading';
 
 import {getName, formatDate} from '../../utils/Formatter'
 
 export default function EmployeeGlance({employee, defaults}) {
 
-
-    if(defaults === null || employee === null){
-        return (
-            <Paper>
-                <Loading  />
-            </Paper>
-        )
-    }
     return (
         <Paper>
             <Grid container spacing={2}>

@@ -1,9 +1,10 @@
 import { createTheme } from '@mui/material/styles'
-
+import { deepOrange,grey } from '@mui/material/colors'
 
 
 // // Create theme instance
 export const theme = createTheme({
+
     palette: {
         primary: {
             main: "#f00"
