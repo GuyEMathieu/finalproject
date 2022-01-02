@@ -17,6 +17,8 @@ import {Link} from 'react-router-dom'
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import BadgeIcon from '@mui/icons-material/Badge';
+import CarRepairIcon from '@mui/icons-material/CarRepair';
+import CarRentalIcon from '@mui/icons-material/CarRental';
 
 const drawerWidth = 240;
 
@@ -71,8 +73,23 @@ export default function Header(props) {
                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
-                
                 >
+                <CustomLink to={'/sales/showroom'}>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <CarRentalIcon color='primary'/>
+                        </ListItemIcon>
+                        <ListItemText primary="Showroom" />
+                    </ListItemButton>
+                </CustomLink>
+
+                <ListItemButton>
+                    <ListItemIcon>
+                        <CarRepairIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Service" />
+                </ListItemButton>
+
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
                         <AdminPanelSettingsIcon color='primary'/>
@@ -80,6 +97,7 @@ export default function Header(props) {
                     <ListItemText primary="Admin" />
                     {openAdmin ? <ExpandLess color='primary'/> : <ExpandMore color='primary'/>}
                 </ListItemButton>
+
 
                 <Collapse in={openAdmin} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>

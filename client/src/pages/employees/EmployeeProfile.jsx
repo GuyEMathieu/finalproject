@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from 'react';
 import {
-    Grid, styled, Paper
+    Grid, styled, Paper,
+    Button, ButtonGroup, Box
 } from '@mui/material';
 import AccordionShell from '../../components/AccordionShell';
 
@@ -44,7 +45,6 @@ export default function EmployeeProfile(props) {
         if(employee !== null && defaults !== null){
             setLoading(false)
         }
-
     }, [id, employee, employeeList, defaults, getAll])
 
     const [expanded, setExpanded] = useState('Personal Information');
@@ -53,8 +53,15 @@ export default function EmployeeProfile(props) {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const [isDisabled, setIsDisabled] = useState(true);
 
-    const [isDisabled, setIsDisabled] = useState(true)
+    const onEdit = () => {
+        setIsDisabled(!isDisabled)
+    }
+
+    const onSave = () => {
+        setIsDisabled(!isDisabled)
+    }
     
     return (
         <CustomGrid container spacing={1} sx>
@@ -62,38 +69,51 @@ export default function EmployeeProfile(props) {
                 {isLoading ? <Paper><Loading  /></Paper> : <EmployeeGlance employee={employee} defaults={defaults}/> }
             </Grid>
 
-            <Grid item xs={12} lg={8}>
-                <AccordionShell 
-                    handleChange={handleChange}
-                    expanded={expanded} 
-                    title={'Personal Information'}>
-                    
-                    {isLoading ? <Loading  /> : <PersonalInfo data={employee || {}} defaults={defaults} /> }
-                </AccordionShell>
-                <AccordionShell 
-                    handleChange={handleChange}
-                    expanded={expanded} 
-                    title={'Driver License'}>
-                    
-                    {isLoading 
-                        ? <Loading  /> 
-                        : <DriverLicense 
-                            isDisabled={isDisabled}
-                            data={employee.driverLicense || {}} 
-                            defaults={defaults} /> }
-                </AccordionShell>
-                <AccordionShell 
-                    handleChange={handleChange}
-                    expanded={expanded} 
-                    title={'Address Information'}>
-                    {isLoading ? <Loading  /> : <Address address={employee.address} defaults={defaults} isDisabled={isDisabled}/> }
-                </AccordionShell>
-                <AccordionShell 
-                    handleChange={handleChange}
-                    expanded={expanded} 
-                    title={'Employment Information'}>
-                    {isLoading ? <Loading  /> : <EmploymentInfo employmentInfo={employee.employmentInfo} defaults={defaults} isDisabled={isDisabled}/> }
-                </AccordionShell>
+            <Grid item xs={12} lg={8} container spacing={1}>
+                <Grid item xs={12} >
+                    <Paper sx={{p: 1}}>
+                        <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ flexGrow: 1 }} />
+                            <ButtonGroup variant="outlined" size='small'>
+                                {isDisabled ? <Button onClick={onEdit}>Edit</Button> : null }
+                                {!isDisabled ? <Button onClick={onSave}>Save</Button> : null}
+                            </ButtonGroup>
+                        </Box>
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <AccordionShell 
+                        handleChange={handleChange}
+                        expanded={expanded} 
+                        title={'Personal Information'}>
+                        {isLoading ? <Loading  /> : <PersonalInfo data={employee || {}} defaults={defaults} isDisabled={isDisabled}/> }
+                    </AccordionShell>
+                    <AccordionShell 
+                        handleChange={handleChange}
+                        expanded={expanded} 
+                        title={'Driver License'}>
+                        
+                        {isLoading 
+                            ? <Loading  /> 
+                            : <DriverLicense 
+                                isDisabled={isDisabled}
+                                data={employee.driverLicense || {}} 
+                                defaults={defaults} /> }
+                    </AccordionShell>
+                    <AccordionShell 
+                        handleChange={handleChange}
+                        expanded={expanded} 
+                        title={'Address Information'}>
+                        {isLoading ? <Loading  /> : <Address address={employee.address} defaults={defaults} isDisabled={isDisabled}/> }
+                    </AccordionShell>
+                    <AccordionShell 
+                        handleChange={handleChange}
+                        expanded={expanded} 
+                        title={'Employment Information'}>
+                        {isLoading ? <Loading  /> : <EmploymentInfo employmentInfo={employee.employmentInfo} defaults={defaults} isDisabled={isDisabled}/> }
+                    </AccordionShell>
+                </Grid>
             </Grid>
         </CustomGrid>
     )

@@ -3,6 +3,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 //#region Components
 import EmployeeDash from './pages/employees/EmployeeDash';
+import Showroom from './pages/sales/Showroom';
+import VehiclePurchase from './pages/sales/VehiclePurchase'
 import Login from './authPages/Login';
 import PrivateRoute from './pages/PrivateRoute';
 import PageNotFound from './pages/PageNotFound';
@@ -19,7 +21,6 @@ import DeptPosState from './context/deptPosContext/DeptPosState'
 import BaseVehicleState from './context/baseVehicle_context/BaseVehicleState'
 // import CustomerState from './context/customer_context/CustomerState'
 import InventoryState from './context/inventoryContext/InventoryState';
-
 //#endregion
 
 if(localStorage.token){
@@ -30,13 +31,12 @@ function App() {
     return (
         <AuthState>
             <AddressState>
-                {/* <CustomerState> */}
                     <EmployeeState>
                         <BankState>
                             <BaseVehicleState>
                                 <DeptPosState>
                                     <DefaultState>
-                                        <InventoryState>
+                                        <InventoryState> 
                                             <div className="App">
                                                 <BrowserRouter>
                                                     <Routes>
@@ -45,6 +45,9 @@ function App() {
                                                         <Route path='/' element={<PrivateRoute />}>
                                                             <Route path='/' element={<EmployeeDash />} />
                                                             <Route path='/hr/employees' element={<EmployeeDash  />} />
+                                                            <Route path='/service' element={<EmployeeDash  />} />
+                                                            <Route path='/sales/showroom' element={<Showroom  />} />
+                                                            <Route path='/sales/purchase' element={<VehiclePurchase  />} />
                                                         </Route>
                                                         {/* <PrivateRoute path='/hr/employees' element={<PrivateRoute component={EmployeeDash}/>} /> */}
                                                     </Routes>
@@ -55,9 +58,8 @@ function App() {
                                 </DeptPosState>
                             </BaseVehicleState>
                         </BankState>
-                    </EmployeeState>
-                {/* </CustomerState> */}
-            </AddressState>
+                    </EmployeeState> 
+            </AddressState> 
         </AuthState>
     );
 }

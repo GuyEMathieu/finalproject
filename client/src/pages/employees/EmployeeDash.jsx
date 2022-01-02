@@ -1,62 +1,23 @@
 import {useState, useEffect} from 'react';
 import {
-    Box, CssBaseline, styled,
+    Box,
     Tab, Paper
 } from '@mui/material';
 import {
     TabContext, TabList, TabPanel 
 } from '@mui/lab';
 
-import Header from '../../components/navigations/Header';
-import Sidebar from '../../components/navigations/Sidebar';
-import Copyright from '../../components/Copyright'
+
 import ClearIcon from '@mui/icons-material/Clear';
 
 import EmployeeSearch from './EmployeeSearch'
 import EmployeeProfile from './EmployeeProfile'
+import MainContainer from '../../components/MainContainer'
 
-const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    
-    ({ theme, open }) => ({
-        height: '100vh',
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: `-${drawerWidth}px`,
-        ...(open && {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-        }),
-    }),
-);
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-}));
 
 export default function EmployeeDash() {
-    const [open, setOpen] = useState(true);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
 
     const [value, setValue] = useState('Employees');
     const handleChange = (event, newValue) => {
@@ -94,14 +55,7 @@ export default function EmployeeDash() {
     
 
     return (
-        <Box sx={{ display: 'flex', backgroundColor: "#f5f5f5" }}>
-            <CssBaseline />
-
-            <Header open={open} handleDrawerOpen={handleDrawerOpen} title={"Employee Dash"}/>
-            <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
-
-            <Main open={open}>
-                <DrawerHeader />
+        <MainContainer>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Paper sx={{p:0}}>
@@ -128,8 +82,6 @@ export default function EmployeeDash() {
                     ))}
                 </TabContext>
                 
-                <Copyright />
-            </Main>
-        </Box>
+        </MainContainer>
     );
 }
