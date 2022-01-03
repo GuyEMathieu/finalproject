@@ -55,7 +55,7 @@ export const getName = (arr, id) => {
     return id
 }
 
-export const TruncateText = (string, length = 100) => {
+export const TruncateText = (string, length = 80) => {
     if (string) {
         return `${string.substring(0, length)}...`
     }

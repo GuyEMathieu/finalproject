@@ -4,7 +4,8 @@ import {
 } from '@mui/material';
 
 import Header from './navigations/Header';
-import Sidebar from './navigations/Sidebar'
+import Sidebar from './navigations/Sidebar';
+import Copyright from './Copyright'
 
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -38,6 +39,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 
+
 export default function MainContainer(props) {
     const [open, setOpen] = useState(true);
 
@@ -52,12 +54,14 @@ export default function MainContainer(props) {
         <Box sx={{ display: 'flex', backgroundColor: "#f5f5f5" }}>
             <CssBaseline />
 
-            <Header open={open} handleDrawerOpen={handleDrawerOpen} title={"Employee Dash"}/>
+            <Header open={open} handleDrawerOpen={handleDrawerOpen} title={props.title}/>
             <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
 
             <Main open={open}>
                 <DrawerHeader />
                 {props.children}
+
+                <Copyright  />
             </Main>
         </Box>
     )

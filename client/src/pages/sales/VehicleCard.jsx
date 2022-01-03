@@ -41,9 +41,13 @@ export default function MediaCard({vehicle, defaults}) {
                         {title()}
                     </Textfit>
                 }
-                <Typography variant="body2" color="text.secondary" align='start'>
+                <Typography variant="h6" color="text.secondary" align='center'>
+                    {vehicle.vin}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" align='start' component='p'>
                     {TruncateText(vehicle.description)}
                 </Typography>
+                
             </CardContent>
             <CardActions>
                 <Grid container spacing={2}>
