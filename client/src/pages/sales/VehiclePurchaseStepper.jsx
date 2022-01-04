@@ -14,6 +14,7 @@ import {
 import ElectricCarIcon from '@mui/icons-material/ElectricCar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 
 
@@ -73,6 +74,7 @@ function ColorlibStepIcon(props) {
         1: <ElectricCarIcon />,
         2: <AccountCircleIcon />,
         3: <HomeIcon />,
+        4: <AccountBalanceWalletIcon />,
     };
 
     return (

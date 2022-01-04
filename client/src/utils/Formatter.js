@@ -61,6 +61,10 @@ export const TruncateText = (string, length = 80) => {
     }
 }
 
+export function RoundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
+}
+
 export const sortByName = (arr) =>{
 
     const compare = (a, b) => {

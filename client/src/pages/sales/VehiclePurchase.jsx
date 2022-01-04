@@ -3,6 +3,8 @@ import {useParams} from 'react-router-dom'
 import {
     Paper, TextField, MenuItem
 } from '@mui/material'
+import {RoundToTwo} from '../../utils/Formatter';
+
 //#region CONTEXT
 import { InventoryContext } from '../../context/inventoryContext/InventoryState';
 import {CustomerContext} from '../../context/customer_context/CustomerState';
@@ -14,6 +16,8 @@ import VehiclePurchaseStepper from './VehiclePurchaseStepper';
 import MainContainer from '../../components/MainContainer';
 import PersonalInfo from '../../components/PersonalInfo';
 import Address from '../../components/Address'
+import FeesAndCredits from './FeesAndCredits';
+import Financing from './Financing';
 //#endregion
 
 const VehiclePurchase = () => {
@@ -37,19 +41,41 @@ const VehiclePurchase = () => {
         }
 
         if(inventoryVehicles && id){
+            const dealerPercentage = 0.1
+            const stateTax = 0.07;
+
+            const vehicle = inventoryVehicles.find(v => v._id === id)
+            const dealerFees = RoundToTwo(vehicle.price * dealerPercentage)
+
+            const subtotal = RoundToTwo(vehicle.price + dealerFees);
+            const taxes = RoundToTwo(subtotal * stateTax)
+            const balance = RoundToTwo(subtotal + taxes)
+            const grandTotal = balance
             setPurchase({
                 ...purchase, 
-                vehicle: inventoryVehicles.find(v => v._id === id)
+                vehicle: vehicle,
+                sale: {
+                    vehiclePrice: vehicle.price,
+                    dealerFees: dealerFees,
+                    subtotal: subtotal,
+                    taxes: taxes,
+                    balance: balance,
+                    grandTotal: grandTotal
+                },
+                constants: {
+                    dealerPercentage: dealerPercentage,
+                    stateTax: stateTax
+                }
             })
         }
 
         if(!customerList){
             getCustomers()
         } else {
-            // setPurchase({
-            //     ...purchase, 
-            //     customer: customerList[0]
-            // })
+            setPurchase({
+                ...purchase, 
+                customer: customerList[0]
+            })
         }
 
         if(!defaults) {
@@ -59,29 +85,34 @@ const VehiclePurchase = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inventoryVehicles, id, getVehicles, customerList, getCustomers, defaults])
 
-
-
     const [activeStep, setActiveStep] = useState(0);
 
-    const steps = ['Vehicle Info', 'Customer Info', 'Customer Address'];
+    const steps = ['Vehicle Info', 'Customer Info', 'Customer Address', 'Fees And Credits', "Financing", "Review"];
     const handleNext = () => {
         if(activeStep < steps.length - 1){
+            if(steps[activeStep] === 'Fees And Credits' && purchase.sale.balance === 0){
+                setActiveStep((prevActiveStep) => prevActiveStep + 2)
+                return;
+            }
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     };
 
     const handlePrev = () => {
+        if(steps[activeStep] === 'Review') {
+            setActiveStep((prevActiveStep) => prevActiveStep - 2);
+            return
+        }
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
     const handlePurchaseChange = e => {
-        
-        
-        const {name, value} = e.target;
-        console.info(name, value)
+        let {name, value} = e.target;
         const personal = ['firstName', 'middleName', 'lastName', 'ssn', 'dateOfBirth', 'gender', 'phone', 'email']
 
         const address = ['street', 'aptNum', 'city', 'state', 'country', 'zipcode']
+
+        const FeesAndCredits = ['downPayment']
         
         if(personal.includes(name)){
             setPurchase(prev => {
@@ -111,9 +142,32 @@ const VehiclePurchase = () => {
                 }
             })
         }
+
+        if(FeesAndCredits.includes(name)){
+            const balance = RoundToTwo(purchase.sale.grandTotal - +value)
+
+            if(+value <= purchase.sale.grandTotal){
+                
+                setPurchase(prev => {
+                    return {
+                        ...prev,
+                        sale: {
+                            ...prev.sale,
+                            balance: balance,
+                            [name]: value
+                        }
+                    }
+                })
+                
+            } 
+            else {
+                alert("Down payment cannot be more than grand total")
+            }
+        }
     }
 
     function DisplaySteps(){
+
         switch(activeStep){
             case 0:
                 return 'vehicle info'
@@ -139,6 +193,12 @@ const VehiclePurchase = () => {
                 )
             case 2:
                 return <Address address={purchase.customer.address} defaults={defaults} 
+                    handleChange={handlePurchaseChange}/>
+            case 3:
+                return <FeesAndCredits purchase={purchase} defaults={defaults} 
+                    handleChange={handlePurchaseChange}/>
+            case 4:
+                return <Financing purchase={purchase} defaults={defaults} 
                     handleChange={handlePurchaseChange}/>
             default:
                 return null
