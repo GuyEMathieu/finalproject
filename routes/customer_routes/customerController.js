@@ -10,7 +10,7 @@ const {check, validationResult} = require('express-validator')
 // @access      private
 router.get('/', auth, async (req, res) => {
     try {
-  
+
         const customers = await Customer.find()
             .select('-__v').select('-lastModified')
             //.sort({name: 1})

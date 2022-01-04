@@ -122,4 +122,8 @@ var customerSchema = new mongoose.Schema({
     }
 })
 
+customerSchema.methods.getFullName = function () {
+    return `${this.firstName} ${this.lastName}`
+}
+
 module.exports = mongoose.model('Customer', customerSchema);

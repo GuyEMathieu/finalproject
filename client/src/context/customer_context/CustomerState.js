@@ -83,7 +83,7 @@ const CustomerState = props => {
 
     const filterCustomers = async criteria => {
         dispatch({
-            type: ActionTypes.FILTER_CUSTOMER,
+            type: ActionTypes.FILTER_CUSTOMERS,
             payload: criteria
         })
     }
