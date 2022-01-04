@@ -55,6 +55,7 @@ const VehiclePurchase = () => {
                 ...purchase, 
                 vehicle: vehicle,
                 sale: {
+                    financing: {},
                     vehiclePrice: vehicle.price,
                     dealerFees: dealerFees,
                     subtotal: subtotal,
@@ -112,7 +113,9 @@ const VehiclePurchase = () => {
 
         const address = ['street', 'aptNum', 'city', 'state', 'country', 'zipcode']
 
-        const FeesAndCredits = ['downPayment']
+        const feesAndCredits = ['downPayment']
+
+        const financing = ['bank', "term"]
         
         if(personal.includes(name)){
             setPurchase(prev => {
@@ -143,7 +146,7 @@ const VehiclePurchase = () => {
             })
         }
 
-        if(FeesAndCredits.includes(name)){
+        if(feesAndCredits.includes(name)){
             const balance = RoundToTwo(purchase.sale.grandTotal - +value)
 
             if(+value <= purchase.sale.grandTotal){
@@ -154,14 +157,55 @@ const VehiclePurchase = () => {
                         sale: {
                             ...prev.sale,
                             balance: balance,
-                            [name]: value
+                            [name]: value,
+                            paymentType: balance > 0 ? 'Financed' :'Cash'
                         }
                     }
                 })
-                
             } 
             else {
                 alert("Down payment cannot be more than grand total")
+            }
+        }
+
+        if(financing.includes(name)){
+            let bank = purchase.sale.financing.bank;
+            if(name === 'bank') {
+                bank = value;
+                setPurchase(prev => {
+                    return {
+                        ...prev,
+                        sale: {
+                            ...prev.sale,
+                            financing:{
+                                ...prev.sale.financing,
+                                bank: bank
+                            }
+                        }
+                    }
+                })
+            }
+
+            let tempTerm = purchase.sale.financing.term
+            if(name === 'term'){
+                tempTerm = purchase.sale.financing.bank.terms.find(t => t._id === value);
+                //alert(`term ${tempTerm}`)
+                alert(JSON.stringify(tempTerm))
+                const totalInterest = purchase.sale.vehiclePrice * tempTerm.apr
+
+                setPurchase(prev => {
+                    return {
+                        ...prev,
+                        sale: {
+                            ...prev.sale,
+                            financing:{
+                                ...prev.sale.financing,
+                                term: tempTerm._id,
+                                totalInterest: totalInterest
+                            }
+                        }
+                    }
+                })
             }
         }
     }
@@ -198,8 +242,11 @@ const VehiclePurchase = () => {
                 return <FeesAndCredits purchase={purchase} defaults={defaults} 
                     handleChange={handlePurchaseChange}/>
             case 4:
-                return <Financing purchase={purchase} defaults={defaults} 
-                    handleChange={handlePurchaseChange}/>
+                return <Financing 
+                    purchase={purchase} 
+                    defaults={defaults} 
+                    handleChange={handlePurchaseChange}
+                    />
             default:
                 return null
         }

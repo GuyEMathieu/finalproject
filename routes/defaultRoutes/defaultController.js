@@ -8,6 +8,7 @@ const Position = require('../dept_positionRoutes/Position')
 const Department = require('../dept_positionRoutes/Department')
 const Gender = require('../genderRoutes/Gender');
 const DayOff = require('./DayOff');
+const Bank = require('../bankRoutes/Bank');
 const Country = require('../state_countryRoutes/Country');
 const State = require('../state_countryRoutes/State');
 const EmployeeRelation = require('../employeeRoutes/EmployeeRelation');
@@ -20,7 +21,11 @@ const { daysInWeek } = require('date-fns');
 // @access      private
 router.get('/', auth, async (req, res) => {
     try {
-  
+        
+        const banks = await Bank.find()
+            .select('-__v').select('-lastModified')
+            .sort({name: 1})
+
         const manufacturers = await VehicleMake.find()
             .select('-__v').select('-lastModified')
             .sort({name: 1})
@@ -60,6 +65,7 @@ router.get('/', auth, async (req, res) => {
             
         
         const data = {
+            banks: banks,
             employmentStatus: employmentStatus,
             employeeRelations: employeeRelations,
             countries: countries,
