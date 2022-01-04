@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {
     Paper, Grid, TextField, 
-    MenuItem, Stack, Pagination
+    MenuItem, Pagination
 } from '@mui/material';
 
 import { InventoryContext } from '../../context/inventoryContext/InventoryState';
@@ -10,7 +10,6 @@ import { DefaultContext } from '../../context/default_context/DefaultState';
 
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'
-import Loading from '../../components/Loading';
 
 
 export default function Showroom() {
@@ -36,9 +35,7 @@ export default function Showroom() {
 
     const [filters, setFilters] = useState({})
     const {makes, models, years} = filters;
-    const handleFilterChange = e => {
-        alert(JSON.stringify(e.target))
-    }
+ 
 
     const filterByManufacturer = e => {
         const {value} = e.target;

@@ -28,6 +28,8 @@ if(localStorage.token){
 }
 
 function App() {
+
+    console.info("Token", localStorage.token)
     return (
         <AuthState>
             <AddressState>
@@ -47,7 +49,7 @@ function App() {
                                                             <Route path='/hr/employees' element={<EmployeeDash  />} />
                                                             <Route path='/service' element={<EmployeeDash  />} />
                                                             <Route path='/sales/showroom' element={<Showroom  />} />
-                                                            <Route path='/sales/purchase' element={<VehiclePurchase  />} />
+                                                            <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
                                                         </Route>
                                                         {/* <PrivateRoute path='/hr/employees' element={<PrivateRoute component={EmployeeDash}/>} /> */}
                                                     </Routes>

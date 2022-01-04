@@ -47,7 +47,6 @@ export default function MediaCard({vehicle, defaults}) {
                 <Typography variant="body2" color="text.secondary" align='start' component='p'>
                     {TruncateText(vehicle.description)}
                 </Typography>
-                
             </CardContent>
             <CardActions>
                 <Grid container spacing={2}>
@@ -55,7 +54,7 @@ export default function MediaCard({vehicle, defaults}) {
                         <Button size="small" href='sales/vehicleprofile' variant='outlined'>More Details</Button>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Button size="small" href='/sales/purchase'>Purchase</Button>
+                        <Button size="small" href={`/sales/purchase/${vehicle._id}`}>Purchase</Button>
                     </Grid>
                 </Grid>
             </CardActions>
