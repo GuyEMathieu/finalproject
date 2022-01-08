@@ -18,6 +18,8 @@ import PersonalInfo from '../../components/PersonalInfo';
 import Address from '../../components/Address'
 import FeesAndCredits from './FeesAndCredits';
 import Financing from './Financing';
+import VehicleInfo from './VehicleInfo';
+import Loading from '../../components/Loading';
 //#endregion
 
 const VehiclePurchase = () => {
@@ -30,6 +32,8 @@ const VehiclePurchase = () => {
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
+
+    const [isLoading, setLoading] = useState(true)
 
     const [purchase, setPurchase] = useState({
         vehicle: {},
@@ -81,6 +85,10 @@ const VehiclePurchase = () => {
 
         if(!defaults) {
             getAll()
+        }
+
+        if(customerList && inventoryVehicles && defaults){
+            setLoading(false)
         }
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -189,10 +197,8 @@ const VehiclePurchase = () => {
             let tempTerm = purchase.sale.financing.term
             if(name === 'term'){
                 tempTerm = purchase.sale.financing.bank.terms.find(t => t._id === value);
-                //alert(`term ${tempTerm}`)
-                alert(JSON.stringify(tempTerm))
-                const totalInterest = purchase.sale.vehiclePrice * tempTerm.apr
-
+                const totalInterest = RoundToTwo(purchase.sale.vehiclePrice * tempTerm.apr);
+                const loanValue = RoundToTwo(purchase.sale.vehiclePrice + totalInterest)
                 setPurchase(prev => {
                     return {
                         ...prev,
@@ -201,7 +207,8 @@ const VehiclePurchase = () => {
                             financing:{
                                 ...prev.sale.financing,
                                 term: tempTerm._id,
-                                totalInterest: totalInterest
+                                totalInterest: totalInterest,
+                                loanValue: loanValue
                             }
                         }
                     }
@@ -214,35 +221,45 @@ const VehiclePurchase = () => {
 
         switch(activeStep){
             case 0:
-                return 'vehicle info'
+                return isLoading 
+                ? <Loading  /> 
+                : <VehicleInfo defaults={defaults} vehicle={purchase.vehicle}  />
             case 1:
                 return (
-                    <div >
-                        <TextField 
-                            sx={{pb: 2}}
-                            fullWidth label='Customer List' value={''}
-                            select onChange={e => setPurchase({...purchase, customer: customerList.find(c => c._id === e.target.value)})}
-                        >
-                            <MenuItem disabled>Select Customer</MenuItem>
+                    isLoading 
+                    ?   <Loading  /> 
+                    :   <div >
+                            <TextField 
+                                sx={{pb: 2}}
+                                fullWidth label='Customer List' value={''}
+                                select onChange={e => setPurchase({...purchase, customer: customerList.find(c => c._id === e.target.value)})}
+                            >
+                                <MenuItem disabled>Select Customer</MenuItem>
 
-                            {customerList && customerList.map(customer => (
-                                <MenuItem key={customer._id} value={customer._id}>{customer.firstName} {customer.lastName}</MenuItem>
-                            ))}
-                        </TextField>
+                                {customerList && customerList.map(customer => (
+                                    <MenuItem key={customer._id} value={customer._id}>{customer.firstName} {customer.lastName}</MenuItem>
+                                ))}
+                            </TextField>
 
-                        <PersonalInfo 
-                            sx={{mx: 0}}
-                            data={purchase.customer} isDisabled={false} handleChange={handlePurchaseChange} />
-                    </div>
+                            <PersonalInfo 
+                                sx={{mx: 0}}
+                                data={purchase.customer} isDisabled={false} handleChange={handlePurchaseChange} />
+                        </div>
                 )
             case 2:
-                return <Address address={purchase.customer.address} defaults={defaults} 
+                return isLoading 
+                ?  <Loading  /> 
+                :  <Address address={purchase.customer.address} defaults={defaults} 
                     handleChange={handlePurchaseChange}/>
             case 3:
-                return <FeesAndCredits purchase={purchase} defaults={defaults} 
+                return isLoading 
+                ?  <Loading  /> 
+                :  <FeesAndCredits purchase={purchase} defaults={defaults} 
                     handleChange={handlePurchaseChange}/>
             case 4:
-                return <Financing 
+                return isLoading 
+                ?  <Loading  /> 
+                :  <Financing 
                     purchase={purchase} 
                     defaults={defaults} 
                     handleChange={handlePurchaseChange}

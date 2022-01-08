@@ -88,7 +88,7 @@ const Financing = (props) => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextField
-                        label='Loan Value + Interest' disabled value={FormatNumber(props.purchase.sale.balance)} />
+                        label='Loan Value + Interest' disabled value={FormatNumber(props.purchase.sale.financing.loanValue)} />
                 </Grid>
             </Grid>
         </Grid>

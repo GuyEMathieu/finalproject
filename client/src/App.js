@@ -5,6 +5,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import EmployeeDash from './pages/employees/EmployeeDash';
 import Showroom from './pages/sales/Showroom';
 import VehiclePurchase from './pages/sales/VehiclePurchase'
+import VehicleProfile from './pages/sales/VehicleProfile'
 import Login from './authPages/Login';
 import PrivateRoute from './pages/PrivateRoute';
 import PageNotFound from './pages/PageNotFound';
@@ -51,6 +52,7 @@ function App() {
                                                                 <Route path='/service' element={<EmployeeDash  />} />
                                                                 <Route path='/sales/showroom' element={<Showroom  />} />
                                                                 <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
+                                                                <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile  />} />
                                                             </Route>
                                                             {/* <PrivateRoute path='/hr/employees' element={<PrivateRoute component={EmployeeDash}/>} /> */}
                                                         </Routes>

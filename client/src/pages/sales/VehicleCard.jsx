@@ -51,7 +51,7 @@ export default function MediaCard({vehicle, defaults}) {
             <CardActions>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Button size="small" href='sales/vehicleprofile' variant='outlined'>More Details</Button>
+                        <Button size="small" href={`/sales/vehicleprofile/${vehicle._id}`} variant='outlined'>More Details</Button>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Button size="small" href={`/sales/purchase/${vehicle._id}`}>Purchase</Button>
