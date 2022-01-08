@@ -197,8 +197,10 @@ const VehiclePurchase = () => {
             let tempTerm = purchase.sale.financing.term
             if(name === 'term'){
                 tempTerm = purchase.sale.financing.bank.terms.find(t => t._id === value);
-                const totalInterest = RoundToTwo(purchase.sale.vehiclePrice * tempTerm.apr);
-                const loanValue = RoundToTwo(purchase.sale.vehiclePrice + totalInterest)
+                const balance = purchase.sale.balance
+                const totalInterest = RoundToTwo(balance * tempTerm.apr);
+                const loanValue = RoundToTwo(balance + totalInterest);
+                const monthlyPayment = loanValue / tempTerm.termLength
                 setPurchase(prev => {
                     return {
                         ...prev,
@@ -208,7 +210,8 @@ const VehiclePurchase = () => {
                                 ...prev.sale.financing,
                                 term: tempTerm._id,
                                 totalInterest: totalInterest,
-                                loanValue: loanValue
+                                loanValue: loanValue,
+                                monthlyPayment: monthlyPayment
                             }
                         }
                     }

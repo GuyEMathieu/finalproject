@@ -8,9 +8,12 @@ import {useParams, useNavigate} from 'react-router-dom'
 import { InventoryContext } from '../../context/inventoryContext/InventoryState';
 import { DefaultContext } from '../../context/default_context/DefaultState';
 
-const Profile = styled(Grid)(({theme}) => ({
+const Profile = styled('div')(({theme}) => ({
     border: '1px solid #f00',
-    // margin: theme.spacing(2)
+    borderRadius: 10,
+    margin: theme.spacing(0),
+    padding: theme.spacing(1),
+
 }))
 
 const VehicleProfile = () => {
@@ -56,26 +59,16 @@ const VehicleProfile = () => {
     if(isLoading){
         return <Loading  />
     }
+
     return (
         <MainContainer title={'Vehicle Profile'}>
-            <Profile container spacing={2} sx={{p: 1}}>
-                <Grid item xs={12}>
-                    <VehicleInfo vehicle={vehicle} defaults={defaults} actions={actions}/>
-                </Grid>
-
-                {/* <Grid item xs={12} container spacing={2}>
-                    <Grid item xs={12}>
-                        <Button>Showroom</Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button>Purchase</Button>
-                    </Grid>
-                </Grid> */}
+            <Profile >
+                <VehicleInfo
+                    vehicle={vehicle} defaults={defaults} actions={actions}
+                />
             </Profile>
         </MainContainer>
     )
-            
-            
 }
 
 export default VehicleProfile
