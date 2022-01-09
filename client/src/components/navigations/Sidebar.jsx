@@ -13,12 +13,16 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
+import Popup from '../Popup'
+
 import {Link} from 'react-router-dom'
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import CarRentalIcon from '@mui/icons-material/CarRental';
+import SettingsIcon from '@mui/icons-material/Settings';
+import Settings from '../Settings';
 
 const drawerWidth = 240;
 
@@ -36,6 +40,8 @@ const CustomLink = styled(Link)(({theme}) => ({
     color: theme.palette.text.primary
 }))
 
+
+
 export default function Header(props) {
     const theme = useTheme();
 
@@ -47,6 +53,10 @@ export default function Header(props) {
     const handleClick = () => {
         setOpenAdmin(!openAdmin);
     };
+
+    const [openPopup, setOpenPopup] = useState(false)
+    const handleOpenPopup = () => setOpenPopup(true);
+    const handleClosePopup = () => setOpenPopup(false);
 
     return (
 
@@ -70,7 +80,13 @@ export default function Header(props) {
             </DrawerHeader>
             <Divider />
             <List
-                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                sx={{ 
+                    // height: '100vh',
+                    width: '100%', 
+                    maxWidth: 360, 
+                    bgcolor: 'background.paper', 
+                    
+                }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 >
@@ -111,7 +127,20 @@ export default function Header(props) {
                         </CustomLink>
                     </List>
                 </Collapse>
+
+                <Divider  />
+
+                <ListItemButton sx={{marginTop: 1}} onClick={handleOpenPopup}>
+                    <ListItemIcon>
+                        <SettingsIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Setting" />
+                </ListItemButton>
             </List>
+
+            <Popup open={openPopup} handleClose={handleClosePopup} title={'Settings'}>
+                <Settings  />
+            </Popup>
         </Drawer>
     );
 }

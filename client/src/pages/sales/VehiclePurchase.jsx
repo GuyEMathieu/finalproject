@@ -1,9 +1,14 @@
 import {useState, useEffect, useContext} from 'react';
-import {useParams} from 'react-router-dom'
+import {Navigate, useNavigate, useParams} from 'react-router-dom'
 import {
     Paper, TextField, MenuItem
 } from '@mui/material'
+import {
+    styled
+} from '@mui/styles'
 import {RoundToTwo} from '../../utils/Formatter';
+
+
 
 //#region CONTEXT
 import { InventoryContext } from '../../context/inventoryContext/InventoryState';
@@ -22,8 +27,15 @@ import VehicleInfo from './VehicleInfo';
 import Loading from '../../components/Loading';
 //#endregion
 
+const Image = styled('img')(() => ({
+    width: '50%',
+    objectFit: 'contain',
+    borderRadius: 30
+}))
+
 const VehiclePurchase = () => {
     const {id} = useParams();
+    const navigate = useNavigate()
     const inventoryContext = useContext(InventoryContext);
     const {inventoryVehicles, getVehicles} = inventoryContext;
 
@@ -115,6 +127,10 @@ const VehiclePurchase = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const handleSuccess = async () => {
+        navigate("/sales/showroom")
+    }
+
     const handlePurchaseChange = e => {
         let {name, value} = e.target;
         const personal = ['firstName', 'middleName', 'lastName', 'ssn', 'dateOfBirth', 'gender', 'phone', 'email']
@@ -135,7 +151,6 @@ const VehiclePurchase = () => {
                     }
                 }
             })
-            console.info(value)
             return 
         }
 
@@ -267,6 +282,8 @@ const VehiclePurchase = () => {
                     defaults={defaults} 
                     handleChange={handlePurchaseChange}
                     />
+            case 5:
+                return <Image src='/images/congrats.jpg' alt='congratulates' sx={{width: '100px'}}/>
             default:
                 return null
         }
@@ -277,6 +294,7 @@ const VehiclePurchase = () => {
                 steps={steps}
                 handleNext={handleNext} 
                 handlePrev={handlePrev} 
+                handleFinal={handleSuccess}
                 activeStep={activeStep}>
                 
                 <Paper>

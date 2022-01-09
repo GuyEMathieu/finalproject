@@ -15,7 +15,8 @@ import ElectricCarIcon from '@mui/icons-material/ElectricCar';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 
@@ -75,6 +76,8 @@ function ColorlibStepIcon(props) {
         2: <AccountCircleIcon />,
         3: <HomeIcon />,
         4: <AccountBalanceWalletIcon />,
+        5: <AccountBalanceIcon />,
+        6: <CheckCircleIcon />,
     };
 
     return (
@@ -127,21 +130,33 @@ export default function CustomizedSteppers(props) {
                         justifyContent={'center'} 
                         alignItems={'center'}>
                         
-                        <Grid item >
-                            <Button 
-                                disabled={props.activeStep < 1 }
-                                variant='outlined' 
-                                onClick={props.handlePrev}>
-                                Prev
-                            </Button>
-                        </Grid>
-                        <Grid item >
-                            <Button 
-                                disabled={props.activeStep === props.steps.length - 1}
-                                onClick={props.handleNext}>
-                                Next
-                            </Button>
-                        </Grid>
+                        {props.activeStep >= props.steps.length - 1
+                            ? <Grid item >
+                                    <Button 
+                                        onClick={props.handleFinal}>
+                                        Continue
+                                    </Button>
+                                </Grid>
+                            : <>
+                                <Grid item >
+                                    <Button 
+                                        disabled={props.activeStep < 1 }
+                                        variant='outlined' 
+                                        onClick={props.handlePrev}>
+                                        Prev
+                                    </Button>
+                                </Grid>
+
+                                <Grid item >
+                                    <Button 
+                                        disabled={props.activeStep === props.steps.length - 1}
+                                        onClick={props.handleNext}>
+                                        Next
+                                    </Button>
+                                </Grid>
+                            </>
+                            
+                        }
                     </Grid>
                 </Paper>
             </Grid>

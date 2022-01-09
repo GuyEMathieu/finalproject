@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Financing = (props) => {
-    const classes = useStyles()
     const {
         bank = {},
         term
@@ -41,8 +40,6 @@ const Financing = (props) => {
         }
         props.handleChange(e)
     }
-
-
 
 
     return (

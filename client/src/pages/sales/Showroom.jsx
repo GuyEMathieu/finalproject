@@ -35,7 +35,6 @@ export default function Showroom() {
 
     const [filters, setFilters] = useState({})
     const {makes, models, years} = filters;
- 
 
     const filterByManufacturer = e => {
         const {value} = e.target;
@@ -45,7 +44,7 @@ export default function Showroom() {
             models: 'All',
             years: 'All'
         })
-
+        alert(value)
         setVehicles(value === 'All' ? inventoryVehicles : inventoryVehicles.filter(v => v.make === value))
         setPage(1)
     }
