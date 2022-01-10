@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import {Navigate, useNavigate, useParams} from 'react-router-dom'
 import {
-    Paper, TextField, MenuItem
+    Paper, TextField, MenuItem, Stack
 } from '@mui/material'
 import {
     styled
@@ -14,9 +14,10 @@ import {RoundToTwo} from '../../utils/Formatter';
 import { InventoryContext } from '../../context/inventoryContext/InventoryState';
 import {CustomerContext} from '../../context/customer_context/CustomerState';
 import {DefaultContext} from '../../context/default_context/DefaultState';
+import {SalesContext} from '../../context/sales_context/SaleState'
+//#endregion
 
 //#region COMPONENTS
-
 import VehiclePurchaseStepper from './VehiclePurchaseStepper';
 import MainContainer from '../../components/MainContainer';
 import PersonalInfo from '../../components/PersonalInfo';
@@ -25,6 +26,7 @@ import FeesAndCredits from './FeesAndCredits';
 import Financing from './Financing';
 import VehicleInfo from './VehicleInfo';
 import Loading from '../../components/Loading';
+import Alerts from '../../components/Alerts';
 //#endregion
 
 const Image = styled('img')(() => ({
@@ -38,6 +40,10 @@ const VehiclePurchase = () => {
     const navigate = useNavigate()
     const inventoryContext = useContext(InventoryContext);
     const {inventoryVehicles, getVehicles} = inventoryContext;
+
+    const saleContext = useContext(SalesContext)
+    const {saleVehicle, addUIErrors, errors, removeError} = saleContext;
+
 
     const customerContext = useContext(CustomerContext);
     const {customerList, getCustomers} = customerContext;
@@ -102,15 +108,28 @@ const VehiclePurchase = () => {
         if(customerList && inventoryVehicles && defaults){
             setLoading(false)
         }
+
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inventoryVehicles, id, getVehicles, customerList, getCustomers, defaults])
+    }, [
+            inventoryVehicles, id, getVehicles, 
+            customerList, getCustomers, defaults,
+            errors
+        ]
+    )
 
     const [activeStep, setActiveStep] = useState(0);
 
     const steps = ['Vehicle Info', 'Customer Info', 'Customer Address', 'Fees And Credits', "Financing", "Review"];
     const handleNext = () => {
         if(activeStep < steps.length - 1){
+
+            const errors = validateStep(activeStep, purchase.customer)
+            if(errors.length > 0){
+                addUIErrors(errors)
+                return
+            } 
+
             if(steps[activeStep] === 'Fees And Credits' && purchase.sale.balance === 0){
                 setActiveStep((prevActiveStep) => prevActiveStep + 2)
                 return;
@@ -261,7 +280,7 @@ const VehiclePurchase = () => {
 
                             <PersonalInfo 
                                 sx={{mx: 0}}
-                                data={purchase.customer} isDisabled={false} handleChange={handlePurchaseChange} />
+                                data={purchase.customer} isDisabled={false} handleChange={handlePurchaseChange} defaults={defaults} />
                         </div>
                 )
             case 2:
@@ -288,6 +307,7 @@ const VehiclePurchase = () => {
                 return null
         }
     }
+
     return (
         <MainContainer>
             <VehiclePurchaseStepper 
@@ -297,13 +317,46 @@ const VehiclePurchase = () => {
                 handleFinal={handleSuccess}
                 activeStep={activeStep}>
                 
-                <Paper>
-                    {DisplaySteps()}
-                </Paper>
+                <Stack spacing={1}>
+                    {errors &&     
+                        <Paper>
+                            <Alerts alerts={errors} removeAlert={removeError} />
+                        </Paper>
+                    }
+
+                    <Paper>
+                        {DisplaySteps()}
+                    </Paper>
+                </Stack>
 
             </VehiclePurchaseStepper>
         </MainContainer>
     )
+}
+
+function validateStep(activeStep, data){
+    let errors = []
+    switch(activeStep){
+            case 1:
+                if(!data.firstName || data.firstName.length === 0) errors.push({severity: 'error', msg: "First Name is required"})
+                if(!data.lastName || data.lastName.length === 0) errors.push({severity: 'error', msg: "Last Name is required"})
+                if(!data.dateOfBirth || data.dateOfBirth.length === 0) errors.push({severity: 'error', msg: "Date of Birth is required"})
+                if(!data.ssn || data.ssn.length === 0) errors.push({severity: 'error', msg: "SSN is required"})
+                if(!data.phone || data.phone.length === 0) errors.push({severity: 'error', msg: "Phone # is required"})
+                if(!data.email || data.email.length === 0) errors.push({severity: 'error', msg: "SEmailSN is required"})
+                return errors 
+            case 2:
+                return errors 
+            case 3:
+                return errors
+            case 4:
+                return errors
+            case 5:
+                return errors
+            default:
+                return errors
+        }
+
 }
 
 export default VehiclePurchase

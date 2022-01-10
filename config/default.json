@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb://localhost:27017/goliath",
+    "mongoURI": "mongodb://127.0.0.1:27017/goliath",
     "jwtSecret": "goliath-api"
 }

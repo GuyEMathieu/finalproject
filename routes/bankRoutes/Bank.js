@@ -31,7 +31,7 @@ var bankSchema = new mongoose.Schema({
     lastModified: {
         type: Date,
         default: Date.now
-    }
+    },
 })
 
 module.exports = mongoose.model('Bank', bankSchema);

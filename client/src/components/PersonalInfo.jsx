@@ -22,8 +22,6 @@ export default function PersonalInfo(props) {
         gender, phone, ssn, email
     } = data
 
-    
-
     const handleDateChange = date => {
         const e = {
             target:{
@@ -33,13 +31,12 @@ export default function PersonalInfo(props) {
         handleChange(e)
     }
 
-    if(data === null || defaults === null){
-        return <Loading  />
-    }
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={5}>
                 <TextField
+                    error={!isDisabled && firstName.length === 0}
+                    helperText={!isDisabled && firstName.length === 0 ? 'Required': ''}
                     label='First Name' name='firstName' disabled={isDisabled}
                     value={firstName} onChange={handleChange}/>
             </Grid>
@@ -50,6 +47,8 @@ export default function PersonalInfo(props) {
             </Grid>
             <Grid item xs={12} md={5}>
                 <TextField
+                    error={!isDisabled && lastName.length === 0 ? true : false}
+                    helperText={!isDisabled && lastName.length === 0 ? 'Required' : ''}
                     label='Last Name' name='lastName' disabled={isDisabled}
                     value={lastName} onChange={handleChange}/>
             </Grid>
@@ -61,14 +60,17 @@ export default function PersonalInfo(props) {
             </Grid>
             <Grid item xs={12} md={4}>
                 <DatePicker
+                    
                     label="Date of Birth"
                     value={dateOfBirth} disabled={isDisabled}
                     onChange={(date) => handleDateChange(date)}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => <TextField  {...params} />}
                 />
             </Grid>
             <Grid item xs={12} md={4}>
                 <TextField
+                    error={!isDisabled && gender.length === 0 ? true : false}
+                    helperText={!isDisabled && gender.length === 0 ? 'Required' : ''}
                     label='Gender' name='gender' disabled={isDisabled}
                     value={gender || ''} onChange={handleChange} select>
                     {defaults && defaults.genders.map(g => (
@@ -78,11 +80,15 @@ export default function PersonalInfo(props) {
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextField
+                    error={!isDisabled && phone.length === 0 ? true : false}
+                    helperText={!isDisabled && phone.length === 0 ? 'Required' : ''}
                     label='Phone' name='phone' disabled={isDisabled}
                     value={formatPhone(phone)} onChange={handleChange}/>
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextField
+                    error={!isDisabled && email.length === 0 ? true : false}
+                    helperText={!isDisabled && email.length === 0 ? 'Required' : ''}
                     label='Email' name='email' disabled={isDisabled}
                     value={email} onChange={handleChange}/>
             </Grid>

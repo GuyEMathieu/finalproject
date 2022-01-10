@@ -54,6 +54,14 @@ export const getName = (arr, id) => {
     }
     return id
 }
+export const getCode = (arr, id) => {
+
+    if (arr) {
+        const obj = arr.find(ele => ele._id === id)
+        return obj ? obj.code : id
+    }
+    return id
+}
 
 export const TruncateText = (string, length = 80) => {
     if (string) {
@@ -92,4 +100,16 @@ export function formatDate(date) {
         day = '0' + day;
 
     return [month, day, year].join('-');
+}
+
+export function AddressString(address, states, countries){
+    if(address && states && countries){
+        let street = `${address.street}`;
+        if(address.aptNum){
+            street = `${street} aptNum ${address.aptNum}`
+        }
+        return `${street}, ${address.city}, ${getCode(states, address.state)}, ${getCode(countries, address.country)}, ${address.zipcode}`
+    }
+
+    return ''
 }

@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { RoundToTwo, FormatNumber } from '../../utils/Formatter';
+import { RoundToTwo, FormatNumber, AddressString } from '../../utils/Formatter';
 
 const useStyles = makeStyles(theme => ({
     start:{
@@ -58,7 +58,7 @@ const Financing = (props) => {
 
                 {bank._id &&
                     <Grid item xs={12}>
-                        <TextField  label={'Bank'}/>
+                        <TextField  label={'Mailing Address'} disabled value={AddressString(bank.address, props.defaults.states, props.defaults.countries)}/>
                     </Grid>
                 }
             </Grid>
@@ -80,24 +80,26 @@ const Financing = (props) => {
                     </FormControl>
                 </Grid>
             }
-            <Grid item xs={12} container spacing={2}>
-                <Grid item xs={12} md={4}>
-                    <TextField
-                        label='Financed Balance' disabled value={FormatNumber(props.purchase.sale.balance)} />
+            {term && 
+                <Grid item xs={12} container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            label='Financed Balance' disabled value={FormatNumber(props.purchase.sale.balance)} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            label='Total Interest' disabled value={FormatNumber(props.purchase.sale.financing.totalInterest)} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            label='Loan Value + Interest' disabled value={FormatNumber(props.purchase.sale.financing.loanValue)} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            label='Monthly Payment' disabled value={FormatNumber(props.purchase.sale.financing.monthlyPayment)} />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={4}>
-                    <TextField
-                        label='Total Interest' disabled value={FormatNumber(props.purchase.sale.financing.totalInterest)} />
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <TextField
-                        label='Loan Value + Interest' disabled value={FormatNumber(props.purchase.sale.financing.loanValue)} />
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <TextField
-                        label='Monthly Payment' disabled value={FormatNumber(props.purchase.sale.financing.monthlyPayment)} />
-                </Grid>
-            </Grid>
+            }
         </Grid>
     )
 }

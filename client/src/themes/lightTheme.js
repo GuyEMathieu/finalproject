@@ -3,7 +3,7 @@ import { deepOrange,grey } from '@mui/material/colors'
 
 
 // // Create theme instance
-export const theme = createTheme({
+export const lightTheme = createTheme({
 
     palette: {
         primary: {
