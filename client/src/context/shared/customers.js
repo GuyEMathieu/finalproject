@@ -3,6 +3,7 @@ export const CUSTOMERS = [
         "_id": "6146a1fe8f352603dd39f83d",
         "firstName": "Albert",
         "lastName": "Gonzalez",
+        "ssn": "123-45-6789",
         "dateOfBirth": "1965-09-15T04:00:00.000Z",
         "email": "Albert.gonzalez@mail.com",
         "gender": "611aee3461093e018146791e",

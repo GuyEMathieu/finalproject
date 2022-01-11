@@ -39,7 +39,7 @@ const VehiclePurchase = () => {
     const {id} = useParams();
     const navigate = useNavigate()
     const inventoryContext = useContext(InventoryContext);
-    const {inventoryVehicles, getVehicles} = inventoryContext;
+    const {inventoryVehicles, getVehicles, getVehicleById, currentVehicle} = inventoryContext;
 
     const saleContext = useContext(SalesContext)
     const {saleVehicle, addUIErrors, errors, removeError} = saleContext;
@@ -58,38 +58,8 @@ const VehiclePurchase = () => {
         customer: {address: {}}
     })
     useEffect(() => {
-        if(inventoryVehicles === null){
+        if(inventoryContext.inventoryVehicles === null){
             getVehicles()
-        }
-
-        if(inventoryVehicles && id){
-            const dealerPercentage = 0.1
-            const stateTax = 0.07;
-
-            const vehicle = inventoryVehicles.find(v => v._id === id)
-            const dealerFees = RoundToTwo(vehicle.price * dealerPercentage)
-
-            const subtotal = RoundToTwo(vehicle.price + dealerFees);
-            const taxes = RoundToTwo(subtotal * stateTax)
-            const balance = RoundToTwo(subtotal + taxes)
-            const grandTotal = balance
-            setPurchase({
-                ...purchase, 
-                vehicle: vehicle,
-                sale: {
-                    financing: {},
-                    vehiclePrice: vehicle.price,
-                    dealerFees: dealerFees,
-                    subtotal: subtotal,
-                    taxes: taxes,
-                    balance: balance,
-                    grandTotal: grandTotal
-                },
-                constants: {
-                    dealerPercentage: dealerPercentage,
-                    stateTax: stateTax
-                }
-            })
         }
 
         if(!customerList){
@@ -112,11 +82,49 @@ const VehiclePurchase = () => {
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-            inventoryVehicles, id, getVehicles, 
+            inventoryContext, id, 
             customerList, getCustomers, defaults,
-            errors
+            errors,
         ]
     )
+
+    useEffect(() => {
+        if(currentVehicle === null || currentVehicle._id !== id){
+            getVehicleById(id)
+        }
+
+        if(currentVehicle && inventoryContext.currentVehicle._id === id){
+
+            const dealerPercentage = 0.1
+            const stateTax = 0.07;
+
+            const vehicle = currentVehicle
+            console.info("Vehicle", vehicle)
+            const dealerFees = RoundToTwo(vehicle.price * dealerPercentage)
+
+            const subtotal = RoundToTwo(vehicle.price + dealerFees);
+            const taxes = RoundToTwo(subtotal * stateTax)
+            const balance = RoundToTwo(subtotal + taxes)
+            const grandTotal = balance
+            setPurchase({
+                ...purchase, 
+                vehicle: inventoryContext.currentVehicle,
+                sale: {
+                    financing: {},
+                    vehiclePrice: vehicle.price,
+                    dealerFees: dealerFees,
+                    subtotal: subtotal,
+                    taxes: taxes,
+                    balance: balance,
+                    grandTotal: grandTotal
+                },
+                constants: {
+                    dealerPercentage: dealerPercentage,
+                    stateTax: stateTax
+                }
+            })
+        }
+    },[currentVehicle, id, getVehicleById])
 
     const [activeStep, setActiveStep] = useState(0);
 

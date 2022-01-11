@@ -8,9 +8,10 @@ export default (state, action) => {
     switch (action.type) {
         
         case CURRENT_VEHICLE:
+            
             return {
                 ...state,
-                currentVehicle: action.payload
+                currentVehicle: state.inventoryVehicles.find(v => v._id === action.payload)
             }
         case PURCHASE_COMPLETE:
             return {

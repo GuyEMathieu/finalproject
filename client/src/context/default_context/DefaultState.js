@@ -3,7 +3,7 @@ import React, {useReducer} from 'react';
 import defaultReducer from './defaultReducer';
 import axios from 'axios'
 import { v4 as uid } from 'uuid';
-
+import {DEFAULTS} from '../shared/defaults'
 import * as ActionTypes from './defaultTypes'
 
 
@@ -21,17 +21,18 @@ const DefaultState = props => {
     const [state, dispatch] = useReducer(defaultReducer, initialState);
 
     const getAll = async () => {
-        try {
-            const res = await axios.get('/api/defaults');
-            dispatch({
-                type: ActionTypes.GET_ALL,
-                payload: res.data
-            })
-        } catch (err) {
-            dispatch({
-                type: ActionTypes.SET_ALERTS
-            })
-        }
+        dispatch({type: ActionTypes.GET_ALL, payload: DEFAULTS})
+        // try {
+        //     const res = await axios.get('/api/defaults');
+        //     dispatch({
+        //         type: ActionTypes.GET_ALL,
+        //         payload: res.data
+        //     })
+        // } catch (err) {
+        //     dispatch({
+        //         type: ActionTypes.SET_ALERTS
+        //     })
+        // }
     }
 
     const removeAlert = async id => {

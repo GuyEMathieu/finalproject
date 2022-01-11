@@ -3,14 +3,14 @@ import { createContext } from 'react';
 import React, {useReducer} from 'react';
 import customerReducer from './customerReducer';
 import axios from 'axios'
-
+import {CUSTOMERS} from '../shared/customers'
 import * as ActionTypes from './customerContextTypes'
 
 export const CustomerContext = createContext();
 
 const CustomerState = props => {
     const initialState = {
-        customerList: null,
+        customerList: CUSTOMERS,
         currentCustomer: null,
         alerts: null,
         filteredCustomers: null
@@ -19,20 +19,21 @@ const CustomerState = props => {
     const [state, dispatch] = useReducer(customerReducer, initialState);
 
     const getCustomers = async () => {
+        dispatch({ type: ActionTypes.GET_ALL, payload: CUSTOMERS})
 
-        try {
-            const res = await axios.get('/api/customers')
-            dispatch({
-                type: ActionTypes.GET_ALL,
-                payload: res.data
-            })
-        } catch (err) {
-            console.info(err)
-            dispatch({
-                type: ActionTypes.SET_ALERTS,
-                payload: err.response.data.errors
-            })
-        }
+        // try {
+        //     const res = await axios.get('/api/customers')
+        //     dispatch({
+        //         type: ActionTypes.GET_ALL,
+        //         payload: res.data
+        //     })
+        // } catch (err) {
+        //     console.info(err)
+        //     dispatch({
+        //         type: ActionTypes.SET_ALERTS,
+        //         payload: err.response.data.errors
+        //     })
+        // }
     }
 
     const addNewVehicle = async (vehicle) => {

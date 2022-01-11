@@ -30,9 +30,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import {lightTheme} from './themes/lightTheme'
 import {darkTheme} from './themes/darkTheme'
 
-if(localStorage.token){
-    setAuthToken(localStorage.token)
-}
+// if(localStorage.token){
+//     setAuthToken(localStorage.token)
+// }
 
 function App() {
     const [settings, setSettings] = useState({
@@ -40,10 +40,10 @@ function App() {
     })
 
 
-    console.info("Token", localStorage.token)
+    // console.info("Token", localStorage.token)
     return (
         <ThemeProvider theme={settings.darkTheme ? darkTheme : lightTheme}> 
-        <AuthState>
+        {/* <AuthState> */}
             <CustomerState>
                 <AddressState>
                         <EmployeeState>
@@ -57,14 +57,14 @@ function App() {
                                                             <Routes>
                                                                 <Route path='/login' element={<Login />} />
                                                                 <Route path='*' element={<PageNotFound />} />
-                                                                <Route path='/' element={<PrivateRoute />}>
+                                                                {/* <Route path='/' element={<PrivateRoute />}> */}
                                                                     <Route path='/' element={<EmployeeDash />} />
                                                                     <Route path='/hr/employees' element={<EmployeeDash  />} />
                                                                     <Route path='/service' element={<EmployeeDash  />} />
                                                                     <Route path='/sales/showroom' element={<Showroom  />} />
                                                                     <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
                                                                     <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile  />} />
-                                                                </Route>
+                                                                {/* </Route> */}
                                                                 {/* <PrivateRoute path='/hr/employees' element={<PrivateRoute component={EmployeeDash}/>} /> */}
                                                             </Routes>
                                                         </BrowserRouter>
@@ -78,7 +78,7 @@ function App() {
                         </EmployeeState> 
                 </AddressState> 
             </CustomerState>
-        </AuthState>
+        {/* </AuthState> */}
         </ThemeProvider>
     );
 }
