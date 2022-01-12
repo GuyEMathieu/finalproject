@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {
-    Grid, TextField, Paper
+    Grid, Button, ButtonGroup, Paper
 } from '@mui/material'
 
 //#region Context
-import {CustomerContext} from '../../../context/customer_context/CustomerState'
 import {DefaultContext} from '../../../context/default_context/DefaultState'
 //#endRegion
 
@@ -12,42 +11,34 @@ import {DefaultContext} from '../../../context/default_context/DefaultState'
 import PeopleGlance from '../../../components/peopleComponents/PeopleGlance';
 import Loading from '../../../components/Loading';
 import AccordionShell from '../../../components/AccordionShell';
+import PersonalInfo from '../../../components/peopleComponents/PersonalInfo'
+import Address from '../../../components/Address'
 //#endRegion
 
 const CustomerProfile = (props) => {
-    const {id} = props;
-    const customerContext = useContext(CustomerContext);
-    const {customerList, getCustomerById, getCustomers, currentCustomer} = customerContext;
+    const {
+        profile, profileDisabled,
+        enableEdit, onSaveProfile
+    } = props
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
 
     const [isLoading, setLoading] = useState(true);
-    const [profile, setProfile] = useState({address: {}})
+    const [currentProfile, setCurrentProfile] = useState({address: {}})
 
     useEffect(() => {
-        if(customerList === null){
-            getCustomers()
-        }
 
         if(defaults === null){
             getAll()
         }
 
-        if(customerList && defaults){
+        if(profile){
+            setCurrentProfile(profile)
             setLoading(false)
         }
-    },[customerList, getCustomers, defaults, getAll])
+    },[defaults, getAll, profile])
 
-    useEffect(() => {
-        if(currentCustomer === null || currentCustomer._id !== id){
-            getCustomerById(id)
-        }
-
-        if(currentCustomer && currentCustomer._id === id){
-            setProfile(currentCustomer)
-        }
-    },[id, currentCustomer, getCustomerById] )
 
     const [expanded, setExpanded] = useState('Personal Information');
 
@@ -58,15 +49,37 @@ const CustomerProfile = (props) => {
     return (
             <Grid container spacing={1}>
                 <Grid item xs={4} sx={{display: {sx: 'none', lg: 'block'}}}>
-                    {isLoading ? <Loading /> : <PeopleGlance profile={profile} defaults={defaults} />}
+                    {isLoading ? <Loading /> : <PeopleGlance profile={currentProfile} defaults={defaults} />}
                 </Grid>
 
                 <Grid xs={12} lg={8} item>
-                    <AccordionShell 
-                        expanded={expanded}
-                        title='Personal Information' handleChange={handleChange}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                            <Paper sx={{display: 'flex', justifyContent: 'flex-end', py: 0.5}}>
+                                <ButtonGroup variant="outlined" size='small'>
+                                    <Button onClick={enableEdit}>Edit</Button>
+                                    <Button onClick={onSaveProfile}>Save</Button>
+                                </ButtonGroup>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AccordionShell 
+                                expanded={expanded}
+                                title='Personal Information' handleChange={handleChange}>
+                                {isLoading ? <Loading  /> : <PersonalInfo data={currentProfile} defaults={defaults} isDisabled={profileDisabled} />}
+                            </AccordionShell>
 
-                    </AccordionShell>
+                            <AccordionShell 
+                                expanded={expanded}
+                                title='Personal Address' handleChange={handleChange}>
+                                {isLoading 
+                                    ? <Loading  /> 
+                                    : <Address address={currentProfile.address} 
+                                    defaults={defaults} isDisabled={profileDisabled}/> 
+                                }
+                            </AccordionShell>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 
             </Grid>

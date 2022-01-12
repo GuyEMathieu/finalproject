@@ -113,3 +113,11 @@ export function AddressString(address, states, countries){
 
     return ''
 }
+
+export function maskString(str, visible = 0, placement='start'){
+    if(placement === 'start'){
+        return str.split("").map((e, i) => i < str.length - visible ? "*" : e).join("")
+    }
+
+    return str.split("").map((e,i)=>i?"*":e).join("");
+}

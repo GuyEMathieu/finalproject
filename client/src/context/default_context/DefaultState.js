@@ -14,7 +14,7 @@ const DefaultState = props => {
         defaults: null,
         alerts: null,
         settings: {
-            darkTheme: false
+            darkTheme: true
         }
     }
 
@@ -49,6 +49,7 @@ const DefaultState = props => {
     }
 
     const updateSettings = settings => {
+        console.info("Settings", settings)
         dispatch({
             type: ActionTypes.UPDATE_SETTINGS,  
             payload: settings

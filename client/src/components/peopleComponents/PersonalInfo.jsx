@@ -6,11 +6,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import { formatPhone } from '../../utils/Formatter';
 
 export default function PersonalInfo(props) {
-    // useEffect(() => {
-    //     if(defaults === null){
-    //         getAll()
-    //     }
-    // }, [defaults, getAll])
+
     const {
         data = {}, 
         isDisabled = true,

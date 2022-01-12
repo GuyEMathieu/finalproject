@@ -12,7 +12,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import MainContainer from '../../components/MainContainer'
 import CustomerSearch from './customers/CustomerSearch'
 
-import CustomerProfile from './customers/CustomerProfile'
+import CustomerMain from './customers/CustomerMain'
 
 const Service = () => {
     const [value, setValue] = useState('Customers');
@@ -23,10 +23,10 @@ const Service = () => {
     const [tabs, setTabs] = useState([])
     const createCustomerTab = customer => {
 
-        if(tabs.filter(t => t.label === `${customer.firstName} ${customer.lastName}`).length == 0) {
+        if(tabs.filter(t => t.label === `${customer.firstName} ${customer.lastName}`).length === 0) {
             setTabs([...tabs, {
                 label: `${customer.firstName} ${customer.lastName}`,
-                panel: () => <CustomerProfile id={customer._id}  />
+                panel: () => <CustomerMain id={customer._id}  />
             }])
             setValue(`${customer.firstName} ${customer.lastName}`)
         } 

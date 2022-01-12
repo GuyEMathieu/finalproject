@@ -13,6 +13,7 @@ export default function Address (props) {
     const {
         street, aptNum, city, state, country, zipcode
     } = address;
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={10}>

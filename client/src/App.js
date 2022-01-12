@@ -1,7 +1,7 @@
 import './App.css';
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-
+import { DefaultContext } from './context/default_context/DefaultState';
 //#region Components
 import EmployeeDash from './pages/employees/EmployeeDash';
 import Service from './pages/service/Service';
@@ -36,14 +36,13 @@ import {darkTheme} from './themes/darkTheme'
 // }
 
 function App() {
-    const [settings, setSettings] = useState({
-        darkTheme: false
-    })
+
+    const [currentSettings] = useState({darkTheme: false})
 
 
     // console.info("Token", localStorage.token)
     return (
-        <ThemeProvider theme={settings.darkTheme ? darkTheme : lightTheme}> 
+        <ThemeProvider theme={currentSettings.darkTheme ? darkTheme : lightTheme}> 
         {/* <AuthState> */}
             <CustomerState>
                 <AddressState>
