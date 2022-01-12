@@ -38,6 +38,11 @@ export default (state, action) => {
                 ...state,
                 errors: remaining.length > 0 ? remaining : null
             }
+        case ActionTypes.CURRENT_CUSTOMER:
+            return {
+                ...state,
+                currentCustomer: state.customerList.find(c => c._id === action.payload)
+            }
         default:
             return state;
     }

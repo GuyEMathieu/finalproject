@@ -9,7 +9,7 @@ import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 import {DefaultContext} from '../../context/default_context/DefaultState';
 
 //#region COMPONENTS
-import EmployeeGlance from './EmployeeGlance';
+import PersonGlance from '../../components/peopleComponents/PeopleGlance';
 import PersonalInfo from '../../components/PersonalInfo';
 import EmploymentInfo from './EmploymentInfo'
 import Address from '../../components/Address';
@@ -66,7 +66,7 @@ export default function EmployeeProfile(props) {
     return (
         <CustomGrid container spacing={1} sx>
             <Grid item xs={4} sx={{display: {xs: 'none', lg: 'block'}}}>
-                {isLoading ? <Paper><Loading  /></Paper> : <EmployeeGlance employee={employee} defaults={defaults}/> }
+                {isLoading ? <Paper><Loading  /></Paper> : <PersonGlance profile={employee} defaults={defaults}/> }
             </Grid>
 
             <Grid item xs={12} lg={8} container spacing={1}>

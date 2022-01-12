@@ -96,6 +96,12 @@ const CustomerState = props => {
         })
     }
 
+    const getCustomerById = id => {
+        dispatch({
+            type: ActionTypes.CURRENT_CUSTOMER, payload: id
+        })
+    }
+
     return (
         <CustomerContext.Provider
             value= {{
@@ -107,6 +113,7 @@ const CustomerState = props => {
 
                 addNewVehicle,
                 filterCustomers,
+                getCustomerById,
                 addCustomer,
                 getCustomers,
                 removeAlert,

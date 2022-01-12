@@ -9,35 +9,29 @@ import {
 
 
 import ClearIcon from '@mui/icons-material/Clear';
-
-import EmployeeSearch from './EmployeeSearch'
-import EmployeeProfile from './EmployeeProfile'
 import MainContainer from '../../components/MainContainer'
+import CustomerSearch from './customers/CustomerSearch'
 
+import CustomerProfile from './customers/CustomerProfile'
 
-
-export default function EmployeeDash() {
-
-
-    const [value, setValue] = useState('Employees');
+const Service = () => {
+    const [value, setValue] = useState('Customers');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const [tabs, setTabs] = useState([])
-    const createEmployeeTab = employee => {
+    const createCustomerTab = customer => {
 
-
-        if(tabs.filter(t => t.label === `${employee.firstName} ${employee.lastName}`).length == 0) {
-
+        if(tabs.filter(t => t.label === `${customer.firstName} ${customer.lastName}`).length == 0) {
             setTabs([...tabs, {
-                label: `${employee.firstName} ${employee.lastName}`,
-                panel: () => <EmployeeProfile id={employee._id}  />
+                label: `${customer.firstName} ${customer.lastName}`,
+                panel: () => <CustomerProfile id={customer._id}  />
             }])
-            setValue(`${employee.firstName} ${employee.lastName}`)
+            setValue(`${customer.firstName} ${customer.lastName}`)
         } 
         else {
-            setValue(`${employee.firstName} ${employee.lastName}`)
+            setValue(`${customer.firstName} ${customer.lastName}`)
         }
     }
 
@@ -48,19 +42,16 @@ export default function EmployeeDash() {
 
     useEffect(() => {
         if(tabs.length === 0){
-            setValue("Employees");
+            setValue("Customers");
         }
     },[tabs])
-
-    
-
     return (
         <MainContainer>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Paper sx={{p:0}}>
                         <TabList onChange={handleChange} variant="scrollable" >
-                            <Tab label='Employees' value='Employees'/>
+                            <Tab label='Customers' value='Customers'/>
                             {tabs.map (tab => (
                                 <Tab 
                                     key={tab.label}
@@ -72,16 +63,17 @@ export default function EmployeeDash() {
                         </TabList>
                     </Paper>
                 </Box>
-                <TabPanel value="Employees" sx={{px: 0, py: 0, my: 0}}>
-                    <EmployeeSearch createEmployeeTab={createEmployeeTab} />
+                <TabPanel value="Customers" sx={{px: 0, py: 0, my: 0}}>
+                    <CustomerSearch createCustomerTab={createCustomerTab} />
                 </TabPanel>
                 {tabs.map(tab => (
-                    <TabPanel key={tab.label} value={tab.label} sx={{px: 0, py: 0, my: 0}}>
+                    <TabPanel key={tab.label} value={tab.label} sx={{px: 0, py: 1, my: 0}}>
                         {tab.panel()}
                     </TabPanel>
                 ))}
             </TabContext>
-                
         </MainContainer>
-    );
+    )
 }
+
+export default Service

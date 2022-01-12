@@ -99,12 +99,14 @@ export default function Header(props) {
                     </ListItemButton>
                 </CustomLink>
 
-                <ListItemButton>
-                    <ListItemIcon>
-                        <CarRepairIcon color='primary'/>
-                    </ListItemIcon>
-                    <ListItemText primary="Service" />
-                </ListItemButton>
+                <CustomLink to={'/service'}>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <CarRepairIcon color='primary'/>
+                        </ListItemIcon>
+                        <ListItemText primary="Service" />
+                    </ListItemButton>
+                </CustomLink>
 
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>

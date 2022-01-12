@@ -4,7 +4,7 @@ import {
 
 import {getName, formatDate} from '../../utils/Formatter'
 
-export default function EmployeeGlance({employee, defaults}) {
+export default function PeopleGlance({profile, defaults}) {
 
     return (
         <Paper>
@@ -12,37 +12,37 @@ export default function EmployeeGlance({employee, defaults}) {
                 <Grid item xs={6}>
                     <TextField
                         variant='standard'
-                        label='First Name' disabled value={employee.firstName}
+                        label='First Name' disabled value={profile.firstName}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                         variant='standard'
-                        label='Last Name' disabled value={employee.lastName}
+                        label='Last Name' disabled value={profile.lastName}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                         variant='standard'
-                        label='Gender' disabled value={getName(defaults.genders, employee.gender)}
+                        label='Gender' disabled value={getName(defaults.genders, profile.gender)}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                         variant='standard'
-                        label='Date of Birth' disabled value={formatDate(employee.dateOfBirth)}
+                        label='Date of Birth' disabled value={formatDate(profile.dateOfBirth)}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                         variant='standard'
-                        label='Phone' disabled value={employee.phone}
+                        label='Phone' disabled value={profile.phone}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
                         variant='standard'
-                        label='Email' disabled value={employee.email}
+                        label='Email' disabled value={profile.email}
                     />
                 </Grid>
             </Grid>

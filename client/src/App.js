@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 //#region Components
 import EmployeeDash from './pages/employees/EmployeeDash';
+import Service from './pages/service/Service';
 import Showroom from './pages/sales/Showroom';
 import VehiclePurchase from './pages/sales/VehiclePurchase'
 import VehicleProfile from './pages/sales/VehicleProfile'
@@ -60,7 +61,9 @@ function App() {
                                                                 {/* <Route path='/' element={<PrivateRoute />}> */}
                                                                     <Route path='/' element={<EmployeeDash />} />
                                                                     <Route path='/hr/employees' element={<EmployeeDash  />} />
-                                                                    <Route path='/service' element={<EmployeeDash  />} />
+
+                                                                    <Route path='/service' element={<Service  />} />
+
                                                                     <Route path='/sales/showroom' element={<Showroom  />} />
                                                                     <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
                                                                     <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile  />} />
