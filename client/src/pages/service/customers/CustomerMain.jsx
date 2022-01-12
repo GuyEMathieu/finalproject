@@ -18,6 +18,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 import CustomerProfile from './CustomerProfile'
 import CustomerVehicleTable from './CustomerVehicleTable';
+import VehicleDetails from './VehicleDetails';
 
 export default function CustomerMain (props) {
     const {id} = props;
@@ -68,7 +69,7 @@ export default function CustomerMain (props) {
         if(tabs.filter(t => t.label === label)) {
             setTabs([...tabs, {
                 label: label,
-                panel: () => <div>{label}</div>
+                panel: () => <VehicleDetails vehicle={vehicle}/>
             }])
             setValue(label)
         } 

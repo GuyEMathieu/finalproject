@@ -39,7 +39,6 @@ const CustomerProfile = (props) => {
         }
     },[defaults, getAll, profile])
 
-
     const [expanded, setExpanded] = useState('Personal Information');
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -52,7 +51,7 @@ const CustomerProfile = (props) => {
                     {isLoading ? <Loading /> : <PeopleGlance profile={currentProfile} defaults={defaults} />}
                 </Grid>
 
-                <Grid xs={12} lg={8} item>
+                <Grid xs item>
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <Paper sx={{display: 'flex', justifyContent: 'flex-end', py: 0.5}}>
