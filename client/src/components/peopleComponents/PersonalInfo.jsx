@@ -3,8 +3,7 @@ import {
     Grid, TextField, MenuItem
 } from '@mui/material';
 import DatePicker from '@mui/lab/DatePicker';
-import { formatPhone } from '../utils/Formatter';
-import Loading from './Loading';
+import { formatPhone } from '../../utils/Formatter';
 
 export default function PersonalInfo(props) {
     // useEffect(() => {

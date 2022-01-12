@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -24,6 +24,8 @@ import CarRentalIcon from '@mui/icons-material/CarRental';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Settings from '../Settings';
 
+import {DefaultContext} from '../../context/default_context/DefaultState';
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -43,6 +45,9 @@ const CustomLink = styled(Link)(({theme}) => ({
 
 
 export default function Header(props) {
+    const defaultContext = useContext(DefaultContext);
+    const {settings, updateSettings} = defaultContext;
+
     const theme = useTheme();
 
     const {
@@ -54,9 +59,26 @@ export default function Header(props) {
         setOpenAdmin(!openAdmin);
     };
 
+    const [currentSettings, setCurrentSettings] = useState(settings)
+
+    const handleSettingsChange = e => {
+        const {checked, name} = e.target;
+        alert(JSON.stringify(e.target))
+        // setCurrentSettings(prev => {
+        //     return {
+        //         ...prev,
+        //         [name]: checked
+        //     }
+        // })
+    }
+
+
     const [openPopup, setOpenPopup] = useState(false)
     const handleOpenPopup = () => setOpenPopup(true);
-    const handleClosePopup = () => setOpenPopup(false);
+    const handleClosePopup = () => {
+        updateSettings(currentSettings)
+        setOpenPopup(false)
+    }
 
     return (
 
@@ -141,7 +163,7 @@ export default function Header(props) {
             </List>
 
             <Popup open={openPopup} handleClose={handleClosePopup} title={'Settings'}>
-                <Settings  />
+                <Settings settings={currentSettings} handleChange={handleSettingsChange} />
             </Popup>
         </Drawer>
     );

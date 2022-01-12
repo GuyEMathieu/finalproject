@@ -49,6 +49,12 @@ const CustomerProfile = (props) => {
         }
     },[id, currentCustomer, getCustomerById] )
 
+    const [expanded, setExpanded] = useState('Personal Information');
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
     return (
             <Grid container spacing={1}>
                 <Grid item xs={4} sx={{display: {sx: 'none', lg: 'block'}}}>
@@ -56,7 +62,9 @@ const CustomerProfile = (props) => {
                 </Grid>
 
                 <Grid xs={12} lg={8} item>
-                    <AccordionShell title='Personal Info' handleChange={()=> {}}>
+                    <AccordionShell 
+                        expanded={expanded}
+                        title='Personal Information' handleChange={handleChange}>
 
                     </AccordionShell>
                 </Grid>

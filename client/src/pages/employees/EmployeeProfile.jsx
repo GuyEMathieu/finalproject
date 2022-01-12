@@ -10,7 +10,7 @@ import {DefaultContext} from '../../context/default_context/DefaultState';
 
 //#region COMPONENTS
 import PersonGlance from '../../components/peopleComponents/PeopleGlance';
-import PersonalInfo from '../../components/PersonalInfo';
+import PersonalInfo from '../../components/peopleComponents/PersonalInfo';
 import EmploymentInfo from './EmploymentInfo'
 import Address from '../../components/Address';
 import Loading from '../../components/Loading';

@@ -20,7 +20,7 @@ import {SalesContext} from '../../context/sales_context/SaleState'
 //#region COMPONENTS
 import VehiclePurchaseStepper from './VehiclePurchaseStepper';
 import MainContainer from '../../components/MainContainer';
-import PersonalInfo from '../../components/PersonalInfo';
+import PersonalInfo from '../../components/peopleComponents/PersonalInfo';
 import Address from '../../components/Address'
 import FeesAndCredits from './FeesAndCredits';
 import Financing from './Financing';

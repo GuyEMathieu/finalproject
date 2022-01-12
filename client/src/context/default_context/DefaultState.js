@@ -60,6 +60,8 @@ const DefaultState = props => {
             value={{
                 defaults: state.defaults,
                 alerts: state.alerts,
+                settings: state.settings,
+
                 getAll,
                 clearAlerts,
                 removeAlert,
