@@ -85,7 +85,7 @@ export default function CustomerMain (props) {
 
     useEffect(() => {
         if(tabs.length === 0){
-            setValue("Profile");
+            setValue("Vehicles");
         }
     },[tabs])
     return (
