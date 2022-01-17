@@ -23,7 +23,7 @@ import VehicleDetails from './VehicleDetails';
 export default function CustomerMain (props) {
     const {id} = props;
     const customerContext = useContext(CustomerContext);
-    const {customerList, getCustomerById, getCustomers, currentCustomer} = customerContext;
+    const {customerList, getCustomerById, getCustomers, currentCustomer, addVehicleService} = customerContext;
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
@@ -62,6 +62,13 @@ export default function CustomerMain (props) {
         setProfileDisabled(true)
     }
 
+    // const addService = (vehicleVin, newService) => {
+    //     const newProfile = currentCustomer;
+    //     newProfile.vehicles.find(v => v.vin === vehicleVin).serviceLogs.push(newService)
+    //     //alert(JSON.stringify(newProfile, null, 4))
+    //     //addVehicleService(data);
+    // }
+
     const [tabs, setTabs] = useState([])
     const createVehicleTab = vehicle => {
         const label = `${vehicle.year} ${getName(defaults.manufacturers, vehicle.make)} ${getName(defaults.models, vehicle.model)}`
@@ -69,7 +76,7 @@ export default function CustomerMain (props) {
         if(tabs.filter(t => t.label === label)) {
             setTabs([...tabs, {
                 label: label,
-                panel: () => <VehicleDetails vehicle={vehicle}/>
+                panel: () => <VehicleDetails vehicle={vehicle} customerId={currentCustomer._id} customerContext={customerContext}/>
             }])
             setValue(label)
         } 

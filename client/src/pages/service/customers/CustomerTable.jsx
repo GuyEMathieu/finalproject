@@ -21,7 +21,7 @@ export default function CustomerTable(props) {
     }, [customers])
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, availableCustomers.length - page * rowsPerPage);
 
@@ -80,7 +80,7 @@ export default function CustomerTable(props) {
                                 native: true,
                             }}
                             onPageChange={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                             ActionsComponent={TablePaginationActions}
                         />
                     </TableRow>

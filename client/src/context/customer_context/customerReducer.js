@@ -43,6 +43,18 @@ export default (state, action) => {
                 ...state,
                 currentCustomer: state.customerList.find(c => c._id === action.payload)
             }
+        case ActionTypes.ADD_SERVICE:
+            console.info("payload", action.payload)
+            const currentCustomer = state.customerList.find(c => c._id === action.payload.customer);
+            console.info("Current Customer", currentCustomer)
+
+            currentCustomer.vehicles.find(v => v.vin === action.payload.vin).serviceLogs.push(action.payload.newService)
+            console.info("udpated customer", currentCustomer)
+            return {
+                ...state,
+                currentCustomer: currentCustomer,
+                customerList: state.customerList.map(customer => customer._id === currentCustomer ? currentCustomer : customer)
+            }
         default:
             return state;
     }

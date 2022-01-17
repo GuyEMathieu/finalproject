@@ -1,7 +1,9 @@
-import React, {useState, Fragment} from 'react'
+import React, {useState, Fragment, useEffect} from 'react'
 import {
-    Grid, Paper, Button
+    Grid, Paper, Button, Typography
 } from '@mui/material';
+
+import {formatDate} from '../../../utils/Formatter'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,11 +17,16 @@ import Popup from '../../../components/Popup';
 import NewServiceTrip from './NewServiceTrip';
 
 export default function VehicleDetails (props) {
-    const {serviceLogs} = props.vehicle
+    const {
+        vehicle, customerId, customerContext
+    } = props
+
+    const {addVehicleService} = customerContext;
+
+    const {serviceLogs} = vehicle
 
     const [selectedTrip, setSelectedTrip] = useState(null)
 
-    console.info("Service logs", serviceLogs)
     const [openPopup, setOpenPopup] = useState(false)
     const handleClosePopup =()=> {
         setOpenPopup(false)
@@ -27,7 +34,11 @@ export default function VehicleDetails (props) {
 
     const handleSave = newService => {
         handleClosePopup();
-        alert(JSON.stringify(newService))
+        let service = newService;
+        service.date = new Date()
+
+        const data = {customer: customerId, vin: vehicle.vin, newService}
+        addVehicleService(data)
     }
 
     return (
@@ -45,13 +56,14 @@ export default function VehicleDetails (props) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {serviceLogs.map((log) => (
-                                    <TableRow hover
+                                {serviceLogs.map((log, i) => (
+                                    <TableRow hover key={i}
                                         onClick={() => setSelectedTrip(log)}
                                         sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                         <TableCell component="th" scope="row">
-                                            {log.date}
+                                            {formatDate(log.date)}
                                         </TableCell>
+                                        <TableCell  />
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -59,9 +71,14 @@ export default function VehicleDetails (props) {
                     </TableContainer>
                 </Grid>
 
-                { selectedTrip && 
-                    <Grid item xs={12} md={8} lg={8}>
+                { selectedTrip 
+                    ? <Grid item xs={12} md={8} lg={8}>
                         <ServiceDetails trip={selectedTrip}/>
+                    </Grid>
+                    : <Grid item xs={12} md={8} lg={8} sx={{my:' auto'}}>
+                        <Paper >
+                            <Typography>Select a Date for Service details</Typography>
+                        </Paper>
                     </Grid>
                 }
             </Grid>

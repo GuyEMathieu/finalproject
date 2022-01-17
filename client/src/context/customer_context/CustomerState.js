@@ -5,6 +5,7 @@ import customerReducer from './customerReducer';
 import axios from 'axios'
 import {CUSTOMERS} from '../shared/customers'
 import * as ActionTypes from './customerContextTypes'
+import { v4 as uid } from 'uuid'; 
 
 export const CustomerContext = createContext();
 
@@ -102,6 +103,15 @@ const CustomerState = props => {
         })
     }
 
+    const addVehicleService = async (data) => {
+        data.newService.tripId = uid()
+        dispatch({
+            type: ActionTypes.ADD_SERVICE,
+            payload: data
+        })
+
+    }
+
     return (
         <CustomerContext.Provider
             value= {{
@@ -110,6 +120,8 @@ const CustomerState = props => {
                 alerts: state.alerts,
                 filteredCustomers: state.filteredCustomers,
                 quickView: state.quickView,
+
+                addVehicleService,
 
                 addNewVehicle,
                 filterCustomers,

@@ -150,7 +150,7 @@ export default function Showroom() {
                                     label='Manufacturers' name={'makes'} select>
                                     <MenuItem disabled>Select Manufacturer</MenuItem>
                                     {defaults && [{_id: 'All', name: 'All'}, ...defaults.manufacturers].map(make => (
-                                        <MenuItem ley={make._id} value={make._id}>{make.name}</MenuItem>
+                                        <MenuItem key={make._id} value={make._id}>{make.name}</MenuItem>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -161,7 +161,7 @@ export default function Showroom() {
                                     label='Models' name={'models'} select>
                                     <MenuItem disabled>Select Model</MenuItem>
                                     {Models().map(model => (
-                                        <MenuItem ley={model._id} value={model._id}>{model.name}</MenuItem>
+                                        <MenuItem key={model._id} value={model._id}>{model.name}</MenuItem>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -172,7 +172,7 @@ export default function Showroom() {
                                     <MenuItem disabled>Select Year</MenuItem>
                                     <MenuItem ley={'All'} value={'All'}>{'All'}</MenuItem>
                                     {Years().map(year => (
-                                        <MenuItem ley={year} value={year}>{year}</MenuItem>
+                                        <MenuItem key={year} value={year}>{year}</MenuItem>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -187,7 +187,7 @@ export default function Showroom() {
                 {defaults && vehicles &&
                     <Grid xs={12} item container spacing={2}>
                         {vehicles.slice(page * vehiclesPerPage, page * vehiclesPerPage + vehiclesPerPage).map(vehicle => (
-                            <Grid item xs={12} md={4} lg={3}>
+                            <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
                                 <VehicleCard vehicle={vehicle} defaults={defaults}/>
                             </Grid>
                         ))} 

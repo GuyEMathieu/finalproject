@@ -44,7 +44,7 @@ export default function MediaCard({vehicle, defaults}) {
                 <Typography variant="h6" color="text.secondary" align='center'>
                     {vehicle.vin}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" align='start' component='p'>
+                <Typography variant="body2" color="text.secondary" align='left' component='p'>
                     {TruncateText(vehicle.description)}
                 </Typography>
             </CardContent>

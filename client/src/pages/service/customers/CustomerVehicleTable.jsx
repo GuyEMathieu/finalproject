@@ -79,7 +79,7 @@ export default function CustomerVehicleTable(props) {
                                 native: true,
                             }}
                             onPageChange={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                             ActionsComponent={TablePaginationActions}
                         />
                     </TableRow>
