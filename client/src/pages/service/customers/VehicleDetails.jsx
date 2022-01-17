@@ -24,6 +24,12 @@ export default function VehicleDetails (props) {
     const handleClosePopup =()=> {
         setOpenPopup(false)
     }
+
+    const handleSave = newService => {
+        handleClosePopup();
+        alert(JSON.stringify(newService))
+    }
+
     return (
         <Fragment>
             <Grid container spacing={1}>
@@ -59,9 +65,14 @@ export default function VehicleDetails (props) {
                     </Grid>
                 }
             </Grid>
-            <Popup handleClose={handleClosePopup} open={openPopup} title={'New Service Trip'} sx={{width: '60vw'}}>
-                <NewServiceTrip  />
-
+            <Popup 
+                handleClose={handleClosePopup} 
+                open={openPopup} showClose={false}
+                title={'New Service Trip'} 
+                sx={{width: '60vw'}}>
+                <NewServiceTrip  
+                    onClose={handleClosePopup} 
+                    onSave={handleSave}/>
             </Popup>
         </Fragment>
     )

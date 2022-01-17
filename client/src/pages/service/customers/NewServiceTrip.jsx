@@ -1,21 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import {
-    Grid, TextField, MenuItem, Stack, Button
+    Grid, TextField, 
+    MenuItem, Button, Box
 } from '@mui/material'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Loading from '../../../components/Loading'
 
 import { SERVICES } from '../../../context/shared/services';
-import ServiceDetail from './ServiceDetail';
 
-const NewServiceTrip = () => {
+const NewServiceTrip = (props) => {
+    const {
+        onSave, 
+        onClose
+    } = props;
     const [service, setService] = useState(null)
     const [selectedTrip, setSelectedTrip] = useState({
 
@@ -35,7 +37,6 @@ const NewServiceTrip = () => {
     }
 
     const [newPart, setNewPart] = useState({})
-    const {partName, quantity} = newPart;
 
     const handleNewPart = e => {
         const {name, value} = e.target;
@@ -88,7 +89,7 @@ const NewServiceTrip = () => {
                     <Grid item xs={12}>
                     {selectedTrip &&
                         <Grid container spacing={2}>
-                            <Grid item xs={5} >
+                            <Grid item xs={4} >
                                 <TextField 
                                     name='partName' 
                                     onChange={handleNewPart}
@@ -100,7 +101,7 @@ const NewServiceTrip = () => {
                                 </TextField>
                             </Grid>
 
-                            <Grid item xs={5}>
+                            <Grid item xs={4}>
                                 <TextField 
                                     name='quantity' onChange={handleNewPart}
                                     label='Quantity' select value={newPart.quantity || ''}>
@@ -110,15 +111,32 @@ const NewServiceTrip = () => {
                                         ))}
                                 </TextField>
                             </Grid>
-                            <Grid item xs={2}>
-                                <Button size={'size'} onClick={AddNewPart}>Add</Button>
+                            <Grid item xs>
+                                <Button size={'size'} onClick={AddNewPart}>Add Part</Button>
                             </Grid>
                         </Grid>
                     } 
 
                     </Grid>
 
-
+                    <Grid xs={12} item >
+                        <Box sx={{
+                            display: 'flex', 
+                            justifyContent: "space-around"}}>
+                            <Button 
+                                fullWidth={false} 
+                                variant={'outlined'}
+                                onClick={onClose}>
+                                Cancel
+                            </Button>
+                            
+                            <Button 
+                                onClick={() => onSave(service)}
+                                fullWidth={false}>
+                                Save Service
+                            </Button>
+                        </Box>  
+                    </Grid>
                 </Grid>
             </Grid>
 
@@ -128,8 +146,6 @@ const NewServiceTrip = () => {
         </Grid>
     )
 }
-
-
 
 
 
@@ -167,8 +183,6 @@ function BasicTable(props) {
                         <TableCell align='left'>{labor.duration}</TableCell>
                         <TableCell align='left'>{labor.laborRate}/hr</TableCell>
                         <TableCell align='right'>{labor.laborRate * labor.duration}</TableCell>
-                        {/* <TableCell align='left'>{part.unit}</TableCell>
-                        <TableCell align='right'>{part.quantity * part.unit}</TableCell> */}
                     </TableRow>
                 }
                 {parts && parts.map(part => (
@@ -179,9 +193,6 @@ function BasicTable(props) {
                         <TableCell align='right'>{part.quantity * part.unit}</TableCell>
                     </TableRow>
                 ))}
-                
-                
-
             </TableBody>
         </Table>
     );

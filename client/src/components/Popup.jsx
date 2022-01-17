@@ -20,11 +20,16 @@ const style = {
 };
 
 export default function Popup(props) {
+    const {
+        open, 
+        handleClose, 
+        showClose = true
+    } = props
 
     return (
 
         <Modal
-            open={props.open}
+            open={open}
             // onClose={props.handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
@@ -44,14 +49,15 @@ export default function Popup(props) {
                         {props.children}
                     </Grid>
 
-                    <Grid item >
-                        <Button
-                            onClick={props.handleClose}
-                            fullWidth={false}>
-                            Close
-                        </Button> 
-                    </Grid>
-
+                    {showClose &&
+                        <Grid item >
+                            <Button
+                                onClick={handleClose}
+                                fullWidth={false}>
+                                Close
+                            </Button> 
+                        </Grid>
+                    }
                 </Grid>
                 
             </Box>
