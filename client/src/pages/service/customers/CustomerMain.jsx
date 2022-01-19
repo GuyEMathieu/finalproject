@@ -28,6 +28,7 @@ export default function CustomerMain (props) {
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
 
+    const [tempProfile, setTempProfile] = useState(null);
     const [currentProfile, setCurrentProfile] = useState({address:{}})
 
     useEffect(() =>{
@@ -55,13 +56,19 @@ export default function CustomerMain (props) {
 
     const [profileDisabled, setProfileDisabled] = useState(true)
     const enableEdit = ()=> {
-        setProfileDisabled(false)
+        setTempProfile(currentCustomer);
+        setProfileDisabled(false);
+    }
+
+    const cancelEdit = () => {
+        setCurrentProfile(tempProfile);
+        setProfileDisabled(true);
     }
 
     const onSaveProfile = () => {
         setProfileDisabled(true)
+        setTempProfile(null);
     }
-
 
     const [tabs, setTabs] = useState([])
     const createVehicleTab = vehicle => {
@@ -70,7 +77,11 @@ export default function CustomerMain (props) {
         if(tabs.filter(t => t.label === label)) {
             setTabs([...tabs, {
                 label: label,
-                panel: () => <VehicleDetails vehicle={vehicle} customerId={currentCustomer._id} customerContext={customerContext}/>
+                panel: () => <VehicleDetails 
+                        vehicle={vehicle} 
+                        customerId={currentCustomer._id} 
+                        customerContext={customerContext}
+                    />
             }])
             setValue(label)
         } 
@@ -93,6 +104,17 @@ export default function CustomerMain (props) {
     const onSaveVehicle = (vehicle) => {
         addNewVehicle({vehicle, customer: currentProfile._id})
     }
+
+    const handleProfileChange = e => {
+        const {name, value } = e.target;
+        if(name === 'firstName' || name === 'lastName' || name === 'middleName' 
+            || name === 'ssn' || name === 'dateOfBirth' || name === 'gender' 
+            || name === 'phone' || name === 'email'){
+                setCurrentProfile({...currentProfile, [name]: value})
+            }
+    }
+
+    
     return (
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -114,11 +136,14 @@ export default function CustomerMain (props) {
                 <TabPanel value="Profile" sx={{px: 0, py: 1, my: 0}}>
                     <CustomerProfile createVehicleTab={createVehicleTab} 
                         profile={currentProfile} profileDisabled={profileDisabled}
-                        enableEdit={enableEdit} onSaveProfile={onSaveProfile}/>
+                        enableEdit={enableEdit} onSaveProfile={onSaveProfile}
+                        cancelEdit={cancelEdit} handleProfileChange={handleProfileChange}
+                        />
                 </TabPanel>
                 <TabPanel value="Vehicles" sx={{px: 0, py: 1, my: 0}}>
                     <CustomerVehicleTable handleSelection={createVehicleTab} 
-                        addNewVehicle={onSaveVehicle}
+                        addNewVehicle={onSaveVehicle} 
+                        handleProfileChange={handleProfileChange}
                         vehicles={currentProfile.vehicles} defaults={defaults} />
                 </TabPanel>
                 {tabs.map(tab => (

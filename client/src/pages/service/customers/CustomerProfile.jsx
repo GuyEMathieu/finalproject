@@ -18,7 +18,8 @@ import Address from '../../../components/Address'
 const CustomerProfile = (props) => {
     const {
         profile, profileDisabled,
-        enableEdit, onSaveProfile
+        enableEdit, onSaveProfile, 
+        cancelEdit, handleProfileChange
     } = props
 
     const defaultContext = useContext(DefaultContext);
@@ -56,8 +57,11 @@ const CustomerProfile = (props) => {
                         <Grid item xs={12}>
                             <Paper sx={{display: 'flex', justifyContent: 'flex-end', py: 0.5}}>
                                 <ButtonGroup variant="outlined" size='small'>
-                                    <Button onClick={enableEdit}>Edit</Button>
-                                    <Button onClick={onSaveProfile}>Save</Button>
+                                    {!profileDisabled 
+                                        ? <Button onClick={cancelEdit}>Cancel</Button>
+                                        : <Button onClick={enableEdit}>Edit</Button>
+                                    }
+                                    {!profileDisabled ? <Button variant='contained' onClick={onSaveProfile}>Save</Button> : null}
                                 </ButtonGroup>
                             </Paper>
                         </Grid>
@@ -65,7 +69,11 @@ const CustomerProfile = (props) => {
                             <AccordionShell 
                                 expanded={expanded}
                                 title='Personal Information' handleChange={handleChange}>
-                                {isLoading ? <Loading  /> : <PersonalInfo data={currentProfile} defaults={defaults} isDisabled={profileDisabled} />}
+                                {isLoading 
+                                    ? <Loading  /> 
+                                    : <PersonalInfo 
+                                        data={currentProfile} handleChange={handleProfileChange}
+                                        defaults={defaults} isDisabled={profileDisabled} />}
                             </AccordionShell>
 
                             <AccordionShell 
