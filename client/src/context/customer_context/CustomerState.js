@@ -37,6 +37,13 @@ const CustomerState = props => {
         // }
     }
 
+    const saveCustomer = customer => {
+        dispatch({
+            type: ActionTypes.UPDATE_CUSTOMER,
+            payload: customer
+        })
+    }
+
     const addNewVehicle = async (vehicle) => {
         // const config = {
         //     headers: {
@@ -126,7 +133,7 @@ const CustomerState = props => {
                 quickView: state.quickView,
 
                 addVehicleService,
-
+                saveCustomer,
                 addNewVehicle,
                 filterCustomers,
                 getCustomerById,

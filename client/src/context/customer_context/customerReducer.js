@@ -24,6 +24,7 @@ export default (state, action) => {
         case ActionTypes.UPDATE_CUSTOMER:
             return {
                 ...state,
+                currentCustomer: action.payload,
                 customerList: state.customerList.map(customer => customer._id === action.payload._id ? action.payload : customer)
             }
         

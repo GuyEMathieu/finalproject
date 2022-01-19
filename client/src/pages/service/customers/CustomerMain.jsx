@@ -23,7 +23,10 @@ import VehicleDetails from './VehicleDetails';
 export default function CustomerMain (props) {
     const {id} = props;
     const customerContext = useContext(CustomerContext);
-    const {customerList, getCustomerById, getCustomers, currentCustomer, addNewVehicle} = customerContext;
+    const {
+        customerList, getCustomerById, getCustomers, 
+        currentCustomer, addNewVehicle, saveCustomer
+    } = customerContext;
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
@@ -66,8 +69,22 @@ export default function CustomerMain (props) {
     }
 
     const onSaveProfile = () => {
+        saveCustomer(currentProfile)
         setProfileDisabled(true)
         setTempProfile(null);
+    }
+
+    const handleProfileChange = e => {
+        const {name, value } = e.target;
+        if(name === 'firstName' || name === 'lastName' || name === 'middleName' 
+            || name === 'ssn' || name === 'dateOfBirth' || name === 'gender' 
+            || name === 'phone' || name === 'email'){
+            setCurrentProfile({...currentProfile, [name]: value})
+        } 
+        else if(name === "street" || name === "aptNum" || name === "city" 
+            || name === "state" || name === "country" || name === "zipcode"){
+                setCurrentProfile({...currentProfile, address: {...currentProfile.address, [name]: value}})
+        }
     }
 
     const [tabs, setTabs] = useState([])
@@ -97,7 +114,7 @@ export default function CustomerMain (props) {
 
     useEffect(() => {
         if(tabs.length === 0){
-            setValue("Vehicles");
+            setValue("Profile");
         }
     },[tabs])
 
@@ -105,14 +122,7 @@ export default function CustomerMain (props) {
         addNewVehicle({vehicle, customer: currentProfile._id})
     }
 
-    const handleProfileChange = e => {
-        const {name, value } = e.target;
-        if(name === 'firstName' || name === 'lastName' || name === 'middleName' 
-            || name === 'ssn' || name === 'dateOfBirth' || name === 'gender' 
-            || name === 'phone' || name === 'email'){
-                setCurrentProfile({...currentProfile, [name]: value})
-            }
-    }
+    
 
     
     return (
@@ -120,7 +130,7 @@ export default function CustomerMain (props) {
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Paper sx={{p:0}}>
                         <TabList onChange={handleChange} variant="scrollable" >
-                            <Tab label='profile' value='Profile'/>
+                            <Tab label='Profile' value='Profile'/>
                             <Tab label='Vehicles' value='Vehicles'/>
                             {tabs.map (tab => (
                                 <Tab 

@@ -17,7 +17,6 @@ export default function NewVehicle(props){
     },[defaults, getAll])
 
     
-
     const [vehicle, setVehicle] = useState({vin: generateVIN().toUpperCase()})
 
     const handleVehicleChange = e =>{

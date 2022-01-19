@@ -81,8 +81,10 @@ const CustomerProfile = (props) => {
                                 title='Personal Address' handleChange={handleChange}>
                                 {isLoading 
                                     ? <Loading  /> 
-                                    : <Address address={currentProfile.address} 
-                                    defaults={defaults} isDisabled={profileDisabled}/> 
+                                    : <Address 
+                                        handleChange={handleProfileChange}
+                                        address={currentProfile.address} 
+                                        defaults={defaults} isDisabled={profileDisabled}/> 
                                 }
                             </AccordionShell>
                         </Grid>

@@ -8,7 +8,7 @@ import NewVehicle from '../../../components/NewVehicle'
 
 import Popup from '../../../components/Popup'
 
-import { getName, maskString, prettyAlert } from '../../../utils/Formatter';
+import { getName, maskString } from '../../../utils/Formatter';
 // Components
 import TablePaginationActions from '../../../components/PaginationActions';
 
