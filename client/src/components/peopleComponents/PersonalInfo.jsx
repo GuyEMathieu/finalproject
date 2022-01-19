@@ -64,8 +64,6 @@ export default function PersonalInfo(props) {
             </Grid>
             <Grid item xs={12} md={4}>
                 <TextField
-                    error={!isDisabled && gender.length === 0 ? true : false}
-                    helperText={!isDisabled && gender.length === 0 ? 'Required' : ''}
                     label='Gender' name='gender' disabled={isDisabled}
                     value={gender || ''} onChange={handleChange} select>
                     {defaults && defaults.genders.map(g => (
@@ -75,15 +73,11 @@ export default function PersonalInfo(props) {
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextField
-                    error={!isDisabled && phone.length === 0 ? true : false}
-                    helperText={!isDisabled && phone.length === 0 ? 'Required' : ''}
                     label='Phone' name='phone' disabled={isDisabled}
                     value={formatPhone(phone)} onChange={handleChange}/>
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextField
-                    error={!isDisabled && email.length === 0 ? true : false}
-                    helperText={!isDisabled && email.length === 0 ? 'Required' : ''}
                     label='Email' name='email' disabled={isDisabled}
                     value={email} onChange={handleChange}/>
             </Grid>

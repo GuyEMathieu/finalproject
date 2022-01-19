@@ -57,7 +57,7 @@ export default function EmployeeTable(props) {
                             <TableCell>{i + 1}</TableCell>
                             <TableCell>{employee.firstName}</TableCell>
                             <TableCell>{employee.lastName}</TableCell>
-                            <TableCell>{employee.employeeNum}</TableCell>
+                            <TableCell>{employee.employmentInfo.employeeNumber}</TableCell>
                             {/* <TableCell align='right'>
                                 <ForwardIcon
                                     style={{cursor: 'pointer'}}
