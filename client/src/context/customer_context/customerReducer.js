@@ -43,6 +43,14 @@ export default (state, action) => {
                 ...state,
                 currentCustomer: state.customerList.find(c => c._id === action.payload)
             }
+        case ActionTypes.ADD_VEHICLE:
+            const updatedCustomer = state.customerList.find(c => c._id === action.payload.customer)
+            updatedCustomer.vehicles.push(action.payload.vehicle)
+            return {
+                ...state,
+                currentCustomer: updatedCustomer,
+                customerList: state.customerList.map(c => c._id === updatedCustomer._id ? updatedCustomer : c)
+            }
         case ActionTypes.ADD_SERVICE:
             console.info("payload", action.payload)
             const currentCustomer = state.customerList.find(c => c._id === action.payload.customer);

@@ -34,11 +34,15 @@ export default function VehicleDetails (props) {
 
     const handleSave = newService => {
         handleClosePopup();
-        let service = newService;
-        service.date = new Date()
 
-        const data = {customer: customerId, vin: vehicle.vin, newService}
-        addVehicleService(data)
+        addVehicleService({
+            customer: customerId,
+            vin: vehicle.vin,
+            newService: {
+                ...newService,
+                date: new Date()
+            }
+        })
     }
 
     return (

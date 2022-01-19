@@ -38,27 +38,31 @@ const CustomerState = props => {
     }
 
     const addNewVehicle = async (vehicle) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }
 
-        try {
-            console.info("Sending New Vehicle to server for customer id: ", vehicle.customerId)
-            const res = await axios.post(`/api/customers/${vehicle.customerId}/vehicle`, vehicle, config)
-            console.info("RES", res.data)
-            dispatch({
-                type: ActionTypes.UPDATE_CUSTOMER,
-                payload: res.data
-            })
-        } catch (err) {
-            console.info(err)
-            dispatch({
-                type: ActionTypes.SET_ALERTS,
-                payload: err.response.data.errors
-            })
-        }
+        // try {
+        //     console.info("Sending New Vehicle to server for customer id: ", vehicle.customerId)
+        //     const res = await axios.post(`/api/customers/${vehicle.customerId}/vehicle`, vehicle, config)
+        //     console.info("RES", res.data)
+        //     dispatch({
+        //         type: ActionTypes.UPDATE_CUSTOMER,
+        //         payload: res.data
+        //     })
+        // } catch (err) {
+        //     console.info(err)
+        //     dispatch({
+        //         type: ActionTypes.SET_ALERTS,
+        //         payload: err.response.data.errors
+        //     })
+        // }
+        dispatch({
+            type: ActionTypes.ADD_VEHICLE,
+            payload: vehicle
+        })
     }
     const addCustomer = async customer => {
         const config = {

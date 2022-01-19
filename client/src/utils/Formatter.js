@@ -121,3 +121,14 @@ export function maskString(str, visible = 0, placement='start'){
 
     return str.split("").map((e,i)=>i?"*":e).join("");
 }
+
+export const generateVIN = () =>{
+    var result = '';
+    const chars = ["A", "B", "C", "D", 'E', "F", "G", "H", "J", "K", "L", "M", "P","Q", "R", "S", "T", "U", "V", "W", "X", "Z", 1, 3,4,5,6,7,8,9,0]
+    for (var i = 17; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+
+export const prettyAlert = (obj) => {
+    alert(JSON.stringify(obj, null, 4))
+}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {
     Grid, TextField, 
     MenuItem, Button, Box
@@ -32,7 +32,10 @@ const NewServiceTrip = (props) => {
         setSelectedTrip(value)
         setService({
             serviceName: value.serviceName,
-            labor: value.labor
+            labor: {
+                ...value.labor, 
+                cost: value.labor.laborRate * value.labor.duration
+            }
         })
     }
 
@@ -42,11 +45,12 @@ const NewServiceTrip = (props) => {
         const {name, value} = e.target;
         if(name === 'partName'){
             setNewPart(value)
-        } else {
+        } else if(name === 'quantity') {
             setNewPart(prev => {
                 return {
                     ...prev,
-                    [name]: value
+                    quantity: value,
+                    cost: newPart.unit * value
                 }
             })
         }
@@ -62,7 +66,7 @@ const NewServiceTrip = (props) => {
         })
     }    
     return (
-        <Grid container spacing={2} sx={{width: '60vw'}}>
+        <Grid container spacing={2} sx={{width: '50vw', justifyContent: 'center'}}>
             <Grid item xs={12}>
                 <TextField 
                     name='serviceName' onChange={handleSelectedTrip}
@@ -74,38 +78,44 @@ const NewServiceTrip = (props) => {
                 </TextField>
             </Grid>
 
-                    {selectedTrip &&
-                        <React.Fragment>   
-                            <Grid item xs={4} >
-                                <TextField 
-                                    name='partName' 
-                                    onChange={handleNewPart}
-                                    label='Part' select >
-                                        <MenuItem value={null}> --none-- </MenuItem>
-                                        {selectedTrip.parts.map(part => (
-                                            <MenuItem key={part.partName} value={part}>{part.partName}</MenuItem>
-                                        ))}
-                                </TextField>
-                            </Grid>
+            {selectedTrip &&
+                <React.Fragment>   
+                    <Grid item xs={4} >
+                        <TextField 
+                            name='partName' 
+                            onChange={handleNewPart}
+                            label='Part' select >
+                                <MenuItem value={null}> --none-- </MenuItem>
+                                {selectedTrip.parts.map(part => (
+                                    <MenuItem key={part.partName} value={part}>{part.partName}</MenuItem>
+                                ))}
+                        </TextField>
+                    </Grid>
 
-                            <Grid item xs={4}>
-                                <TextField 
-                                    name='quantity' onChange={handleNewPart}
-                                    label='Quantity' select value={newPart.quantity || ''}>
-                                        <MenuItem value={null}> --none-- </MenuItem>
-                                        {[1,2,3,4,5].map(quantity => (
-                                            <MenuItem key={quantity} value={quantity}>{quantity}</MenuItem>
-                                        ))}
-                                </TextField>
-                            </Grid>
-                            <Grid item xs>
-                                <Button size={'size'} onClick={AddNewPart}>Add Part</Button>
-                            </Grid>
-                        </React.Fragment>
-                    } 
+                    <Grid item xs={4}>
+                        <TextField 
+                            name='quantity' onChange={handleNewPart}
+                            label='Quantity' select value={newPart.quantity || ''}>
+                                <MenuItem value={null}> --none-- </MenuItem>
+                                {[1,2,3,4,5].map(quantity => (
+                                    <MenuItem key={quantity} value={quantity}>{quantity}</MenuItem>
+                                ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs>
+                        <Button size={'size'} onClick={AddNewPart}>Add Part</Button>
+                    </Grid>
+                </React.Fragment>
+            } 
 
-                <Grid item xs={12} lg={6}>
-                {service ? <BasicTable service={service} onClose={onClose} onSave={onSave}/> : <Loading /> }
+            <Grid item xs={12}>
+                {service 
+                    ? <BasicTable service={service} onClose={onClose} onSave={onSave}/> : <Loading />
+                }
+                {service 
+                    ? null 
+                    : <Button fullWidth={false} onClick={onClose} >Cancel</Button>
+                }
             </Grid>
         </Grid>
     )

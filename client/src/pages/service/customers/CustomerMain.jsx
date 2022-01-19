@@ -23,7 +23,7 @@ import VehicleDetails from './VehicleDetails';
 export default function CustomerMain (props) {
     const {id} = props;
     const customerContext = useContext(CustomerContext);
-    const {customerList, getCustomerById, getCustomers, currentCustomer, addVehicleService} = customerContext;
+    const {customerList, getCustomerById, getCustomers, currentCustomer, addNewVehicle} = customerContext;
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
@@ -38,7 +38,7 @@ export default function CustomerMain (props) {
         if(defaults === null){
             getAll()
         }
-    },[customerList, getCustomers, defaults, getAll])
+    },[customerList, getCustomers, defaults, getAll, ])
 
     useEffect(() => {
         if(currentCustomer === null || currentCustomer._id !== id){
@@ -62,12 +62,6 @@ export default function CustomerMain (props) {
         setProfileDisabled(true)
     }
 
-    // const addService = (vehicleVin, newService) => {
-    //     const newProfile = currentCustomer;
-    //     newProfile.vehicles.find(v => v.vin === vehicleVin).serviceLogs.push(newService)
-    //     //alert(JSON.stringify(newProfile, null, 4))
-    //     //addVehicleService(data);
-    // }
 
     const [tabs, setTabs] = useState([])
     const createVehicleTab = vehicle => {
@@ -95,6 +89,10 @@ export default function CustomerMain (props) {
             setValue("Vehicles");
         }
     },[tabs])
+
+    const onSaveVehicle = (vehicle) => {
+        addNewVehicle({vehicle, customer: currentProfile._id})
+    }
     return (
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -120,6 +118,7 @@ export default function CustomerMain (props) {
                 </TabPanel>
                 <TabPanel value="Vehicles" sx={{px: 0, py: 1, my: 0}}>
                     <CustomerVehicleTable handleSelection={createVehicleTab} 
+                        addNewVehicle={onSaveVehicle}
                         vehicles={currentProfile.vehicles} defaults={defaults} />
                 </TabPanel>
                 {tabs.map(tab => (
