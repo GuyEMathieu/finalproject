@@ -18,7 +18,6 @@ import MainContainer from '../../components/MainContainer'
 
 export default function EmployeeDash() {
 
-
     const [value, setValue] = useState('Employees');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -26,7 +25,6 @@ export default function EmployeeDash() {
 
     const [tabs, setTabs] = useState([])
     const createEmployeeTab = employee => {
-
 
         if(tabs.filter(t => t.label === `${employee.firstName} ${employee.lastName}`).length == 0) {
 

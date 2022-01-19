@@ -9,12 +9,14 @@ import {
     GET_ALL, SET_ALERTS, REMOVE_ALERT, 
 } from './employeeContextTypes'
 
+import {EMPLOYEES} from '../shared/employees'
+
 
 export const EmployeeContext = createContext();
 
 const EmployeeState = props => {
     const initialState = {
-        employeeList: null,
+        employeeList: EMPLOYEES,
         currentEmployee: null,
         alerts: null,
     }
