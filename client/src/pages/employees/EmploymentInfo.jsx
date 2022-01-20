@@ -3,11 +3,12 @@ import {
     TextField, MenuItem, Grid
 } from '@mui/material'
 import {DatePicker} from '@mui/lab'
+import {FormatNumber} from '../../utils/Formatter';
 
 const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) => {
     const {
         employeeNumber, department,
-        startDate, position, salary
+        startDate, position, salary,
     } = employmentInfo;
 
     const handleDateChange =  date => {
@@ -33,7 +34,7 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
             
             <Grid item xs={12} md={6}>
                 <DatePicker
-                    label="Date of Birth"
+                    label="Start Date"
                     value={startDate} disabled={isDisabled}
                     onChange={(date) => handleDateChange(date)}
                     renderInput={(params) => <TextField {...params} />}
@@ -42,19 +43,35 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
 
             <Grid item xs={12}md={6}>
                 <TextField  
-                    label='Department' name='department'
-                    value={department} disabled onChange={handleChange}/>
-            </Grid>
-            <Grid item xs={12}md={6}>
-                <TextField  
-                    label='Position' name='position'
-                    value={position} disabled onChange={handleChange}/>
-            </Grid>
-            <Grid item xs={12}md={6}>
-                <TextField  
+                    disabled={isDisabled}
                     label='Salary' name='salary'
-                    value={salary} disabled onChange={handleChange}/>
+                    value={FormatNumber(salary)} 
+                    onChange={handleChange}/>
             </Grid>
+
+            <Grid item xs={12}md={6}>
+                <TextField  
+                    disabled={isDisabled}
+                    label='Department' name='department' select
+                    value={department} onChange={handleChange}>
+                    <MenuItem disabled >Select Department</MenuItem>
+                    {defaults.departments.map(dept => (
+                        <MenuItem key={dept._id} value={dept._id}>{dept.name}</MenuItem>
+                    ))}
+                </TextField>
+            </Grid>
+            <Grid item xs={12}md={6}>
+                <TextField  
+                    select
+                    label='Position' name='position' disabled={isDisabled}
+                    value={position} onChange={handleChange}>
+                    <MenuItem disabled >Select Position</MenuItem>
+                    {defaults.positions.filter(pos => pos.department === department).map(pos => (
+                        <MenuItem key={pos._id} value={pos._id}>{pos.name}</MenuItem>
+                    ))}
+                </TextField>
+            </Grid>
+            
         
         </Grid>
     )

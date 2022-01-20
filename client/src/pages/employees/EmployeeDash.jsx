@@ -7,14 +7,11 @@ import {
     TabContext, TabList, TabPanel 
 } from '@mui/lab';
 
-
 import ClearIcon from '@mui/icons-material/Clear';
 
+import EmployeeMain from './EmployeeMain';
 import EmployeeSearch from './EmployeeSearch'
-import EmployeeProfile from './EmployeeProfile'
 import MainContainer from '../../components/MainContainer'
-
-
 
 export default function EmployeeDash() {
 
@@ -30,7 +27,7 @@ export default function EmployeeDash() {
 
             setTabs([...tabs, {
                 label: `${employee.firstName} ${employee.lastName}`,
-                panel: () => <EmployeeProfile id={employee._id}  />
+                panel: () => <EmployeeMain id={employee._id}  />
             }])
             setValue(`${employee.firstName} ${employee.lastName}`)
         } 
@@ -49,8 +46,6 @@ export default function EmployeeDash() {
             setValue("Employees");
         }
     },[tabs])
-
-    
 
     return (
         <MainContainer>
@@ -79,7 +74,6 @@ export default function EmployeeDash() {
                     </TabPanel>
                 ))}
             </TabContext>
-                
         </MainContainer>
     );
 }

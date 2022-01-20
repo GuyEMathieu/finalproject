@@ -20,11 +20,10 @@ export default (state, action) => {
             }
 
         case UPDATE_EMPLOYEE:
-            console.info("updated", action.payload, "list:", state.employeeList)
             return {
                 ...state,
                 currentEmployee: action.payload,
-                employeeList: state.employeeList.map(employee => employee._id === action.payload.personalInfo._id ? action.payload : employee)
+                employeeList: state.employeeList.map(employee => employee._id === action.payload._id ? action.payload : employee)
             }
 
         case GET_ALL:

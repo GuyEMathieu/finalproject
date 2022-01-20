@@ -23,7 +23,7 @@ const CustomGrid = styled(Grid)(({theme}) => ({
 
 export default function EmployeeProfile(props) {
     const employeeContext = useContext(EmployeeContext)
-    const {employeeList} = employeeContext;
+    const {employeeList, updateEmployee} = employeeContext;
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
@@ -62,6 +62,7 @@ export default function EmployeeProfile(props) {
     }
 
     const onSave = () => {
+        updateEmployee(employee)
         setIsDisabled(true)
         setTempEmployee(null)
     }
@@ -83,7 +84,8 @@ export default function EmployeeProfile(props) {
         } else if(name === 'street' || name === 'aptNum' || name === 'city' 
             || name === 'state' || name === 'country' || name === 'zipcode'){
             setEmployee({...employee, address: {...employee.address, [name]: value}})
-        } else if(name === 'startDate' || name === 'position' || name === 'salary'){
+        } else if(name === 'startDate' || name === 'position' || name === 'salary'
+            || name === 'department'){
             setEmployee({...employee, employmentInfo: {...employee.employmentInfo, [name]: value}})
         }
     }

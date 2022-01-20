@@ -1,77 +1,30 @@
 export const EMPLOYEES = [{
   "_id": 1,
-  "avatar": "https://robohash.org/etdoloremaut.jpg?size=50x50&set=set1",
-  "firstName": "Lindi",
-  "lastName": "McArte",
-  "email": "lmcarte0@independent.co.uk",
+  "avatar": "https://robohash.org/aliquidautvoluptates.bmp?size=50x50&set=set1",
+  "firstName": "Geoff",
+  "lastName": "Farfull",
+  "email": "gfarfull0@infoseek.co.jp",
   "gender": "611aee3461093e018146791e",
-  "dateOfBirth": "1964-04-06",
-  "ssn": "323-99-2085",
-  "phone": "850-167-3119",
+  "dateOfBirth": "1959-07-21",
+  "ssn": "751-30-0055",
+  "phone": "407-615-0051",
   "driverLicense": {
-    "dlNumber": "A021-936-13-460-3",
-    "dlState": "FL"
+    "dlNumber": "G585-288-76-739-2",
+    "dlState": "610fe766b3fd433be84d0d67"
   },
   "employmentInfo": {
-    "employeeNumber": 87,
-    "startDate": "2021-01-30",
-    "position": "Sales Representative",
-    "salary": "$25671.32"
+    "employeeNumber": 1,
+    "startDate": "2021-07-09",
+    "department": "611e91358bbf5b049ff5a6d9",
+    "position": "611e913c8bbf5b049ff5a6f0",
+    "salary": 25393
   },
   "address": {
-    "street": "0 Grover Junction",
-    "aptNum": 30,
-    "city": "Pensacola",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33328
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "SALGR2WF2EA898199",
-          "price": 31449,
-          "saleDate": "2021-10-05"
-        },
-        {
-          "vin": "3C3CFFFH5CT440822",
-          "price": 29342,
-          "saleDate": "2021-06-16"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 2,
-  "avatar": "https://robohash.org/voluptatibussiteum.jpg?size=50x50&set=set1",
-  "firstName": "Heda",
-  "lastName": "Dargan",
-  "email": "hdargan1@ebay.com",
-  "gender": "611aee4bae7350018ba187da",
-  "dateOfBirth": "1964-02-11",
-  "ssn": "783-66-1548",
-  "phone": "321-290-6736",
-  "driverLicense": {
-    "dlNumber": "O099-603-81-272-1",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 46,
-    "startDate": "2021-02-07",
-    "position": "Sales Representative",
-    "salary": "$26682.35"
-  },
-  "address": {
-    "street": "51555 Bartelt Court",
-    "aptNum": 22,
+    "street": "38115 6th Hill",
     "city": "Orlando",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33267
+    "state": "610fe766b3fd433be84d0d67",
+    "country": "610fe75fb3fd433be84d0d26",
+    "zipcode": 33417
   },
   "performance": [
     {
@@ -80,106 +33,46 @@ export const EMPLOYEES = [{
       ],
       "sale": [
         {
-          "vin": "WBAVA37527N475293",
-          "price": 32290,
-          "saleDate": "2021-08-05"
+          "vin": "WA1VFBFL9EA213834",
+          "price": 34686,
+          "saleDate": "2021-06-09"
         },
         {
-          "vin": "1FTEW1CF9FF165798",
-          "price": 32279,
-          "saleDate": "2021-05-08"
-        },
-        {
-          "vin": "5TDBK3EH4BS140717",
-          "price": 26464,
-          "saleDate": "2021-07-01"
-        },
-        {
-          "vin": "WA1VMBFE1BD610567",
-          "price": 32175,
-          "saleDate": "2021-08-16"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 3,
-  "avatar": "https://robohash.org/quideseruntut.png?size=50x50&set=set1",
-  "firstName": "Barbi",
-  "lastName": "Rounsivall",
-  "email": "brounsivall2@comsenz.com",
-  "gender": "611aee3461093e018146791e",
-  "dateOfBirth": "1975-09-19",
-  "ssn": "187-61-8037",
-  "phone": "727-866-5528",
-  "driverLicense": {
-    "dlNumber": "N067-648-08-930-2",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 18,
-    "startDate": "2021-06-03",
-    "position": "Sales Representative",
-    "salary": "$29418.74"
-  },
-  "address": {
-    "street": "5 Butternut Terrace",
-    "aptNum": 10,
-    "city": "Clearwater",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33164
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "WAUSF78E36A124067",
-          "price": 28290,
-          "saleDate": "2021-05-24"
-        },
-        {
-          "vin": "5J8TB4H53GL980851",
-          "price": 25554,
-          "saleDate": "2021-07-30"
-        },
-        {
-          "vin": "1G6AK5S31F0737514",
-          "price": 29779,
+          "vin": "JM3TB2BA9B0788621",
+          "price": 26383,
           "saleDate": "2021-10-09"
         }
       ]
     }
   ]
 }, {
-  "_id": 4,
-  "avatar": "https://robohash.org/iustodistinctiovero.jpg?size=50x50&set=set1",
-  "firstName": "Nola",
-  "lastName": "Fredy",
-  "email": "nfredy3@cyberchimps.com",
-  "gender": "611aee4bae7350018ba187da",
-  "dateOfBirth": "1976-10-20",
-  "ssn": "275-92-7712",
-  "phone": "727-781-7585",
+  "_id": 2,
+  "avatar": "https://robohash.org/velducimuset.bmp?size=50x50&set=set1",
+  "firstName": "Lorne",
+  "lastName": "Foxhall",
+  "email": "lfoxhall1@state.gov",
+  "gender": "611aee3461093e018146791e",
+  "dateOfBirth": "1978-04-12",
+  "ssn": "590-22-4658",
+  "phone": "786-731-2226",
   "driverLicense": {
-    "dlNumber": "X253-254-78-937-1",
-    "dlState": "FL"
+    "dlNumber": "Z731-270-74-380-2",
+    "dlState": "610fe766b3fd433be84d0d67"
   },
   "employmentInfo": {
-    "employeeNumber": 72,
-    "startDate": "2021-06-19",
-    "position": "Sales Representative",
-    "salary": "$27168.99"
+    "employeeNumber": 2,
+    "startDate": "2021-10-31",
+    "department": "611e91358bbf5b049ff5a6d9",
+    "position": "611e913c8bbf5b049ff5a6f0",
+    "salary": 25957
   },
   "address": {
-    "street": "57 Delladonna Avenue",
-    "city": "Saint Petersburg",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33232
+    "street": "42 Northport Hill",
+    "aptNum": 15,
+    "city": "Miami",
+    "state": "610fe766b3fd433be84d0d67",
+    "country": "610fe75fb3fd433be84d0d26",
+    "zipcode": 33108
   },
   "performance": [
     {
@@ -188,344 +81,204 @@ export const EMPLOYEES = [{
       ],
       "sale": [
         {
-          "vin": "1GYS3GEF4CR773389",
-          "price": 28023,
-          "saleDate": "2021-10-05"
+          "vin": "3GYFNDE35CS165166",
+          "price": 25085,
+          "saleDate": "2021-05-18"
         },
         {
-          "vin": "1G6D25EY5B0188107",
-          "price": 26548,
-          "saleDate": "2021-08-20"
+          "vin": "1VWAS7A34FC737643",
+          "price": 28574,
+          "saleDate": "2021-05-15"
+        },
+        {
+          "vin": "1HGCP2E41AA031609",
+          "price": 28673,
+          "saleDate": "2021-09-20"
+        }
+      ]
+    }
+  ]
+}, {
+  "_id": 3,
+  "avatar": "https://robohash.org/autemetratione.png?size=50x50&set=set1",
+  "firstName": "Hadrian",
+  "lastName": "Hannigan",
+  "email": "hhannigan2@dedecms.com",
+  "gender": "611aee3461093e018146791e",
+  "dateOfBirth": "1982-08-04",
+  "ssn": "531-79-0233",
+  "phone": "813-562-0932",
+  "driverLicense": {
+    "dlNumber": "Y740-211-51-421-7",
+    "dlState": "610fe766b3fd433be84d0d67"
+  },
+  "employmentInfo": {
+    "employeeNumber": 3,
+    "startDate": "2021-11-30",
+    "department": "611e91358bbf5b049ff5a6d9",
+    "position": "611e913c8bbf5b049ff5a6f0",
+    "salary": 33237
+  },
+  "address": {
+    "street": "72972 Riverside Road",
+    "city": "Tampa",
+    "state": "610fe766b3fd433be84d0d67",
+    "country": "610fe75fb3fd433be84d0d26",
+    "zipcode": 33168
+  },
+  "performance": [
+    {
+      "service": [
+
+      ],
+      "sale": [
+        {
+          "vin": "3D7LT2ET5BG877056",
+          "price": 34930,
+          "saleDate": "2021-05-28"
+        },
+        {
+          "vin": "JTJBARBZ2F2832794",
+          "price": 27090,
+          "saleDate": "2021-07-03"
+        },
+        {
+          "vin": "1G6AF5SX6D0469290",
+          "price": 34587,
+          "saleDate": "2021-08-19"
+        },
+        {
+          "vin": "WAUBFCFL6CA779863",
+          "price": 29996,
+          "saleDate": "2021-09-05"
+        },
+        {
+          "vin": "19VDE1F56FE599653",
+          "price": 31066,
+          "saleDate": "2021-06-30"
+        }
+      ]
+    }
+  ]
+}, {
+  "_id": 4,
+  "avatar": "https://robohash.org/laboriosamnostrumiusto.bmp?size=50x50&set=set1",
+  "firstName": "Alvinia",
+  "lastName": "Cargill",
+  "email": "acargill3@weebly.com",
+  "gender": "611aee4bae7350018ba187da",
+  "dateOfBirth": "1989-09-21",
+  "ssn": "296-76-7106",
+  "phone": "813-789-3190",
+  "driverLicense": {
+    "dlNumber": "T540-323-30-238-7",
+    "dlState": "610fe766b3fd433be84d0d67"
+  },
+  "employmentInfo": {
+    "employeeNumber": 4,
+    "startDate": "2021-03-24",
+    "department": "611e91358bbf5b049ff5a6d9",
+    "position": "611e913c8bbf5b049ff5a6f0",
+    "salary": 41356
+  },
+  "address": {
+    "street": "96 Dunning Alley",
+    "aptNum": 8,
+    "city": "Tampa",
+    "state": "610fe766b3fd433be84d0d67",
+    "country": "610fe75fb3fd433be84d0d26",
+    "zipcode": 33367
+  },
+  "performance": [
+    {
+      "service": [
+
+      ],
+      "sale": [
+        {
+          "vin": "1GYS4JEF6CR687480",
+          "price": 25330,
+          "saleDate": "2021-05-30"
+        },
+        {
+          "vin": "WBA3C3G58EN058274",
+          "price": 34599,
+          "saleDate": "2021-09-03"
+        },
+        {
+          "vin": "WVWBB7AJ9DW210800",
+          "price": 33143,
+          "saleDate": "2021-08-21"
+        },
+        {
+          "vin": "5UXWX7C50CL510646",
+          "price": 29968,
+          "saleDate": "2021-08-06"
+        },
+        {
+          "vin": "KMHHU6KJXFU984058",
+          "price": 26207,
+          "saleDate": "2021-06-10"
         }
       ]
     }
   ]
 }, {
   "_id": 5,
-  "avatar": "https://robohash.org/adipiscinonautem.jpg?size=50x50&set=set1",
-  "firstName": "Thomas",
-  "lastName": "Pinfold",
-  "email": "tpinfold4@webs.com",
+  "avatar": "https://robohash.org/inciduntvoluptasdolor.bmp?size=50x50&set=set1",
+  "firstName": "Aldus",
+  "lastName": "Nowland",
+  "email": "anowland4@boston.com",
   "gender": "611aee4bae7350018ba187da",
-  "dateOfBirth": "1982-08-19",
-  "ssn": "735-03-0607",
-  "phone": "727-294-6588",
+  "dateOfBirth": "1976-10-19",
+  "ssn": "753-14-4816",
+  "phone": "727-731-5749",
   "driverLicense": {
-    "dlNumber": "C104-921-63-453-2",
-    "dlState": "FL"
+    "dlNumber": "M335-606-32-884-6",
+    "dlState": "610fe766b3fd433be84d0d67"
   },
   "employmentInfo": {
-    "employeeNumber": 39,
-    "startDate": "2021-07-04",
-    "position": "Sales Representative",
-    "salary": "$28933.82"
+    "employeeNumber": 5,
+    "startDate": "2021-12-10",
+    "department": "611e91358bbf5b049ff5a6d9",
+    "position": "611e913c8bbf5b049ff5a6f0",
+    "salary": 39911
   },
   "address": {
-    "street": "28860 Dunning Terrace",
-    "aptNum": 8,
-    "city": "Saint Petersburg",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33368
+    "street": "72765 Ridgeway Place",
+    "city": "Clearwater",
+    "state": "610fe766b3fd433be84d0d67",
+    "country": "610fe75fb3fd433be84d0d26",
+    "zipcode": 33124
   },
   "performance": [
     {
-      "service": [
-
-      ],
+      "service": [],
       "sale": [
         {
-          "vin": "WDDPK4HA0FF063477",
-          "price": 31964,
-          "saleDate": "2021-08-04"
-        },
-        {
-          "vin": "3C6JD7CTXCG634074",
-          "price": 27747,
-          "saleDate": "2021-06-30"
-        },
-        {
-          "vin": "WBAPM5C55BA736014",
-          "price": 30066,
-          "saleDate": "2021-09-11"
-        },
-        {
-          "vin": "WAUML44E46N977298",
-          "price": 27368,
-          "saleDate": "2021-09-17"
-        },
-        {
-          "vin": "WA1CFAFP9BA603445",
-          "price": 28853,
-          "saleDate": "2021-06-23"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 6,
-  "avatar": "https://robohash.org/ipsasaepesapiente.jpg?size=50x50&set=set1",
-  "firstName": "Devondra",
-  "lastName": "Heenan",
-  "email": "dheenan5@cbsnews.com",
-  "gender": "611aee4bae7350018ba187da",
-  "dateOfBirth": "1983-08-11",
-  "ssn": "165-82-7066",
-  "phone": "386-256-0817",
-  "driverLicense": {
-    "dlNumber": "C768-678-27-593-4",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 38,
-    "startDate": "2021-11-25",
-    "position": "Sales Representative",
-    "salary": "$28060.81"
-  },
-  "address": {
-    "street": "649 Daystar Pass",
-    "aptNum": 7,
-    "city": "Daytona Beach",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33358
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "JN1BY0AP4AM620375",
-          "price": 29289,
-          "saleDate": "2021-06-05"
-        },
-        {
-          "vin": "WBA4A9C52FG071675",
-          "price": 27128,
-          "saleDate": "2021-10-29"
-        },
-        {
-          "vin": "3C4PDCDG9FT251560",
-          "price": 30850,
-          "saleDate": "2021-07-06"
-        },
-        {
-          "vin": "JTHBK1EG1A2691624",
-          "price": 31896,
-          "saleDate": "2021-08-18"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 7,
-  "avatar": "https://robohash.org/numquamipsamamet.bmp?size=50x50&set=set1",
-  "firstName": "Sallyanne",
-  "lastName": "Pawlaczyk",
-  "email": "spawlaczyk6@amazon.com",
-  "gender": "611aee4bae7350018ba187da",
-  "dateOfBirth": "1958-02-23",
-  "ssn": "360-48-4722",
-  "phone": "407-420-8826",
-  "driverLicense": {
-    "dlNumber": "N820-651-68-825-4",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 86,
-    "startDate": "2021-01-20",
-    "position": "Sales Representative",
-    "salary": "$25517.37"
-  },
-  "address": {
-    "street": "67 Fisk Way",
-    "city": "Orlando",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33322
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "1D7CW5GK5AS403967",
-          "price": 26250,
-          "saleDate": "2021-07-06"
-        },
-        {
-          "vin": "JN1BJ0HR1EM239018",
-          "price": 31974,
+          "vin": "WA1LFAFP7EA150821",
+          "price": 31355,
           "saleDate": "2021-07-29"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 8,
-  "avatar": "https://robohash.org/velsintet.bmp?size=50x50&set=set1",
-  "firstName": "Gonzalo",
-  "lastName": "Erswell",
-  "email": "gerswell7@sciencedaily.com",
-  "gender": "611aee3461093e018146791e",
-  "dateOfBirth": "1960-11-18",
-  "ssn": "247-86-5874",
-  "phone": "850-142-4920",
-  "driverLicense": {
-    "dlNumber": "K330-414-72-339-3",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 49,
-    "startDate": "2021-06-23",
-    "position": "Sales Representative",
-    "salary": "$29781.81"
-  },
-  "address": {
-    "street": "4 Beilfuss Circle",
-    "aptNum": 7,
-    "city": "Pensacola",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33352
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "SCFEBBAK6EG978305",
-          "price": 31432,
-          "saleDate": "2021-10-12"
         },
         {
-          "vin": "19XFA1F36AE875462",
-          "price": 25884,
-          "saleDate": "2021-10-03"
+          "vin": "JHMZF1C65DS866698",
+          "price": 26151,
+          "saleDate": "2021-10-27"
         },
         {
-          "vin": "5TFBW5F14BX293478",
-          "price": 31885,
-          "saleDate": "2021-10-12"
+          "vin": "WAUFFBFL4CA867452",
+          "price": 29744,
+          "saleDate": "2021-06-07"
         },
         {
-          "vin": "5NPEB4AC3BH882528",
-          "price": 34984,
-          "saleDate": "2021-09-18"
+          "vin": "1FMJK1H59EE065906",
+          "price": 29269,
+          "saleDate": "2021-10-20"
         },
         {
-          "vin": "WAULC58E75A983615",
-          "price": 33470,
-          "saleDate": "2021-10-18"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 9,
-  "avatar": "https://robohash.org/rerumautemquae.jpg?size=50x50&set=set1",
-  "firstName": "Kelby",
-  "lastName": "Clausen-Thue",
-  "email": "kclausenthue8@meetup.com",
-  "gender": "611aee3461093e018146791e",
-  "dateOfBirth": "1971-01-31",
-  "ssn": "139-31-2853",
-  "phone": "850-599-9292",
-  "driverLicense": {
-    "dlNumber": "O966-941-03-679-2",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 68,
-    "startDate": "2021-10-20",
-    "position": "Sales Representative",
-    "salary": "$29582.28"
-  },
-  "address": {
-    "street": "9 Jackson Way",
-    "aptNum": 3,
-    "city": "Tallahassee",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33431
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "1G4PP5SK3E4282247",
-          "price": 31523,
-          "saleDate": "2021-09-30"
-        }
-      ]
-    }
-  ]
-}, {
-  "_id": 10,
-  "avatar": "https://robohash.org/consequuntureafugiat.bmp?size=50x50&set=set1",
-  "firstName": "Lucais",
-  "lastName": "Cosgrove",
-  "email": "lcosgrove9@yellowbook.com",
-  "gender": "611aee3461093e018146791e",
-  "dateOfBirth": "1989-12-27",
-  "ssn": "130-59-9435",
-  "phone": "407-234-8383",
-  "driverLicense": {
-    "dlNumber": "F577-191-71-993-1",
-    "dlState": "FL"
-  },
-  "employmentInfo": {
-    "employeeNumber": 51,
-    "startDate": "2021-08-31",
-    "position": "Sales Representative",
-    "salary": "$28983.98"
-  },
-  "address": {
-    "street": "557 Crownhardt Circle",
-    "city": "Kissimmee",
-    "state": "FL",
-    "country": "USA",
-    "zipcode": 33001
-  },
-  "performance": [
-    {
-      "service": [
-
-      ],
-      "sale": [
-        {
-          "vin": "WAUMK78K39A701968",
-          "price": 34733,
-          "saleDate": "2021-07-31"
-        },
-        {
-          "vin": "5N1AN0NU6FN277874",
-          "price": 25322,
-          "saleDate": "2021-10-08"
-        },
-        {
-          "vin": "WP1AE2A24BL637388",
-          "price": 25349,
-          "saleDate": "2021-08-12"
-        },
-        {
-          "vin": "WBAUN1C50AV812349",
-          "price": 33271,
-          "saleDate": "2021-07-18"
-        },
-        {
-          "vin": "WBSDX9C56DJ073827",
-          "price": 28732,
-          "saleDate": "2021-08-05"
+          "vin": "WA1VFAFL3DA403041",
+          "price": 33294,
+          "saleDate": "2021-10-20"
         }
       ]
     }
