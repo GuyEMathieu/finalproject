@@ -1,150 +1,198 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {
-    Grid, FormControlLabel, 
-    FormControl, FormLabel,
-    RadioGroup, Radio, Paper,
+    Paper, Grid, Radio, FormControl, 
+    FormControlLabel, RadioGroup, FormLabel
 } from '@mui/material'
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 
 import BarChart from '../../components/charts/BarChart';
-import DoughnutChart from '../../components/charts/DoughnutChart';
 import PieChart from '../../components/charts/PieChart';
 
-const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [
-        {
-            label: 'My First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(201, 203, 207, 0.2)'
-            ],
-            borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)',
-                'rgb(201, 203, 207)'
-            ],
-            borderWidth: 1
-        }
-    ]
-};
+import Loading from '../../components/Loading';
 
-function YTD(performance){
+
+const Color = () => {
+    const r = () => Math.random() * 256 >> 0;
+    return `${r()}, ${r()}, ${r()}`;
+}
+function YTD_Sales(performance){
+    
     let data = {
         labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
         datasets: [
-                {
-                label: "YTD",
+            {
+                label: "YTD Sale",
                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)'
-                ],
+                backgroundColor: [],
+                borderColor: [],
                 borderWidth: 1
             },
         ]
     }
+    if(performance) {
 
-    for (let i = 0; i < Performance.length; i++){
-        const month = new Date(performance[i].saleDate).getMonth();
-        data.datasets.data[month] = performance[i].price;
+        for (let i = 0; i < performance.length; i++){
+            if(new Date(performance[i].saleDate).getFullYear() === 2021){
+                let color = Color()
+                data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                data.datasets[0].borderColor.push(`rgb(${color})`)
+                const month = new Date(performance[i].saleDate).getMonth();
+                data.datasets[0].data[month] += performance[i].price;
+            }
+        }
     }
-
-    // for (let i = 0; i < performance.length; i++){
-    //     const month = new Date(dataSet[i].saleDate).getMonth();
-    //     data.datasets[month] += dataSet[i].price
-    // }
-
-
-    console.info(data.datasets)
     return data;
 }
+function YTD_Commission(performance){
+    
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: "YTD Commision",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [],
+                borderColor: [],
+                borderWidth: 1
+            },
+        ]
+    }
+    if(performance) {
+
+        for (let i = 0; i < performance.length; i++){
+            if(new Date(performance[i].saleDate).getFullYear() === 2021){
+                let color = Color()
+                data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                data.datasets[0].borderColor.push(`rgb(${color})`)
+                const month = new Date(performance[i].saleDate).getMonth();
+                data.datasets[0].data[month] += performance[i].price * 0.05;
+            }
+        }
+    }
+    return data;
+}
+
+const GetMTDSales = () => {
+    let sales = 0
+    for(let i = 0; i < 5; i++){
+        sales += (Math.floor(Math.random() * (25000 - 20000 + 1) + 20000))
+    }
+
+    return sales;
+}
+
+function MTD_Sales(sales){
+    const date = new Date()
+
+    const color = Color();
+    
+    let data = {
+        labels: [date.toLocaleString('default', { month: 'long' })],
+        datasets: [
+            {
+                label: "MTD Sale",
+                data: [sales],
+                backgroundColor: [`rgba(${color}, 0.2)`],
+                borderColor: [`rgb(${color})`],
+                borderWidth: 1
+            }
+        ]
+    }
+    return data
+}
+
+function MTD_Commission(sales){
+    const date = new Date()
+
+    
+    var color = Color();
+    for(let i = 0; i < 5; i++){
+        sales += (Math.floor(Math.random() * (25000 - 20000 + 1) + 20000))
+    }
+
+    let data = {
+        labels: [date.toLocaleString('default', { month: 'long' })],
+        datasets: [
+            {
+                label: "MTD Commission",
+                data: [sales * 0.05],
+                backgroundColor: [`rgba(${color}, 0.2)`],
+                borderColor: [`rgb(${color})`],
+                borderWidth: 1
+            }
+        ]
+    }
+    return data
+}
+
 export default function EmployeePerformance (props) {
     const {employeeId} = props;
     const employeeContext = useContext(EmployeeContext);
-    const {salesPerformance} = employeeContext;
+    const {employeeList, getEmployees} = employeeContext;
     const [performance, setPerformance] = useState(null)
 
+    const [chartType, setChartType] = useState('Sale');
+
+    const handleChange = (event) => {
+        setChartType(event.target.value);
+    };
+
     useEffect(() => {
-        setPerformance(salesPerformance.filter(p => p.employeeId === employeeId))
-    },[employeeId, salesPerformance])
+        if(employeeList === null){
+            getEmployees()
+        } else {
+            setPerformance(
+                employeeList.find(e => e._id === employeeId).performance
+            )
+        }
+    },[employeeId, employeeList, getEmployees])
 
-    if(performance) {
-        console.info("Mine", YTD(performance), "Data", data)
-    }
+    const sales = GetMTDSales()
 
-
-    const [chartType, setChartType] = useState('Doughnut')
     return (
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Paper sx={{p:1}}>
-                    <FormControl sx={{backgroundColor: 'yellow'}} align='left'>
-                        <FormLabel id="demo-row-radio-buttons-group-label" align='start'>Gender</FormLabel>
-                        <RadioGroup row
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            value={chartType}
-                            onChange={e => setChartType(e.target.value)}
-                            name="radio-buttons-group"
+                <Paper sx={{p:0.5}}>
+                    <FormControl>
+                        <FormLabel align='left'>Data Type</FormLabel>
+                        <RadioGroup
+                            value={chartType} row
+                            onChange={handleChange}
                         >
-                            <FormControlLabel value="Bar" control={<Radio />} label="Bar" />
-                            <FormControlLabel value="Doughnut" control={<Radio />} label="Doughnut" />
-                            <FormControlLabel value="PieChart" control={<Radio />} label="Pie" />
+                            <FormControlLabel value="Sale" control={<Radio />} label="Sale" />
+                            <FormControlLabel value="Commission" control={<Radio />} label="Commission" />
                         </RadioGroup>
                     </FormControl>
                 </Paper>
             </Grid>
-            {[1,2].map(ele => (
-                <Grid item xs={12} md={6} key={ele}>
-                    <Paper>
-                    {performance && chartType === 'Bar' 
-                        ? <BarChart data={YTD(performance)}  />
-                        : chartType === 'Doughnut' ? <DoughnutChart data={data} />
-                        : <PieChart data={data}  />
-                    }
-                    </Paper>
-                </Grid>
-            ))}
-            {/* {[1,2,3,4].map(ele => (
-                <Grid item xs={12} md={2} lg={4} key={ele}>
-                    <BarChart data={data}  />
-                </Grid>
-            ))} */}
+            {chartType === 'Sale'
+                ?   <Grid item xs={12} md={6}>
+                        <Paper >
+                            <BarChart data={YTD_Sales(performance)} />
+                            
+                        </Paper>
+                    </Grid>
+                :   <Grid item xs={12} md={6}>
+                        <Paper >
+                            <BarChart data={YTD_Commission(performance)} />
+                            
+                        </Paper>
+                    </Grid>
+            }
+            {chartType === 'Sale'
+                ?   <Grid item xs={12} md={6}>
+                        <Paper >
+                            <BarChart data={MTD_Sales(sales)} />
+                        </Paper>
+                    </Grid>
+                :   <Grid item xs={12} md={6}>
+                        <Paper >
+                            <BarChart data={MTD_Commission(sales)} />
+                        </Paper>
+                    </Grid>
+            }
             
+
         </Grid>
     )
 }

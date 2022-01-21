@@ -6,7 +6,7 @@ import axios from 'axios'
 
 import * as ActionTypes from './employeeContextTypes'
 
-import {EMPLOYEES} from '../shared/employees'
+import {SALES_ONE, SALES_TWO} from '../shared/employees/salesEmployees'
 import {SALES_PERFORMANCE} from '../shared/salesPerformance'
 
 
@@ -14,7 +14,7 @@ export const EmployeeContext = createContext();
 
 const EmployeeState = props => {
     const initialState = {
-        employeeList: EMPLOYEES,
+        employeeList: SALES_ONE.concat(SALES_TWO),
         salesPerformance: SALES_PERFORMANCE,
         currentEmployee: null,
         alerts: null,

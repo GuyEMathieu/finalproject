@@ -4,10 +4,6 @@ import {
     TableContainer, TableHead, Paper, TableFooter
 } from '@mui/material';
 
-// ICONS
-
-import ForwardIcon from '@mui/icons-material/Forward';
-
 // Components
 import TablePaginationActions from '../../components/PaginationActions';
 
@@ -86,7 +82,7 @@ export default function EmployeeTable(props) {
                                 native: true,
                             }}
                             onPageChange={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                             ActionsComponent={TablePaginationActions}
                         />
                     </TableRow>

@@ -7,13 +7,16 @@ import {
     TabContext, TabList, TabPanel 
 } from '@mui/lab';
 
+
 import ClearIcon from '@mui/icons-material/Clear';
 
 import EmployeeMain from './EmployeeMain';
 import EmployeeSearch from './EmployeeSearch'
 import MainContainer from '../../components/MainContainer'
+import { getName, prettyAlert } from '../../utils/Formatter';
 
 export default function EmployeeDash() {
+
 
     const [value, setValue] = useState('Employees');
     const handleChange = (event, newValue) => {
@@ -21,13 +24,19 @@ export default function EmployeeDash() {
     };
 
     const [tabs, setTabs] = useState([])
+
+    useEffect(() => {
+        if(tabs.length === 0){
+            setValue("Employees");
+        }
+
+    },[tabs])
+
     const createEmployeeTab = employee => {
-
-        if(tabs.filter(t => t.label === `${employee.firstName} ${employee.lastName}`).length == 0) {
-
+        if(tabs.filter(t => t.label === `${employee.firstName} ${employee.lastName}`).length === 0) {
             setTabs([...tabs, {
                 label: `${employee.firstName} ${employee.lastName}`,
-                panel: () => <EmployeeMain id={employee._id}  />
+                panel: () => <EmployeeMain id={employee._id} team={employee.team} position={employee.employmentInfo.position}  />
             }])
             setValue(`${employee.firstName} ${employee.lastName}`)
         } 
@@ -41,11 +50,7 @@ export default function EmployeeDash() {
         setTabs(newTabs)
     }
 
-    useEffect(() => {
-        if(tabs.length === 0){
-            setValue("Employees");
-        }
-    },[tabs])
+    
 
     return (
         <MainContainer>

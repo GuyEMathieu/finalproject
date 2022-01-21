@@ -1,11 +1,13 @@
 import React from 'react';
-import { Chart as ChartJS, BarElement, LinearScale, CategoryScale } from 'chart.js';
+import { Chart as ChartJS, BarElement, LinearScale, CategoryScale, Legend } from 'chart.js';
 import {Bar} from 'react-chartjs-2'
 
 ChartJS.register(
     BarElement,
     LinearScale,
-    CategoryScale
+    CategoryScale,
+    Legend
+
 );
 
 const options = {
@@ -23,8 +25,7 @@ const options = {
 }
 
 const BarChart = ({data}) => {
-
-    return <Bar  data={data} options={options}/> 
+    return <Bar  data={data} options={options} height={200}/> 
 }
 
 export default BarChart;
