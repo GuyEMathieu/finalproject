@@ -69,6 +69,8 @@ function YTD_Commission(teamMember){
     return data;
 }
 
+
+
 const GetMTDSales = () => {
     let sales = 0
     for(let i = 0; i < 5; i++){
@@ -117,6 +119,67 @@ function MTD_Commission(teamMember, sales){
     return data
 }
 
+function YTD_Collective_Commission(team){
+    
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: `YTD Collective Commision`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [],
+                borderColor: [],
+                borderWidth: 1
+            },
+        ]
+    }
+    if(team) {
+        for(let i = 0; i < team.length; i++){
+            const teamMember = team[i]
+            for (let x = 0; x < teamMember.performance.length; x++){
+                if(new Date(teamMember.performance[x].saleDate).getFullYear() === 2021){
+                    let color = Color()
+                    data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                    data.datasets[0].borderColor.push(`rgb(${color})`)
+                    const month = new Date(teamMember.performance[x].saleDate).getMonth();
+                    data.datasets[0].data[month] += teamMember.performance[x].price * 0.05;
+                }
+            }
+        }
+    }
+    return data;
+}
+function YTD_Collective_Sale(team){
+    
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: `YTD Collective Sale`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [],
+                borderColor: [],
+                borderWidth: 1
+            },
+        ]
+    }
+    if(team) {
+        for(let i = 0; i < team.length; i++){
+            const teamMember = team[i]
+            for (let x = 0; x < teamMember.performance.length; x++){
+                if(new Date(teamMember.performance[x].saleDate).getFullYear() === 2021){
+                    let color = Color()
+                    data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                    data.datasets[0].borderColor.push(`rgb(${color})`)
+                    const month = new Date(teamMember.performance[x].saleDate).getMonth();
+                    data.datasets[0].data[month] += teamMember.performance[x].price;
+                }
+            }
+        }
+    }
+    return data;
+}
+
 export default function ManagerPerformance (props) {
     const {employeeId, teamNumber} = props;
     const employeeContext = useContext(EmployeeContext);
@@ -126,6 +189,7 @@ export default function ManagerPerformance (props) {
 
     const [chartType, setChartType] = useState('Sale');
     const [dateRange, setDateRange] = useState('YTD');
+    const [collective, setCollective] = useState('Team');
 
     useEffect(() => {
         if(employeeList === null){
@@ -148,12 +212,29 @@ export default function ManagerPerformance (props) {
             ? <BarChart data={MTD_Sales(member, sales = GetMTDSales())} /> 
             : <BarChart data={MTD_Commission(member, sales = GetMTDSales())}/> 
     }
+    function YTDCollectiveChart({chartType, member, sales}) {
+        return chartType === 'Sale' 
+            ? <BarChart data={YTD_Collective_Sale(team)} /> 
+            : <BarChart data={YTD_Collective_Commission(team)}/> 
+    }
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} >
                 <Paper sx={{p:0.5}}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={4}>
+                            <FormControl>
+                                <FormLabel align='left'>Collective</FormLabel>
+                                <RadioGroup
+                                    value={collective} row
+                                    onChange={e => setCollective(e.target.value)}
+                                >
+                                    <FormControlLabel value="Team" control={<Radio />} label="Team" />
+                                    <FormControlLabel value="Individual" control={<Radio />} label="Individual" />
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <FormControl>
                                 <FormLabel align='left'>Data Type</FormLabel>
                                 <RadioGroup
@@ -165,7 +246,7 @@ export default function ManagerPerformance (props) {
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={4}>
                             <FormControl>
                                 <FormLabel align='left'>Date Range</FormLabel>
                                 <RadioGroup
@@ -181,15 +262,29 @@ export default function ManagerPerformance (props) {
                 </Paper>
             </Grid>
 
+            <Grid item xs={12} md={6}>
+                <Paper >
+                    <BarChart data={YTD_Collective_Commission(team)} />
+                </Paper>
+            </Grid>
+            
+
+            {dateRange === 'YTD' && team && 
+                <Grid item xs={12} md={6} lg={3}>
+                    <Paper>
+                        <YTDCollectiveChart chartType={chartType}   />
+                    </Paper>
+                </Grid>
+            }
             {dateRange === 'YTD' && team && team.map(member => (
-                <Grid item xs={12} md={6} >
+                <Grid item xs={12} md={6} lg={3}>
                     <Paper>
                         <YTDChart chartType={chartType} member={member}  />
                     </Paper>
                 </Grid>
             ))}
             {dateRange === 'MTD' && team && team.map(member => (
-                <Grid item xs={12} md={6} >
+                <Grid item xs={12} md={6} lg={3}>
                     <Paper>
                         <MTDChart chartType={chartType} member={member} />
                     </Paper>
