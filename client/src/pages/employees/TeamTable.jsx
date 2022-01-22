@@ -1,25 +1,11 @@
 import {useState, useEffect} from 'react';
-
 import {
-    Box, Table, TableBody, TableCell,
-    TableHead, TableContainer, TableFooter, 
-    TableRow, Paper, TablePagination
+    Table, TableBody, TableCell,
+    TableHead, TableFooter, 
+    TableRow, TablePagination
 } from '@mui/material';
 
-
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import employeeReducer from '../../context/employee_context/employeeReducer';
-
 import PaginationActions from '../../components/PaginationActions'
-
-
-
-
-
 
 export default function TeamTable({team, handleSelection}) {
     const [page, setPage] = useState(0);
@@ -29,7 +15,7 @@ export default function TeamTable({team, handleSelection}) {
         if(team){
             setCurrentTeam(team)
         }
-    })
+    },[team])
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -45,22 +31,23 @@ export default function TeamTable({team, handleSelection}) {
     };
 
     return (
-        <TableContainer component={Paper}>
             <Table >
                 <TableHead>
                     <TableRow>
                         <TableCell align='left'>#</TableCell>
                         <TableCell align='left'>First Name</TableCell>
                         <TableCell align='left'>Last Name</TableCell>
+                        <TableCell align='left'>Employee #</TableCell>
+                        <TableCell align='left'>Team</TableCell>
                     </TableRow>
 
                 </TableHead>
-                <TableBody>
+                <TableBody striped >
                     {currentTeam && (rowsPerPage > 0
                         ? currentTeam.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : currentTeam
                     ).map((employee, i) => (
-                        <TableRow key={employee._id} onClick={() => handleSelection(employee)}>
+                        <TableRow hover key={employee._id} onClick={() => handleSelection(employee)}>
                             <TableCell component="th" scope="row">
                                 {i + 1}
                             </TableCell>
@@ -70,12 +57,18 @@ export default function TeamTable({team, handleSelection}) {
                             <TableCell align="left">
                                 {employee.lastName}
                             </TableCell>
+                            <TableCell align="left">
+                                {employee.employmentInfo.employeeNumber}
+                            </TableCell>
+                            <TableCell align="left">
+                                {employee.team.split('_').join(" ")}
+                            </TableCell>
                         </TableRow>
                     ))}
 
                     {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
-                            <TableCell colSpan={3} />
+                            <TableCell colSpan={5} />
                         </TableRow>
                     )}
                 </TableBody>
@@ -83,7 +76,7 @@ export default function TeamTable({team, handleSelection}) {
                     <TableRow>
                         <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                        colSpan={3}
+                        colSpan={5}
                         count={currentTeam.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
@@ -100,6 +93,5 @@ export default function TeamTable({team, handleSelection}) {
                     </TableRow>
                 </TableFooter>
             </Table>
-        </TableContainer>
     );
 }

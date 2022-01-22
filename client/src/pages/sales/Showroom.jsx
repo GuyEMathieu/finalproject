@@ -6,11 +6,10 @@ import {
 
 import { InventoryContext } from '../../context/inventoryContext/InventoryState';
 import { DefaultContext } from '../../context/default_context/DefaultState';
-
+import { getName } from '../../utils/Formatter';
 
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'
-
 
 export default function Showroom() {
     const inventoryContext = useContext(InventoryContext);
@@ -24,8 +23,6 @@ export default function Showroom() {
     useEffect(() => {
         if(inventoryVehicles === null){
             getVehicles();
-        } else {
-            setVehicles(inventoryVehicles)
         }
 
         if(defaults === null){
@@ -33,110 +30,72 @@ export default function Showroom() {
         }
     }, [inventoryVehicles, getVehicles, getAll, defaults])
 
-    const [filters, setFilters] = useState({})
+    const [filters, setFilters] = useState({makes: 'All', models: "All", years: 'All'})
     const {makes, models, years} = filters;
 
-    const filterByManufacturer = e => {
-        const {value} = e.target;
+    useEffect(() => {
+        if(inventoryVehicles){
+            let arr = inventoryVehicles
+            if(makes !== 'All'){
+                arr = inventoryVehicles.filter(v => v.make === makes)
+            } 
 
-        setFilters({...filters, 
-            makes : value, 
+            if(models !== 'All'){
+                arr = arr.filter(v =>v.model === models)
+            }
+
+            if(years !== 'All'){
+                arr = arr.filter(v => v.year === years)
+            }
+
+            setVehicles(arr)
+        }
+    },[makes, inventoryVehicles, models, years])
+
+
+    const handleManufacturerChange = e => {
+        setFilters({
+            makes: e.target.value,
             models: 'All',
             years: 'All'
         })
-        alert(value)
-        setVehicles(value === 'All' ? inventoryVehicles : inventoryVehicles.filter(v => v.make === value))
-        setPage(1)
     }
-    
-
-    const [page, setPage] = useState(1);
-    const handleChange = (event, value) => {
-        setPage(value);
-    };
-
-    const [vehiclesPerPage, setVehiclesPerPage] = useState(8)
-
-    const handleVehiclesPerPageChange = e => {
-        setVehiclesPerPage(e.target.value);
-        setPage(1)
+    const handleModelChange = e => {
+        setFilters(prev => {
+            return {
+                ...prev,
+                models: e.target.value,
+                years: 'All'
+            }
+        })
     }
 
     const Models = () => {
-        if(defaults){
-            
-            if(makes) {
-                return makes === 'All' ? [{_id: 'All', name: 'All'},...defaults.models] : [{_id: 'All', name: 'All'}, ...defaults.models.filter(m => m.make === makes)]
-            }
-        }
-        return []
-    }
-    const Years = () => {
-        let arr = []
+        let _models = ['All'];
         if(inventoryVehicles){
-            
             for(let i = 0; i < inventoryVehicles.length; i++){
-                if(!arr.includes(inventoryVehicles[i].year)){
-                    arr.push(inventoryVehicles[i].year)
+                if(inventoryVehicles[i].make === makes && !_models.includes(inventoryVehicles[i].model)){
+                    _models.push(inventoryVehicles[i].model)
                 }
             }
         }
-        return arr.sort()
+        return _models;
     }
 
-    const filterByModel = e => {
-        const {value} = e.target
-        setFilters({...filters, 
-            models : e.target.value,
-            years: 'All'
-        })
+    const Years = () =>{
+        let _years = ['All'];
 
-        setVehicles(value === 'All' 
-            ? inventoryVehicles.filter(v => v.make === value) 
-            : inventoryVehicles.filter(v => v.model === value && v.make === filters.makes))
-        
-        setPage(1)
-    }
-
-    const filterByYear = e =>{
-        if(makes === 'All'){
-            setVehicles(inventoryVehicles.filter(v => v.year === e.target.value))
-        } else if (makes !== 'All') {
-            setVehicles(inventoryVehicles.filter(v => v.year === e.target.value && e.make === makes))
-        }
-        if(models === 'All'){
-            setVehicles(inventoryVehicles.filter(v => v.year === e.target.value))
-        } else if (makes !== 'All') {
-            setVehicles(inventoryVehicles.filter(v => v.year === e.target.value && e.model === makes))
+        if(inventoryVehicles){
+            for(let i = 0; i < inventoryVehicles.length; i++){
+                if(!_years.includes(inventoryVehicles[i].year)){
+                    _years.push(inventoryVehicles[i].year)
+                }
+            }
         }
 
-        setPage(1);
-        
+        return _years;
     }
 
-    
-
-    const Paginated = () => {
-        return (
-            <Paper>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            label='Vehicles Per Page' onChange={handleVehiclesPerPageChange}
-                            value={vehiclesPerPage} select
-                        >
-                            {[4, 8, 16, 24].map(ele => (
-                                <MenuItem key={ele} value={ele}>{ele}</MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Pagination count={Math.floor(vehicles.length  / vehiclesPerPage)} page={page} onChange={handleChange} />
-                    </Grid>
-                </Grid>
-            </Paper>
-        )
-    }
 
     return (
         <MainContainer title='Showroom'>
@@ -146,7 +105,7 @@ export default function Showroom() {
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={4}>
                                 <TextField
-                                    value={makes} onChange={filterByManufacturer}
+                                    value={makes} onChange={handleManufacturerChange}
                                     label='Manufacturers' name={'makes'} select>
                                     <MenuItem disabled>Select Manufacturer</MenuItem>
                                     {defaults && [{_id: 'All', name: 'All'}, ...defaults.manufacturers].map(make => (
@@ -157,20 +116,19 @@ export default function Showroom() {
                             <Grid item xs={12} md={4}>
                                 <TextField
                                     disabled={makes === 'All' ? true : false}
-                                    value={models} onChange={filterByModel}
+                                    value={models} onChange={handleModelChange}
                                     label='Models' name={'models'} select>
                                     <MenuItem disabled>Select Model</MenuItem>
                                     {Models().map(model => (
-                                        <MenuItem key={model._id} value={model._id}>{model.name}</MenuItem>
+                                        <MenuItem key={model} value={model}>{getName(defaults.models,model)}</MenuItem>
                                     ))}
                                 </TextField>
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <TextField
-                                    value={years} onChange={filterByYear}
+                                    value={years} onChange={e => setFilters({...filters, [e.target.name]: e.target.value})}
                                     label='Years' name={'years'} select>
                                     <MenuItem disabled>Select Year</MenuItem>
-                                    <MenuItem ley={'All'} value={'All'}>{'All'}</MenuItem>
                                     {Years().map(year => (
                                         <MenuItem key={year} value={year}>{year}</MenuItem>
                                     ))}
@@ -180,23 +138,17 @@ export default function Showroom() {
                     </Paper>
                 </Grid>
 
-                <Grid item xs={12}>
-                    {Paginated()}
-                </Grid>
-                
+
+
                 {defaults && vehicles &&
                     <Grid xs={12} item container spacing={2}>
-                        {vehicles.slice(page * vehiclesPerPage, page * vehiclesPerPage + vehiclesPerPage).map(vehicle => (
+                        {vehicles.map(vehicle => (
                             <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
                                 <VehicleCard vehicle={vehicle} defaults={defaults}/>
                             </Grid>
-                        ))} 
+                        ))}
                     </Grid>
                 }
-                
-                <Grid item xs={12}>
-                    {Paginated()}
-                </Grid>
             </Grid>
         </MainContainer>
 

@@ -46,5 +46,6 @@ const app = express();
 // // Customer Routes
 // app.use('/api/customers', require('./routes/customer_routes/customerController'))
 
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`SERVER STARTED ON PORT ${PORT}`.cyan.underline.bold))

@@ -11,15 +11,18 @@ export default function AccordionShell(props) {
     const {
         title = '',
         expanded = false, 
+        handleChange = () => {}
     } = props;
 
     return (
         <CustomAccordion 
+            sx={{padding: 0}}
             expanded={expanded === title} 
-            onChange={props.handleChange(title)}>
+            onChange={handleChange(title)}>
             <AccordionSummary 
-                expandIcon={<ExpandMoreIcon />} >
-                <Typography >
+                sx={{backgroundColor: '#f00', px: 1}}
+                expandIcon={<ExpandMoreIcon />}>
+                <Typography sx={{color: 'white'}}>
                     {title}
                 </Typography>
             </AccordionSummary>

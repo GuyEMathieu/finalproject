@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
     Table, TableBody, TableCell, TableRow, TablePagination,
     TableContainer, TableHead, Paper, TableFooter
 } from '@mui/material';
-
+import { DefaultContext } from '../../context/default_context/DefaultState';
+import { getName } from '../../utils/Formatter';
 // Components
 import TablePaginationActions from '../../components/PaginationActions';
 
 export default function EmployeeTable(props) {
+    const defaultContext = useContext(DefaultContext);
+    const {defaults, getAll} = defaultContext;
 
     const { employees, handleSelection, } = props;
     const [ availableEmployees, setAvailableEmployees] = useState([])
@@ -16,7 +19,11 @@ export default function EmployeeTable(props) {
         if (employees) {
             setAvailableEmployees(employees)
         }
-    }, [employees])
+
+        if(defaults === null){
+            getAll()
+        }
+    }, [employees, defaults, getAll])
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -38,10 +45,10 @@ export default function EmployeeTable(props) {
                 <TableHead>
                     <TableRow>
                         <TableCell>#</TableCell>
-                        <TableCell align='left'>First Name</TableCell>
-                        <TableCell align='left'>Last Name</TableCell>
-                        <TableCell align='left'>Emp #</TableCell>
-                        {/* <TableCell align='right'>Actions</TableCell> */}
+                        <TableCell align='center'>First Name</TableCell>
+                        <TableCell align='center'>Last Name</TableCell>
+                        <TableCell align='center'>Emp #</TableCell>
+                        <TableCell align='center'>Position</TableCell>
                     </TableRow>
                     </TableHead>
                 <TableBody>
@@ -50,15 +57,11 @@ export default function EmployeeTable(props) {
                         : availableEmployees
                     ).map((employee, i) =>(
                         <TableRow key={employee._id} hover onClick={() => handleSelection(employee)}>
-                            <TableCell>{i + 1}</TableCell>
-                            <TableCell>{employee.firstName}</TableCell>
-                            <TableCell>{employee.lastName}</TableCell>
-                            <TableCell>{employee.employmentInfo.employeeNumber}</TableCell>
-                            {/* <TableCell align='right'>
-                                <ForwardIcon
-                                    style={{cursor: 'pointer'}}
-                                    onClick={e => navigateToEmployee(employee._id)} />
-                            </TableCell> */}
+                            <TableCell align='center'>{i + 1}</TableCell>
+                            <TableCell align='center'>{employee.firstName}</TableCell>
+                            <TableCell align='center'>{employee.lastName}</TableCell>
+                            <TableCell align='center'>{employee.employmentInfo.employeeNumber}</TableCell>
+                            <TableCell align='center'>{getName(defaults.positions, employee.employmentInfo.position)}</TableCell>
                         </TableRow>
                     ))}
 

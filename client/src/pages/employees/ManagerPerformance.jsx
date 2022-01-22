@@ -1,35 +1,27 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {
-    Paper, Grid, Radio, FormControl, 
-    FormControlLabel, RadioGroup, FormLabel
+    Grid, Radio, FormControl, Stack,
+    FormControlLabel, RadioGroup, FormLabel, Typography
 } from '@mui/material'
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 
 import BarChart from '../../components/charts/BarChart';
 import TeamTable from './TeamTable';
-
+import Loading from '../../components/Loading';
+import AccordionShell from '../../components/AccordionShell';
 const Color = () => {
     const r = () => Math.random() * 256 >> 0;
     return `${r()}, ${r()}, ${r()}`;
 }
 
-const GetMTDSales = () => {
-    let sales = 0
-    for(let i = 0; i < 5; i++){
-        sales += (Math.floor(Math.random() * (25000 - 20000 + 1) + 20000))
-    }
-
-    return sales;
-}
-
-
-function YTD_Sales(teamMember){
+//#region TEAM
+function TeamYTDSale(team){
     
     let data = {
         labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
         datasets: [
             {
-                label: `YTD Sale -- ${teamMember.firstName} ${teamMember.lastName}`,
+                label: `YTD Sale`,
                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: [],
                 borderColor: [],
@@ -37,27 +29,53 @@ function YTD_Sales(teamMember){
             },
         ]
     }
-    if(performance) {
-
-        for (let i = 0; i < teamMember.performance.length; i++){
-            if(new Date(teamMember.performance[i].saleDate).getFullYear() === 2021){
-                let color = Color()
-                data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-                data.datasets[0].borderColor.push(`rgb(${color})`)
-                const month = new Date(teamMember.performance[i].saleDate).getMonth();
-                data.datasets[0].data[month] += teamMember.performance[i].price;
+    if(team) {
+        let today = new Date();
+        
+        if(today.getMonth() === 0){
+            for(let i = 0; i < team.length; i++){
+                const teamMember = team[i]
+                for (let x = 0; x < teamMember.performance.length; x++){
+                    if(new Date(teamMember.performance[x].saleDate).getFullYear() === today.getUTCFullYear() - 1){
+                        let color = Color()
+                        data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                        data.datasets[0].borderColor.push(`rgb(${color})`)
+                        const month = new Date(teamMember.performance[x].saleDate).getMonth();
+                        data.datasets[0].data[month] += teamMember.performance[x].price;
+                    }
+                }
             }
+            data.datasets[0].label = `YTD Sale (${(today.getFullYear() - 1)})`
+        } else {
+            const start = new Date(`01/01/${today.getFullYear()}`)
+            for(let i = 0; i < team.length; i++){
+                const teamMember = team[i]
+                for (let x = 0; x < teamMember.performance.length; x++){
+                    const performance = teamMember.performance[x];
+                    if(new Date(performance.saleDate) >= start 
+                        && new Date(performance.saleDate) <= today){
+                        let color = Color()
+                        data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                        data.datasets[0].borderColor.push(`rgb(${color})`)
+                        const month = new Date(performance.saleDate).getMonth();
+                        data.datasets[0].data[month] += performance.price;
+                    }
+                }
+            }
+            data.datasets[0].label = `YTD Sale (${(today.getFullYear() - 1)})`
         }
     }
     return data;
 }
-function YTD_Commission(teamMember){
+
+function TeamYTDCommission(team){
+    const today = new Date();
     
     let data = {
         labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
         datasets: [
             {
-                label: `YTD Commision -- ${teamMember.firstName} ${teamMember.lastName}`,
+                label: `YTD Commission`,
                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: [],
                 borderColor: [],
@@ -65,35 +83,215 @@ function YTD_Commission(teamMember){
             },
         ]
     }
-    if(performance) {
-
-        for (let i = 0; i < teamMember.performance.length; i++){
-            if(new Date(teamMember.performance[i].saleDate).getFullYear() === 2021){
-                let color = Color()
-                data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-                data.datasets[0].borderColor.push(`rgb(${color})`)
-                const month = new Date(teamMember.performance[i].saleDate).getMonth();
-                data.datasets[0].data[month] += teamMember.performance[i].price * 0.05;
+    if(team) {
+        if(today.getMonth() === 0){
+            for(let i = 0; i < team.length; i++){
+                const teamMember = team[i]
+                for (let x = 0; x < teamMember.performance.length; x++){
+                    const performance = teamMember.performance[x]
+                    if(new Date(performance.saleDate).getFullYear() === today.getFullYear() - 1){
+                        let color = Color()
+                        data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                        data.datasets[0].borderColor.push(`rgb(${color})`)
+                        const month = new Date(performance.saleDate).getMonth();
+                        data.datasets[0].data[month] += performance.price * 0.05;
+                    }
+                }
+            }
+            data.datasets[0].label = `YTD Commission (${today.getFullYear() -1})`
+        } else {
+            const start = new Date(`01/01/${today.getFullYear()}`);
+            
+            for(let i = 0; i < team.length; i++){
+                const teamMember = team[i]
+                for (let x = 0; x < teamMember.performance.length; x++){
+                    const performance = teamMember.performance[x]
+                    if(new Date(performance.saleDate) >= start && new Date(performance.saleDate) <= today){
+                        let color = Color()
+                        data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                        data.datasets[0].borderColor.push(`rgb(${color})`)
+                        const month = new Date(performance.saleDate).getMonth();
+                        data.datasets[0].data[month] += performance.price * 0.05;
+                    }
+                }
             }
         }
     }
     return data;
 }
 
+function TeamMTDSale(team){
 
+    const today = new Date();
+    const start = new Date();
 
+    start.setDate(1)
 
+    let sales = 0;
 
-function MTD_Sales(teamMember, sales){
-    const date = new Date()
+    for(let i = 0; i < team.length; i++){
+        const performance = team[i].performance;
+        for(let x = 0; x < performance.length; x++){
+            const _sale = performance[x];
+            if(new Date(_sale.saleDate) >= start
+            && new Date(_sale.saleDate) <= today){
+                sales += _sale.price
+            }
+        }
+    }
 
     const color = Color();
-    
+    const month = [today.toLocaleString('default', { month: 'short' })]
     let data = {
-        labels: [date.toLocaleString('default', { month: 'long' })],
+        labels: [month],
         datasets: [
             {
-                label: `MTD Sale -- ${teamMember.firstName} ${teamMember.lastName}`,
+                label: `MTD Sale (${month})`,
+                data: [sales],
+                backgroundColor: [`rgba(${color}, 0.2)`],
+                borderColor: [`rgb(${color})`],
+                borderWidth: 1
+            }
+        ]
+    }
+
+    return data
+}
+function TeamMTDCommission(team){
+
+    const today = new Date();
+    const start = new Date();
+    start.setDate(1)
+
+    let sales = 0;
+
+    for(let i = 0; i < team.length; i++){
+        const performance = team[i].performance;
+        for(let x = 0; x < performance.length; x++){
+            const _sale = performance[x];
+            if(new Date(_sale.saleDate) >= start
+            && new Date(_sale.saleDate) <= today){
+                sales += _sale.price
+            }
+        }
+    }
+
+    const color = Color();
+    const month = today.toLocaleString('default', { month: 'short' });
+
+    let data = {
+        labels: [month],
+        datasets: [
+            {
+                label: `MTD Commission (${month})`,
+                data: [sales * 0.05],
+                backgroundColor: [`rgba(${color}, 0.2)`],
+                borderColor: [`rgb(${color})`],
+                borderWidth: 1
+            }
+        ]
+    }
+
+    return data
+}
+//#endregion
+
+//#region Employee Charts
+function EmployeeYTDSale(performance){
+    
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: `YTD Sale`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [],
+                borderColor: [],
+                borderWidth: 1
+            },
+        ]
+    }
+
+    const today = new Date();
+    let start = new Date();
+    start.setDate(1);
+
+    if(today.getMonth() === 0){
+        for(let i = 0; i < performance.length; i++){
+            if(new Date(performance[i].saleDate).getFullYear() === today.getFullYear() - 1){
+                let color = Color()
+                data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                data.datasets[0].borderColor.push(`rgb(${color})`)
+                const month = new Date(performance[i].saleDate).getMonth();
+                data.datasets[0].data[month] += performance[i].price;
+            }
+        }
+        data.datasets[0].label = `YTD Sale (${today.getFullYear() -1})`
+    } else {
+        start = new Date(`01/01/${today.getFullYear()}`)
+        for(let i = 0; i < performance.length; i++){
+            if(new Date(performance[i].saleDate >= start && new Date(performance[i].saleDate <=today))){
+                let color = Color()
+                data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+                data.datasets[0].borderColor.push(`rgb(${color})`)
+                const month = new Date(performance[i].saleDate).getMonth();
+                data.datasets[0].data[month] += performance[i].price;
+            }
+        }
+        data.datasets[0].label = `YTD Sale (${today.getFullYear()})`
+    }
+    return data;
+}
+function EmployeeYTDCommission(performance){
+    
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: `YTD Commission`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [],
+                borderColor: [],
+                borderWidth: 1
+            },
+        ]
+    }
+    
+    for(let i = 0; i < performance.length; i++){
+        if(new Date(performance[i].saleDate).getFullYear() === 2021){
+            let color = Color()
+            data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
+            data.datasets[0].borderColor.push(`rgb(${color})`)
+            const month = new Date(performance[i].saleDate).getMonth();
+            data.datasets[0].data[month] += performance[i].price * 0.05;
+        }
+    }
+
+    return data;
+}
+
+function EmployeeMTDSale(performance){
+    const today = new Date();
+    const start = new Date();
+    start.setDate(1)
+    const color = Color();
+
+    let sales = 0;
+
+    for(let x = 0; x < performance.length; x++){
+        const _sale = performance[x];
+        if(new Date(_sale.saleDate) >= start
+        && new Date(_sale.saleDate) <= today){
+            sales += _sale.price
+        }
+    }
+    
+    
+    let data = {
+        labels: [today.toLocaleString('default', { month: 'short' })],
+        datasets: [
+            {
+                label: `MTD Sale (${[today.toLocaleString('default', { month: 'short' })]})`,
                 data: [sales],
                 backgroundColor: [`rgba(${color}, 0.2)`],
                 borderColor: [`rgb(${color})`],
@@ -103,95 +301,28 @@ function MTD_Sales(teamMember, sales){
     }
     return data
 }
-
-function MTD_Commission(teamMember, sales){
-    const date = new Date()
+function EmployeeMTDCommission(performance){
+    const today = new Date();
+    const start = new Date();
+    start.setDate(1)
     const color = Color();
 
-    let data = {
-        labels: [date.toLocaleString('default', { month: 'long' })],
-        datasets: [
-            {
-                label: `MTD Commission -- ${teamMember.firstName} ${teamMember.lastName}`,
-                data: [sales * 0.05],
-                backgroundColor: [`rgba(${color}, 0.2)`],
-                borderColor: [`rgb(${color})`],
-                borderWidth: 1
-            }
-        ]
-    }
-    return data
-}
+    let sales = 0;
 
-function YTD_Collective_Commission(team){
-    
-    let data = {
-        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                label: `YTD Collective Commision`,
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1
-            },
-        ]
-    }
-    if(team) {
-        for(let i = 0; i < team.length; i++){
-            const teamMember = team[i]
-            for (let x = 0; x < teamMember.performance.length; x++){
-                if(new Date(teamMember.performance[x].saleDate).getFullYear() === 2021){
-                    let color = Color()
-                    data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-                    data.datasets[0].borderColor.push(`rgb(${color})`)
-                    const month = new Date(teamMember.performance[x].saleDate).getMonth();
-                    data.datasets[0].data[month] += teamMember.performance[x].price * 0.05;
-                }
-            }
+    for(let x = 0; x < performance.length; x++){
+        const _sale = performance[x];
+        if(new Date(_sale.saleDate) >= start
+        && new Date(_sale.saleDate) <= today){
+            sales += _sale.price
         }
     }
-    return data;
-}
-function YTD_Collective_Sale(team){
+    
     
     let data = {
-        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        labels: [today.toLocaleString('default', { month: 'short' })],
         datasets: [
             {
-                label: `YTD Collective Sale`,
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1
-            },
-        ]
-    }
-    if(team) {
-        // for(let i = 0; i < team.length; i++){
-        //     const teamMember = team[i]
-        //     for (let x = 0; x < teamMember.performance.length; x++){
-        //         if(new Date(teamMember.performance[x].saleDate).getFullYear() === 2021){
-        //             let color = Color()
-        //             data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-        //             data.datasets[0].borderColor.push(`rgb(${color})`)
-        //             const month = new Date(teamMember.performance[x].saleDate).getMonth();
-        //             data.datasets[0].data[month] += teamMember.performance[x].price;
-        //         }
-        //     }
-        // }
-    }
-    return data;
-}
-function MTD_Collective_Commission(sales){
-    const date = new Date()
-    const color = Color();
-
-    let data = {
-        labels: [date.toLocaleString('default', { month: 'long' })],
-        datasets: [
-            {
-                label: `MTD Team Commission`,
+                label: `MTD Commission (${[today.toLocaleString('default', { month: 'short' })]})`,
                 data: [sales * 0.05],
                 backgroundColor: [`rgba(${color}, 0.2)`],
                 borderColor: [`rgb(${color})`],
@@ -201,24 +332,7 @@ function MTD_Collective_Commission(sales){
     }
     return data
 }
-function MTD_Collective_Sales(sales){
-    const date = new Date()
-    const color = Color();
-
-    let data = {
-        labels: [date.toLocaleString('default', { month: 'long' })],
-        datasets: [
-            {
-                label: `MTD Team Salee`,
-                data: [sales * 0.05],
-                backgroundColor: [`rgba(${color}, 0.2)`],
-                borderColor: [`rgb(${color})`],
-                borderWidth: 1
-            }
-        ]
-    }
-    return data
-}
+//#endregion
 
 export default function ManagerPerformance (props) {
     const {employeeId, teamNumber} = props;
@@ -228,7 +342,6 @@ export default function ManagerPerformance (props) {
     const [team, setTeam] = useState(null)
 
     const [chartType, setChartType] = useState('Sale');
-    const [dateRange, setDateRange] = useState('YTD');
 
     useEffect(() => {
         if(employeeList === null){
@@ -242,86 +355,101 @@ export default function ManagerPerformance (props) {
 
     const [selectedEmployee, setSelectedEmployee] = useState(null)
     const handleSelection = employee => {
-        alert(JSON.stringify(employee, null, 4))
         setSelectedEmployee(employee)
     }
 
-    function YTDChart({chartType, member}) {
-        return chartType === 'Sale' 
-            ? <BarChart data={YTD_Sales(member)} /> 
-            : <BarChart data={YTD_Commission(member)} /> 
-    }
+    const [expanded, setExpanded] = useState('Team Performance')
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
 
-    // function MTDChart({chartType, member, sales}) {
-    //     return chartType === 'Sale' 
-    //         ? <BarChart data={MTD_Sales(member, sales = GetMTDSales())} /> 
-    //         : <BarChart data={MTD_Commission(member, sales = GetMTDSales())}/> 
-    // }
-    // function YTDCollectiveChart(chartType, team) {
-    //     return chartType === 'Sale' 
-    //         ? <BarChart data={YTD_Collective_Sale(team)} /> 
-    //         : <BarChart data={YTD_Collective_Commission(team)}/> 
-    // }
-    // function MTDCollectiveChart(chartType) {
-    //     let sales = 0;
-    //     for(let i = 0; i < team.lenth; i++){
-    //         sales += GetMTDSales();
-    //     }
-    //     return chartType === 'Sale' 
-    //         ? <BarChart data={MTD_Collective_Sales(sales)} /> 
-    //         : <BarChart data={MTD_Collective_Commission(sales)}/> 
-    // }
     return (
-        <Grid container spacing={2}>
-            <Grid item xs={12} >
-                <Paper sx={{p:0.5}}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <FormControl>
-                                <FormLabel align='left'>Data Type</FormLabel>
-                                <RadioGroup
-                                    value={chartType} row
-                                    onChange={e => setChartType(e.target.value)}
-                                >
-                                    <FormControlLabel value="Sale" control={<Radio />} label="Sale" />
-                                    <FormControlLabel value="Commission" control={<Radio />} label="Commission" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <FormControl>
-                                <FormLabel align='left'>Date Range</FormLabel>
-                                <RadioGroup
-                                    value={dateRange} row
-                                    onChange={e => setDateRange(e.target.value)}
-                                >
-                                    <FormControlLabel value="YTD" control={<Radio />} label="YTD" />
-                                    <FormControlLabel value="MTD" control={<Radio />} label="MTD" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
+        <Stack spacing={2}>
+            <AccordionShell 
+                handleChange={handleChange}
+                expanded={expanded} 
+                title={'Team Performance'}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <FormControl>
+                            <FormLabel align='left'>Data Type</FormLabel>
+                            <RadioGroup
+                                value={chartType} row
+                                onChange={e => setChartType(e.target.value)}
+                            >
+                                <FormControlLabel value="Sale" control={<Radio />} label="Sale" />
+                                <FormControlLabel value="Commission" control={<Radio />} label="Commission" />
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
-                </Paper>
-            </Grid>
+                    <Grid item xs={12} md={6}>
+                        {team 
+                            ? (chartType === 'Sale' 
+                                ?   <BarChart data={TeamYTDSale(team)} />
+                                :   <BarChart data={TeamYTDCommission(team)} />
+                            ): <Loading  />
+                        } 
+                    </Grid>
 
-            <Grid item xs={12}>
-                <Grid item xs={12} md={5}>
-                    <TeamTable team={team} handleSelection={handleSelection}/>
+                    <Grid item xs={12} md={6}>
+                        {team 
+                            ? (chartType === 'Sale' 
+                                ?   <BarChart data={TeamMTDSale(team)} />
+                                :   <BarChart data={TeamMTDCommission(team)} />
+                            ): <Loading  />
+                        } 
+                    </Grid>
                 </Grid>
-                
-                <Grid item xs={12} md={7}>
-                    {selectedEmployee &&  
-                        <div>
-                            <BarChart data={YTDChart(selectedEmployee)} chartType={chartType} />
-                        </div>
-                    }
+            </AccordionShell> 
+
+            <AccordionShell 
+                handleChange={handleChange}
+                expanded={expanded} 
+                title={'Individual Performance'}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <FormControl>
+                            <FormLabel align='left'>Data Type</FormLabel>
+                            <RadioGroup
+                                value={chartType} row
+                                onChange={e => setChartType(e.target.value)}
+                            >
+                                <FormControlLabel value="Sale" control={<Radio />} label="Sale" />
+                                <FormControlLabel value="Commission" control={<Radio />} label="Commission" />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        {selectedEmployee ? <Typography> {selectedEmployee.firstName} {selectedEmployee.lastName}</Typography> : null}
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        {selectedEmployee 
+                            ? (chartType === 'Sale'
+                                ?   <BarChart data={EmployeeYTDSale(selectedEmployee.performance)} /> 
+                                :   <BarChart data={EmployeeYTDCommission(selectedEmployee.performance)} />
+                            ): null
+                        }
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        {selectedEmployee 
+                            ? (chartType === 'Sale' 
+                                ?   <BarChart data={EmployeeMTDSale(selectedEmployee.performance)} /> 
+                                :   <BarChart data={EmployeeMTDCommission(selectedEmployee.performance)} />
+                            ): null
+                        }
+                    </Grid>
+                    
+
+                    
+
+
+                    <Grid item xs={12} >
+                        {team ? <TeamTable team={team} handleSelection={handleSelection}/> : <Loading  /> }
+                    </Grid> 
                 </Grid>
-            </Grid>
 
-
-
-            
-
-        </Grid>
+            </AccordionShell>
+        </Stack>
     )
 }
