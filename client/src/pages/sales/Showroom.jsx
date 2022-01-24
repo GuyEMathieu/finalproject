@@ -52,13 +52,14 @@ export default function Showroom() {
         }
     },[makes, inventoryVehicles, models, years])
 
-
+    
     const handleManufacturerChange = e => {
         setFilters({
             makes: e.target.value,
             models: 'All',
             years: 'All'
         })
+        //setPage(1)
     }
     const handleModelChange = e => {
         setFilters(prev => {
@@ -68,8 +69,8 @@ export default function Showroom() {
                 years: 'All'
             }
         })
+        //setPage(1)
     }
-
     const Models = () => {
         let _models = ['All'];
         if(inventoryVehicles){
@@ -92,11 +93,43 @@ export default function Showroom() {
                 }
             }
         }
-
         return _years;
     }
+    //#region TODO: Pagination
 
+    const [page, setPage] = useState(1);
+        const handleChange = (event, value) => {
+            setPage(value);
+    };
+    const [vehiclesPerPage, setVehiclesPerPage] = useState(8)
 
+    const handleVehiclesPerPageChange = e => {
+        setVehiclesPerPage(e.target.value);
+        setPage(1)
+    }
+
+    const Paginated = () => {
+        return (
+            <Paper>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            label='Vehicles Per Page' onChange={handleVehiclesPerPageChange}
+                            value={vehiclesPerPage} select
+                        >
+                            {[4, 8, 16, 24, 36].map(ele => (
+                                <MenuItem key={ele} value={ele}>{ele}</MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Pagination count={Math.floor(vehicles.length  / vehiclesPerPage)} page={page} onChange={handleChange} />
+                    </Grid>
+                </Grid>
+            </Paper>
+        )
+    }
+    //#endregion
     return (
         <MainContainer title='Showroom'>
             <Grid container spacing={2}>
@@ -138,10 +171,13 @@ export default function Showroom() {
                     </Paper>
                 </Grid>
 
-
+                {/* <Grid item xs={12}>
+                    {Paginated()}
+                </Grid> */}
 
                 {defaults && vehicles &&
                     <Grid xs={12} item container spacing={2}>
+                        {/* {vehicles && vehicles.slice(page * vehiclesPerPage, page * vehiclesPerPage + vehiclesPerPage).map(vehicle => ( */}
                         {vehicles.map(vehicle => (
                             <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
                                 <VehicleCard vehicle={vehicle} defaults={defaults}/>
@@ -149,8 +185,11 @@ export default function Showroom() {
                         ))}
                     </Grid>
                 }
+
+                {/* <Grid item xs={12}>
+                    {Paginated()}
+                </Grid> */}
             </Grid>
         </MainContainer>
-
     );
 }

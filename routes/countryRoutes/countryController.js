@@ -2,35 +2,34 @@ const express = require('express');
 const router = express.Router();
 const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
-const Gender = require('./Gender')
+const Country = require('./Country')
 
-// @route       GET api/genders
-// @desc        Get list of GEnders
+// @route       GET api/countries
+// @desc        Get list of countries
 // @access      private
 router.get('/', async (req, res) => {
     try {
-        const genders = await Gender.find()
+        const countries = await Country.find()
             .select('-lastModified').select('-__v')
             .sort({ name: 1 });
         
-        res.json(genders);
+        res.json(countries);
 
     } catch (err) {
         console.error(err.msg);
         res.status(500).send('Server Error');
     }
 })
-
-// @route       GET api/genders/id
-// @desc        Get gender by id
+// @route       GET api/countries/id
+// @desc        Get country by id
 // @access      private
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params['id'];
-        const gender = await Gender.findById(id)
+        const country = await Country.findById(id)
         .select('-lastModified').select('-__v')
 
-        res.json(gender)
+        res.json(country)
 
     } catch (err) {
         console.error(err.msg);
@@ -38,13 +37,13 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-// @route       POST api/genders
-// @desc        Add New Gender
+// @route       POST api/countries
+// @desc        Add New country
 // @access      private
 router.post('/', 
     [
-        check('name', 'A gender name is required').not().isEmpty(),
-        check('code', 'A gender code is required').not().isEmpty(),
+        check('name', 'A country name is required').not().isEmpty(),
+        check('code', 'A country code is required').not().isEmpty(),
     ],
     async (req, res) => {
         let rawErrors = validationResult(req);
@@ -59,17 +58,19 @@ router.post('/',
         }
 
         try {
-            const { name, code } = req.body;
-            let gender = await Gender.findOne({ name, code })
             
-            if (gender) {
-                return res.status(409).json({severity: 'error', msg: 'Gender already exists', _id: uid()})
+            const { name, code } = req.body;
+            let newCountry = await Country.findOne({ name, code })
+            
+            if (newCountry) {
+                return res.status(409).json({severity: 'error', msg: 'country already exists', _id: uid()})
             }
 
-            gender = new Gender({ name, code })
-            await gender.save();
+
+            newCountry = new Country({ name, code })
+            await newCountry.save();
             
-            res.json(gender)
+            res.json(newCountry)
         } catch (err) {
             console.error(err.msg);
             res.status(500).send('Server Error');
@@ -77,8 +78,8 @@ router.post('/',
     }
 )
 
-// @route       POST api/genders/multiple
-// @desc        Add Multiple Genders
+// @route       POST api/countries/multiple
+// @desc        Add Multiple countries
 // @access      private
 router.post('/multiple',
     async (req, res) => {
@@ -90,7 +91,7 @@ router.post('/multiple',
         {
             const {name, code} = req.body[i];
             if (!name || !code){
-                errors.push({severity: 'error', msg: "Gender names and codes are required for each entry", _id: uid()});
+                errors.push({severity: 'error', msg: "country names and codes are required for each entry", _id: uid()});
                 break
             } 
         }
@@ -99,25 +100,25 @@ router.post('/multiple',
             return res.status(400).json(errors)
         }
 
-        let _genders = []
+        let _countries = []
 
         for (let i = 0; i < req.body.length; i++){
             const {name, code} = req.body[i];
             
-            let gender = await Gender.findOne({ name, code })
+            let country = await Country.findOne({ name, code })
             
-            if (!gender) {
-                gender = {
+            if (!country) {
+                country = {
                     name, code, 
                     code: code
                 };
-                _genders.push(gender);
+                _countries.push(country);
             }
         }
 
-        let genders = await Gender.insertMany(_genders);
+        let countries = await Country.insertMany(_countries);
 
-        res.json(genders);
+        res.json(countries);
         
     } catch (err) {
         console.error(err.msg);

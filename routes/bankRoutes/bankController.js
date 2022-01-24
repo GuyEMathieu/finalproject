@@ -2,16 +2,15 @@ const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator')
 const { v4: uid } = require('uuid');
-const State = require('../state_countryRoutes/State');
-const Country = require('../state_countryRoutes/Country')
+const State = require('../stateRoutes/State');
+const Country = require('../countryRoutes/Country')
 const Bank = require('./Bank')
-const auth = require('../userAuthRoutes/auth')
 
 
 // @route       DELETE api/banks
 // @desc        delete a bank by id
 // @access      private
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id',  async (req, res) => {
     try {
         const id = req.params.id;
         await Bank.findByIdAndDelete(id);
@@ -31,7 +30,7 @@ router.delete('/:id', auth, async (req, res) => {
 // @route       GET api/banks
 // @desc        Get list of Banks
 // @access      private
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const banks = await Bank.find()
             .select('-lastModified').select('-__v')
@@ -48,7 +47,7 @@ router.get('/', auth, async (req, res) => {
 // @route       POST api/banks
 // @desc        POST Add list of Banks
 // @access      private
-router.post('/multiple', auth, async (req, res) => {
+router.post('/multiple', async (req, res) => {
     try {
 
         let banks = []
@@ -72,7 +71,6 @@ router.post('/multiple', auth, async (req, res) => {
         const _banks = await Bank.insertMany(banks);
         
         res.json(_banks);
-
     } catch (err) {
         console.error(err.msg);
         res.status(500).send('Server Error');
@@ -83,10 +81,10 @@ router.post('/multiple', auth, async (req, res) => {
 // @route       POST api/banks
 // @desc        POST ADD a single Banks
 // @access      private
-router.post('/', [auth, 
+router.post('/',  
     [
         check('name', 'A Bank name is required').not().isEmpty()
-    ]],
+    ],
     async (req, res) => {
         try {
             const country = await Country.findOne({ code: req.body.address.country })
