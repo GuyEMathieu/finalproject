@@ -1,6 +1,6 @@
 [
-    {"name": "HR"},
-    {"name": "Service"},
-    {"name": "Repair"},
-    {"name": "Custodial"},
+    { "name": "HR" },
+    { "name": "Service" },
+    { "name": "Repair" },
+    { "name": "Custodial" }
 ]

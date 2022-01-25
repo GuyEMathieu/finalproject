@@ -21,18 +21,18 @@ const DefaultState = props => {
     const [state, dispatch] = useReducer(defaultReducer, initialState);
 
     const getAll = async () => {
-        dispatch({type: ActionTypes.GET_ALL, payload: DEFAULTS})
-        // try {
-        //     const res = await axios.get('/api/defaults');
-        //     dispatch({
-        //         type: ActionTypes.GET_ALL,
-        //         payload: res.data
-        //     })
-        // } catch (err) {
-        //     dispatch({
-        //         type: ActionTypes.SET_ALERTS
-        //     })
-        // }
+        //dispatch({type: ActionTypes.GET_ALL, payload: DEFAULTS})
+        try {
+            const res = await axios.get('/api/defaults');
+            dispatch({
+                type: ActionTypes.GET_ALL,
+                payload: res.data
+            })
+        } catch (err) {
+            dispatch({
+                type: ActionTypes.SET_ALERTS
+            })
+        }
     }
 
     const removeAlert = async id => {

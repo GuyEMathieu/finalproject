@@ -1,5 +1,5 @@
 import './App.css';
-import {useState, useContext} from 'react'
+import React, {useState, useContext} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { DefaultContext } from './context/default_context/DefaultState';
 //#region Components
@@ -11,6 +11,7 @@ import VehicleProfile from './pages/sales/VehicleProfile'
 import Login from './authPages/Login';
 import PrivateRoute from './pages/PrivateRoute';
 import PageNotFound from './pages/PageNotFound';
+
 
 //#endregion
 
@@ -30,12 +31,14 @@ import SaleState from './context/sales_context/SaleState';
 import { ThemeProvider } from '@mui/material/styles';
 import {lightTheme} from './themes/lightTheme'
 import {darkTheme} from './themes/darkTheme'
+import Test from './Test';
 
 // if(localStorage.token){
 //     setAuthToken(localStorage.token)
 // }
 
 function App() {
+
 
     const [currentSettings] = useState({darkTheme: false})
 
@@ -58,7 +61,7 @@ function App() {
                                                                 <Route path='/login' element={<Login />} />
                                                                 <Route path='*' element={<PageNotFound />} />
                                                                 {/* <Route path='/' element={<PrivateRoute />}> */}
-                                                                    <Route path='/' element={<EmployeeDash />} />
+                                                                    <Route path='/' element={<Test  />} />
                                                                     <Route path='/hr/employees' element={<EmployeeDash  />} />
 
                                                                     <Route path='/service' element={<Service  />} />

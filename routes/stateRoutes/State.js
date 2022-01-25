@@ -16,10 +16,8 @@ var stateSchema = new mongoose.Schema({
         ref: 'countries',
         required: true
     },
-    lastModified: {
-        type: Date,
-        default: Date.now
-    }
+}, {
+    timestamps: true
 })
 
 module.exports = mongoose.model('State', stateSchema);

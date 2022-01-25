@@ -29,8 +29,26 @@ app.use('/api/zipcodes', require('./routes/zipcodeRoutes/zipcodeController'))
 // States Routes
 app.use('/api/states', require('./routes/stateRoutes/stateController'))
 
-// States Routes
+// Bank Routes
 app.use('/api/banks', require('./routes/bankRoutes/bankController'))
+
+// DayOff Routes
+app.use('/api/daysoff', require('./routes/daysoffRoutes/dayoffController'))
+
+// Department Routes
+app.use('/api/departments', require('./routes/departmentRoutes/departmentController'))
+
+// Position Routes
+app.use('/api/positions', require('./routes/positionRoutes/positionController'))
+
+// Manufacturer Routes
+app.use('/api/manufacturers', require('./routes/manufacturerRoutes/manufacturerController'))
+
+// Model Routes
+app.use('/api/models', require('./routes/modelRoutes/modelController'))
+
+// Model Routes
+app.use('/api/inventoryVehicles', require('./routes/inventoryRoutes/vehicles/inventoryVehicleController'))
 
 
 const PORT = process.env.PORT || 5000;

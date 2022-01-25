@@ -11,11 +11,8 @@ var genderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
-    lastModified: {
-        type: Date,
-        default: Date.now
-    }
+},{
+    timestamps: true
 })
 
 module.exports = mongoose.model('Gender', genderSchema);
