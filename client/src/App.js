@@ -61,7 +61,7 @@ function App() {
                                                                 <Route path='/login' element={<Login />} />
                                                                 <Route path='*' element={<PageNotFound />} />
                                                                 {/* <Route path='/' element={<PrivateRoute />}> */}
-                                                                    <Route path='/' element={<Test  />} />
+                                                                    <Route path='/' element={<Showroom  />} />
                                                                     <Route path='/hr/employees' element={<EmployeeDash  />} />
 
                                                                     <Route path='/service' element={<Service  />} />

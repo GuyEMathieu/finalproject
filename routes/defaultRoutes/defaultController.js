@@ -40,10 +40,7 @@ router.get('/', async (req, res) => {
             .select('-__v').select('-lastModified')
             .sort({ name: 1 });
         
-        const zipcodes = await ZipCode.find()
-            .select('-createdAt').select('-updatedAt')
-            .select('-__v').select('-lastModified')
-            .sort({ name: 1 });
+        
 
         const dayOff = await DayOff.find()
             .select('-createdAt').select('-updatedAt')
@@ -69,6 +66,11 @@ router.get('/', async (req, res) => {
             .select('-createdAt').select('-updatedAt')
             .select('-__v').select('-lastModified')
             .sort({ name: 1 });
+
+        // const zipcodes = await ZipCode.find()
+        //     .select('-createdAt').select('-updatedAt')
+        //     .select('-__v').select('-lastModified')
+        //     .sort({ name: 1 });
         
         const data = {
             manufacturers,
@@ -80,7 +82,7 @@ router.get('/', async (req, res) => {
             states,
             genders,
             countries,
-            zipcodes,
+            
         }
         res.json(data);
 

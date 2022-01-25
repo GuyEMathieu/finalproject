@@ -13,7 +13,7 @@ export const InventoryContext = createContext();
 
 const InventoryState = props => {
     const initialState = {
-        inventoryVehicles: INVENTORYVEHICLES,
+        inventoryVehicles: null,
         currentVehicle: null,
         alerts: null,
         receipt: null,
@@ -22,13 +22,13 @@ const InventoryState = props => {
     const [state, dispatch] = useReducer(inventoryReducer, initialState);
 
     const getVehicles = async () => {
-        dispatch({ type: ActionTypes.GET_VEHICLES, payload: INVENTORYVEHICLES })
-        // try {
-        //     const res = await axios.get('/api/inventory/vehicles')
-        //     dispatch({ type: ActionTypes.GET_VEHICLES, payload: res.data })
-        // } catch (err) {
-        //     dispatch({ type: ActionTypes.SET_ALERTS, payload: err.response.data.errors })
-        // }
+        //dispatch({ type: ActionTypes.GET_VEHICLES, payload: INVENTORYVEHICLES })
+        try {
+            const res = await axios.get('/api/inventoryVehicles')
+            dispatch({ type: ActionTypes.GET_VEHICLES, payload: res.data })
+        } catch (err) {
+            dispatch({ type: ActionTypes.SET_ALERTS, payload: err.response.data.errors })
+        }
     }
     const getVehicleById = async (id) => {
         dispatch({type: ActionTypes.CURRENT_VEHICLE, payload: id})

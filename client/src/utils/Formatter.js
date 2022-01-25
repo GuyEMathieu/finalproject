@@ -132,3 +132,15 @@ export const generateVIN = () =>{
 export const prettyAlert = (obj) => {
     alert(JSON.stringify(obj, null, 4))
 }
+
+export const sortNumericAscending = arr => {
+    arr.sort(function(a, b) {
+        return a - b
+    })
+}
+
+export const sortNumericDescending = arr => {
+    arr.sort(function(a, b) {
+        return b - a
+    })
+}
