@@ -6,10 +6,15 @@ import axios from 'axios'
 import { v4 as uid } from 'uuid';
 
 import * as ActionTypes from './salesTypes'
+import { prettyAlert } from '../../utils/Formatter';
 
 
 export const SalesContext = createContext();
-
+const config = {
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
 const SaleState = props => {
     const initialState = {
         sales: null,
@@ -20,17 +25,27 @@ const SaleState = props => {
     const [state, dispatch] = useReducer(salesReducer, initialState);
 
     const saleVehicle = async (sale) => {
-        dispatch({
-            type: ActionTypes.VEHICLE_SALE,
-            payload: sale
-        })
+        console.info("Sale\n", sale)
+        const res = await axios.post('/api/sales', sale, config);
+        console.info(res.data)
+        try {
+            // dispatch({
+            //     type: ActionTypes.SET_ERRORS,
+            //     payload: res.data
+            // })
+        } catch (err){
+            dispatch({
+                type: ActionTypes.SET_ERRORS,
+                payload: err.response.data.errors
+            })
+        }
     }
 
     const getVehicleSales = async () => {
-        dispatch({
-            type: ActionTypes.GET_VEHICLE_SALES,
-            payload: []
-        })
+        // dispatch({
+        //     type: ActionTypes.GET_VEHICLE_SALES,
+        //     payload: []
+        // })
     }
 
     const addUIErrors = errors => {

@@ -157,20 +157,18 @@ export default function Showroom() {
 
                 <Grid xs={12} item container spacing={2}>
                     {defaults && vehicles 
-                    
-                    ?   vehicles.map(vehicle => (
-                            <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
-                                <VehicleCard vehicle={vehicle} defaults={defaults}/>
-                            </Grid>
-                        ))
-                    :   displaySkeletons().map((i) => (
-                            <Grid item xs={12} md={4} lg={3} key={i}>
-                                <VehicleCardSkeleton animation={'wave'}  />
-                            </Grid>
-                    ))
+                        ?   vehicles.map(vehicle => (
+                                <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
+                                    <VehicleCard vehicle={vehicle} defaults={defaults}/>
+                                </Grid>
+                            ))
+                        :   displaySkeletons().map((i) => (
+                                <Grid item xs={12} md={4} lg={3} key={i}>
+                                    <VehicleCardSkeleton animation={'wave'}  />
+                                </Grid>
+                            ))
                     }
                 </Grid>
-
             </Grid>
         </MainContainer>
     );

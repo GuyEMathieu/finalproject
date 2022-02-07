@@ -11,10 +11,25 @@ const InventoryVehicle = require('./InventoryVehicle')
 // @access      private
 router.get('/', async (req, res) => {
     try{
-        const inventoryVehicles = await InventoryVehicle.find()
+        const inventoryVehicles = await InventoryVehicle.find({isSold : false})
             .select('-createdAt').select('-updatedAt').select('-__v')
 
         res.json(inventoryVehicles)
+    } catch(err){
+        console.log(err.msg)
+        res.status(500).send('Server Error');
+    }
+})
+// @route       GET api/inventoryvehicles/id
+// @desc        Get list
+// @access      private
+router.get('/:vehicleId', async (req, res) => {
+    try{
+        const vehicleId = req.params.vehicleId;
+        const vehicle = await InventoryVehicle.findById(vehicleId)
+            .select('-createdAt').select('-updatedAt').select('-__v')
+
+        res.json(vehicle)
     } catch(err){
         console.log(err.msg)
         res.status(500).send('Server Error');

@@ -6,7 +6,7 @@ import {
 import {
     styled
 } from '@mui/styles'
-import {RoundToTwo} from '../../utils/Formatter';
+import {prettyAlert, RoundToTwo} from '../../utils/Formatter';
 
 
 
@@ -44,7 +44,6 @@ const VehiclePurchase = () => {
     const saleContext = useContext(SalesContext)
     const {saleVehicle, addUIErrors, errors, removeError} = saleContext;
 
-
     const customerContext = useContext(CustomerContext);
     const {customerList, getCustomers} = customerContext;
 
@@ -79,7 +78,6 @@ const VehiclePurchase = () => {
             setLoading(false)
         }
 
-        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
             inventoryContext, id, 
@@ -99,7 +97,6 @@ const VehiclePurchase = () => {
             const stateTax = 0.07;
 
             const vehicle = currentVehicle
-            console.info("Vehicle", vehicle)
             const dealerFees = RoundToTwo(vehicle.price * dealerPercentage)
 
             const subtotal = RoundToTwo(vehicle.price + dealerFees);
@@ -139,8 +136,13 @@ const VehiclePurchase = () => {
             } 
 
             if(steps[activeStep] === 'Fees And Credits' && purchase.sale.balance === 0){
+                saleVehicle(purchase)
                 setActiveStep((prevActiveStep) => prevActiveStep + 2)
                 return;
+            }
+
+            if(steps[activeStep] === 'Financing') {
+                saleVehicle(purchase)
             }
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
@@ -155,6 +157,7 @@ const VehiclePurchase = () => {
     };
 
     const handleSuccess = async () => {
+        //prettyAlert(purchase)
         navigate("/sales/showroom")
     }
 
@@ -324,7 +327,6 @@ const VehiclePurchase = () => {
                 handlePrev={handlePrev} 
                 handleFinal={handleSuccess}
                 activeStep={activeStep}>
-                
                 <Stack spacing={1}>
                     {errors &&     
                         <Paper>
