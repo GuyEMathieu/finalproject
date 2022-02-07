@@ -100,13 +100,7 @@ export default function Showroom() {
         return _filteredModels;
     }
 
-    const displaySkeletons = () => {
-        let vs = [];
-        for(let i = 0; i < 8; i++){
-            vs.push(<VehicleCardSkeleton  />)
-        }
-        return vs;
-    }
+    const displaySkeletons = () => [1, 2, 3, 4, 5, 6, 7, 8]
 
     return (
         <MainContainer title='Showroom'>
@@ -169,9 +163,9 @@ export default function Showroom() {
                                 <VehicleCard vehicle={vehicle} defaults={defaults}/>
                             </Grid>
                         ))
-                    :   displaySkeletons.map((skeles, i) => (
+                    :   displaySkeletons().map((i) => (
                             <Grid item xs={12} md={4} lg={3} key={i}>
-                                <skeles  />
+                                <VehicleCardSkeleton animation={'wave'}  />
                             </Grid>
                     ))
                     }

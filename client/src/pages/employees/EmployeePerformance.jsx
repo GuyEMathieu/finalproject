@@ -130,7 +130,7 @@ function MTD_Sales(performance){
             {
                 label: `MTD Sale (${month})`,
                 data: [sales],
-                backgroundColor: [`rgba(${color}, 0.2)`],
+                backgroundColor: [`rgba(${color}, 0.4)`],
                 borderColor: [`rgb(${color})`],
                 borderWidth: 1
             }
