@@ -1,27 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
+    Box,
     Table, TableBody, TableCell, TableRow, TablePagination,
     TableContainer, TableHead, Paper, TableFooter, Button
 } from '@mui/material';
 
 import NewVehicle from '../../../components/NewVehicle'
+import SidebarSlidePopup from '../../../components/SidebarSlidePopup'
+import {getName} from '../../../utils/Formatter'
 
-import Popup from '../../../components/Popup'
+import { generateVIN } from '../../../utils/Formatter';
 
-import { getName, maskString } from '../../../utils/Formatter';
+import { maskString, prettyAlert } from '../../../utils/Formatter';
 // Components
 import TablePaginationActions from '../../../components/PaginationActions';
+import { DefaultContext } from '../../../context/default_context/DefaultState';
 
 export default function CustomerVehicleTable(props) {
-
-    const { vehicles, handleSelection, defaults, } = props;
+    const defaultContext = useContext(DefaultContext)
+    const {defaults, getAll} = defaultContext;
+    const { profile, handleSelection, context} = props;
+    const {addNewVehicle} = context
     const [ availableVehicles, setAvailableVehicles] = useState([])
 
+    
+
     useEffect(() => {
-        if (vehicles) {
-            setAvailableVehicles(vehicles)
+        if(!defaults){
+            getAll()
         }
-    }, [vehicles])
+    })
+    useEffect(() => {
+        if (profile !== null) {
+            setAvailableVehicles(profile.vehicles)
+        }
+    }, [profile])
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -37,18 +50,39 @@ export default function CustomerVehicleTable(props) {
         setPage(0);
     };
 
-    const [openPopup, setOpenPopup] = useState(false)
+    const [openNewVehiclePopup, setOpenNewVehiclePopup] = useState(false);
+    const [newVehicle, setNewVehicle] = useState({})
 
-    const handleClosePopup = () =>{
-        setOpenPopup(false)
+    const onOpenNewVehicle = () =>{
+        setNewVehicle({vin: generateVIN()})
+        setOpenNewVehiclePopup(true)
     }
-    const addNewVehicle = vehicle => {
-        props.addNewVehicle(vehicle)
-        setOpenPopup(true)
+    const handleCloseNewVehiclePopup = () => {
+        setOpenNewVehiclePopup(false)
+        setNewVehicle({})
+    }
+    const onAddNewVehicle = () => {
+        const {year, vin, make, miles} = newVehicle;
+        if(vin && year && make && miles){
+            addNewVehicle(profile._id, newVehicle)
+            handleCloseNewVehiclePopup();
+        }
+    }
+    
+    const handleNewVehicleChange = e =>{
+        const {name, value} = e.target;
+        setNewVehicle({...newVehicle, [name]: value})
     }
 
-    
-    
+    const displayNewVehicle = () =>{
+        return openNewVehiclePopup 
+            ? <NewVehicle 
+                vehicle={newVehicle}
+                handleVehicleChange={handleNewVehicleChange}
+                onClose={handleCloseNewVehiclePopup} 
+                addNewVehicle={onAddNewVehicle}/>
+            : null
+    }
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -61,7 +95,7 @@ export default function CustomerVehicleTable(props) {
                         <TableCell align='left'>Year</TableCell>
                         <TableCell align='left'>VIN</TableCell>
                         <TableCell align='right'>
-                            <Button fullWidth={false} onClick={() => {setOpenPopup(true)}}>New Vehicle</Button>
+                            <Button fullWidth={false} onClick={onOpenNewVehicle}>New Vehicle</Button>
                         </TableCell>
                     </TableRow>
                     </TableHead>
@@ -69,16 +103,16 @@ export default function CustomerVehicleTable(props) {
                     {(rowsPerPage > 0
                         ? availableVehicles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : availableVehicles
-                    ).map((vehicle, i) =>(
-                        <TableRow key={vehicle.vin} hover onClick={() => handleSelection(vehicle)}>
+                    ).map((vehicle, i) => (
+                        <TableRow key={i} hover onClick={() => handleSelection(vehicle)}>
                             <TableCell>{i + 1}</TableCell>
                             <TableCell>{getName(defaults.manufacturers, vehicle.make)}</TableCell>
                             <TableCell>{getName(defaults.models, vehicle.model)}</TableCell>
-                            <TableCell>{vehicle.year}</TableCell>
+                            <TableCell>{vehicle.year}</TableCell> 
                             <TableCell>{maskString(vehicle.vin, 4)}</TableCell>
-                            <TableCell/>
+                            <TableCell/> 
                         </TableRow>
-                    ))}
+                    ))} 
 
                     {emptyRows > 0 && (
                         <TableRow>
@@ -106,9 +140,10 @@ export default function CustomerVehicleTable(props) {
                     </TableRow>
                 </TableFooter>
             </Table>
-            <Popup open={openPopup} title={'New Vehicle'} showClose={false}>
-                <NewVehicle  onClose={handleClosePopup} addNewVehicle={addNewVehicle}/>
-            </Popup>
+
+            <SidebarSlidePopup open={openNewVehiclePopup}>
+                {displayNewVehicle()}
+            </SidebarSlidePopup>
         </TableContainer>
     );
 }

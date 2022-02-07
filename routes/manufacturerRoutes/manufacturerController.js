@@ -67,21 +67,24 @@ router.post('/',
 router.post('/multiple', async (req, res) => 
     {
         try {
-            let _manufacturers = []
+            
+            let makes = ["Audi", "Volvo", "Honda", "Acura", "Lexus", "Lincoln", "Cheverolet", "Mazda", "Mitsubishi", "Buick", "Toyota"];
             for(let i = 0; i < req.body.length; i++){
-                const {make} = req.body[i];
-                console.log(make)
-
-                let newManufacturer = await Manufacturer.findOne({name: make})
-                if(!newManufacturer){
-                    newManufacturer = new Manufacturer({name: make});
-                    await newManufacturer.save();
-                    console.log(`Manufacturer: ${newManufacturer}`)
-                    _manufacturers.push(newManufacturer)
+                const _make = req.body[i].make;
+                if(!makes.includes(_make)){
+                    makes.push(_make)
                 }
             }
-            
-            res.json(_manufacturers);
+
+            makes.sort()
+            let manufacturers = []
+            for(let i = 0; i < makes.length; i++){
+
+                manufacturers.push({name: makes[i]})
+            }
+
+            const data = await Manufacturer.insertMany(manufacturers)
+            res.json({data, makes})
 
         } catch (err) {
             console.error(err.msg);

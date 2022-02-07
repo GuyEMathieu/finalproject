@@ -7,26 +7,35 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import {useNavigate} from 'react-router-dom'
 
-import {getName, TruncateText, FormatNumber} from '../../utils/Formatter';
+import {getName, TruncateText} from '../../utils/Formatter';
 import { Textfit } from 'react-textfit';
-import Loading from '../../components/Loading';
 
 const CustomCard = styled(Card)(({theme}) => ({
     border: `1px solid ${theme.palette.primary.main}`,
     padding: theme.spacing(1)
 }))
 
-const Media = styled(CardMedia)(({theme}) => ({
+const Media = styled(CardMedia)(() => ({
+    ":hover": {cursor: 'pointer'},
     objectFit: 'contain'
 }))
 export default function MediaCard({vehicle, defaults}) {
-
+    const navigate = useNavigate();
     const title = () => {
         if(vehicle){
             return `${vehicle.year} ${getName(defaults.manufacturers, vehicle.make)} ${getName(defaults.models, vehicle.model)}`
         }
         return ''
+    }
+
+    const goToProfile = () => {
+        navigate(`/sales/vehicleprofile/${vehicle._id}`)
+    }
+
+    const goToPurchase = () => {
+        navigate(`/sales/purchase/${vehicle._id}`)
     }
     return (
         <CustomCard >
@@ -34,6 +43,7 @@ export default function MediaCard({vehicle, defaults}) {
                 component="img"
                 image={vehicle.image}
                 alt="vehicle"
+                onClick={goToProfile}
             />
             <CardContent>
                 {vehicle &&
@@ -51,10 +61,10 @@ export default function MediaCard({vehicle, defaults}) {
             <CardActions>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Button size="small" href={`/sales/vehicleprofile/${vehicle._id}`} variant='outlined'>More Details</Button>
+                        <Button size="small" onClick={goToProfile} variant='outlined'>More Details</Button>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Button size="small" href={`/sales/purchase/${vehicle._id}`}>Purchase</Button>
+                        <Button size="small" onClick={goToPurchase}>Purchase</Button>
                     </Grid>
                 </Grid>
             </CardActions>

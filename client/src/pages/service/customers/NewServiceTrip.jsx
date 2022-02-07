@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Grid, TextField, 
     MenuItem, Button, Box
@@ -57,7 +57,6 @@ const NewServiceTrip = (props) => {
     }
     
     const AddNewPart = () => {
-        
         setService(prev => {
             return {
                 ...prev,

@@ -4,7 +4,6 @@ import * as ActionTypes from './customerContextTypes'
 export default (state, action) => {
     switch (action.type) {
         
-
         case ActionTypes.GET_ALL:
             return {
                 ...state,
@@ -20,14 +19,12 @@ export default (state, action) => {
                 ...state,
                 filteredCustomers: [...state.customerList, action.payload]
             }
-        
         case ActionTypes.UPDATE_CUSTOMER:
             return {
                 ...state,
                 currentCustomer: action.payload,
                 customerList: state.customerList.map(customer => customer._id === action.payload._id ? action.payload : customer)
             }
-        
         case ActionTypes.SET_ALERTS:
             return {
                 ...state,
@@ -45,20 +42,14 @@ export default (state, action) => {
                 currentCustomer: state.customerList.find(c => c._id === action.payload)
             }
         case ActionTypes.ADD_VEHICLE:
-            const updatedCustomer = state.customerList.find(c => c._id === action.payload.customer)
-            updatedCustomer.vehicles.push(action.payload.vehicle)
             return {
                 ...state,
-                currentCustomer: updatedCustomer,
-                customerList: state.customerList.map(c => c._id === updatedCustomer._id ? updatedCustomer : c)
+                currentCustomer: action.payload,
+                customerList: state.customerList.map(c => c._id === action.payload._id ? action.payload : c)
             }
         case ActionTypes.ADD_SERVICE:
-            console.info("payload", action.payload)
             const currentCustomer = state.customerList.find(c => c._id === action.payload.customer);
-            console.info("Current Customer", currentCustomer)
-
             currentCustomer.vehicles.find(v => v.vin === action.payload.vin).serviceLogs.push(action.payload.newService)
-            console.info("udpated customer", currentCustomer)
             return {
                 ...state,
                 currentCustomer: currentCustomer,
@@ -67,5 +58,4 @@ export default (state, action) => {
         default:
             return state;
     }
-
 }

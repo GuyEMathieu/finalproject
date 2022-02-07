@@ -83,28 +83,40 @@ router.post('/multiple',
         
         try{
             let _vehicles = []
+            
             for(let i = 0; i < req.body.length; i++){
-                const {vin, year, make, model, price, description, mileage, image} = req.body[i];
-                let newVehicle = await InventoryVehicle.findOne({vin})
+                const {year, make, model, vin, miles, price, image, description} = req.body[i]
+                let newVehicle = await InventoryVehicle.findOne({vin: vin});
 
                 if(!newVehicle){
-                    const manufacturer = await Manufacturer.findOne({name: make});
-                    const vehicleModel = await Model.findOne({name: model});
-                    if(vehicleModel && manufacturer){
-                        newVehicle = new InventoryVehicle({
-                            year, vin, description, 
-                            make: manufacturer._id, 
-                            model: vehicleModel._id, 
-                            image, price, mileage
-                        });
-
-                        _vehicles.push(newVehicle)
+                    // Check for Manufacturer
+                    let foundManufacturer = await Manufacturer.findOne({name: make});
+                    if(!foundManufacturer){
+                        foundManufacturer = new Manufacturer({name: make});
+                        await foundManufacturer.save();
                     }
+                    // Check for Model
+                    let foundModel = await Model.findOne({name: model});
+                    if(!foundModel){
+                        foundModel = new Model({name: make});
+                        await foundModel.save();
+                    }
+
+                    newVehicle = new InventoryVehicle({
+                        year, vin, 
+                        price, image, description,
+                        mileage: miles,
+                        model: foundModel._id,
+                        make: foundManufacturer._id                        
+                    })
+
+                    await newVehicle.save();
+
+                    _vehicles.push(newVehicle)
                 }
             }
-            const vehicles = await InventoryVehicle.insertMany(_vehicles)
 
-            res.json(vehicles)
+            res.json(_vehicles)
         } catch(err){
             console.log(err.msg)
             return res.status(500).send('Server Error');

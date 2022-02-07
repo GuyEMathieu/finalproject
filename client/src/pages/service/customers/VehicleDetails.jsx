@@ -1,8 +1,8 @@
-import React, {useState, Fragment, useEffect} from 'react'
+import React, {useState, Fragment, useEffect, useContext} from 'react'
 import {
-    Grid, Paper, Button, Typography
+    Grid, Paper, Button, Typography, 
+    MenuItem, TextField, Stack
 } from '@mui/material';
-
 import {formatDate} from '../../../utils/Formatter'
 
 import Table from '@mui/material/Table';
@@ -16,14 +16,47 @@ import ServiceDetails from './ServiceDetail'
 import Popup from '../../../components/Popup';
 import NewServiceTrip from './NewServiceTrip';
 
+import {DefaultContext} from '../../../context/default_context/DefaultState'
+import {CustomerContext} from '../../../context/customer_context/CustomerState'
+
 export default function VehicleDetails (props) {
+    const [tempVehicle, setTempVehicle] = useState(null)
     const {
-        vehicle, customerId, customerContext
+        vehicleVin, customerId
     } = props
 
-    const {addVehicleService} = customerContext;
+    const defaultContext = useContext(DefaultContext);
+    const {defaults, getAll}= defaultContext;
+    useEffect(() => {
+        if(!defaults){
+            getAll()
+        }
+    },[defaults, getAll])
 
-    const {serviceLogs} = vehicle
+    const customerContext = useContext(CustomerContext);
+    const {
+        addVehicleService, currentCustomer, 
+        updateVehicle, getCustomers, customerList
+    } = customerContext;
+
+    const [currentVehicle, setCurrentVehicle] = useState({})
+    const {serviceLogs} = currentVehicle;
+    useEffect(() => {
+        if(customerList === null){
+            getCustomers();
+        }
+
+        if(customerList && customerId && currentCustomer && currentCustomer._id === customerId){
+            setCurrentVehicle(
+                customerList
+                    .find(c => c._id === customerId)
+                    .vehicles.find(v => v.vin === vehicleVin)
+            )
+        }
+    },[customerList, getCustomers, customerId, currentCustomer, vehicleVin])
+
+    const [isDisabled, setIsDisabled] = useState(true);
+
 
     const [selectedTrip, setSelectedTrip] = useState(null)
 
@@ -32,22 +65,102 @@ export default function VehicleDetails (props) {
         setOpenPopup(false)
     }
 
-    const handleSave = newService => {
-        handleClosePopup();
+    const handleVehicleChange = e => {
+        const {name, value} = e.target;
+        setCurrentVehicle({...currentVehicle, [name]: value})
+    }
 
+    const Years = () => {
+        let _years = [];
+        for(let i = 0; i < 20; i++){
+            _years.push(new Date().getFullYear() - i);
+        }
+        return _years
+    }
+
+    const onEdit = () => {
+        setTempVehicle(currentVehicle)
+        setIsDisabled(false)
+    }
+
+    const onCancel = () => {
+        setCurrentVehicle(tempVehicle)
+        setIsDisabled(true)
+    }
+
+    const onUpdateVehicle = () => {
+        updateVehicle(customerId, currentVehicle)
+        onCancel();
+    }
+
+    const handleAddNewService = newService => {
+        handleClosePopup();
         addVehicleService({
             customer: customerId,
-            vin: vehicle.vin,
+            vin: vehicleVin,
             newService: {
                 ...newService,
                 date: new Date()
             }
         })
     }
-
     return (
         <Fragment>
             <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Paper>
+                        <Grid container spacing={1}>
+                            <Grid item xs={12}md={10}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs>
+                                        <TextField 
+                                            select disabled={isDisabled}
+                                            value={currentVehicle.make || ''}label="Manufacturer"
+                                            onChange={handleVehicleChange} name='make'>
+                                            {defaults.manufacturers.map(make => (
+                                                <MenuItem key={make._id} value={make._id}>{make.name}</MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <TextField 
+                                            value={currentVehicle.model || ''} disabled={isDisabled}
+                                            onChange={handleVehicleChange}
+                                            select label="Model" name='model'>
+                                            {defaults.models.filter(m => m.manufacturer === currentVehicle.make).map(model => (
+                                                <MenuItem key={model._id} value={model._id}>{model.name}</MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <TextField 
+                                            onChange={handleVehicleChange}
+                                            name='year' value={currentVehicle.year  || ''}
+                                            label="Year" select disabled={isDisabled}>
+                                            {Years().map(year => (
+                                                <MenuItem key={year} value={year}>{year}</MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <TextField 
+                                            name='mileage' value={currentVehicle.mileage || ''}
+                                            label="Mileage" disabled={isDisabled}
+                                            onChange={handleVehicleChange}/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            
+                            <Grid item xs={12} md={2}>
+                                <Stack direction={'row'} spacing={1}>
+                                    {isDisabled && <Button onClick={onEdit}>Edit Vehicle</Button> }
+                                    {!isDisabled && <Button variant='outlined' onClick={onCancel}>Cancel</Button> }
+                                    {!isDisabled && <Button onClick={onUpdateVehicle}>Save</Button> }
+                                </Stack>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
                 <Grid item xs={12} md={4} lg={4}>
                     <TableContainer component={Paper}>
                         <Table>
@@ -60,14 +173,14 @@ export default function VehicleDetails (props) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {serviceLogs.map((log, i) => (
+                                {serviceLogs && serviceLogs.map((log, i) => (
                                     <TableRow hover key={i}
                                         onClick={() => setSelectedTrip(log)}
                                         sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                         <TableCell component="th" scope="row">
                                             {formatDate(log.date)}
                                         </TableCell>
-                                        <TableCell  />
+                                        <TableCell>{log.serviceName}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -93,7 +206,7 @@ export default function VehicleDetails (props) {
                 sx={{width: '60vw'}}>
                 <NewServiceTrip  
                     onClose={handleClosePopup} 
-                    onSave={handleSave}/>
+                    onSave={handleAddNewService}/>
             </Popup>
         </Fragment>
     )

@@ -27,7 +27,7 @@ export default function AccordionShell(props) {
                 </Typography>
             </AccordionSummary>
 
-            <AccordionDetails>
+            <AccordionDetails sx={{mt:2}}>
                 {props.children}
             </AccordionDetails>
         </CustomAccordion>

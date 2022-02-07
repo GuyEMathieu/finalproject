@@ -115,11 +115,15 @@ export function AddressString(address, states, countries){
 }
 
 export function maskString(str, visible = 0, placement='start'){
-    if(placement === 'start'){
-        return str.split("").map((e, i) => i < str.length - visible ? "*" : e).join("")
+    if(str){
+        if(placement === 'start'){
+            return str.split("").map((e, i) => i < str.length - visible ? "*" : e).join("")
+        }
+
+        return str.split("").map((e,i)=> i?"*":e).join("");
     }
 
-    return str.split("").map((e,i)=>i?"*":e).join("");
+    return ''
 }
 
 export const generateVIN = () =>{

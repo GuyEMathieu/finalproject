@@ -3,81 +3,107 @@ import { createContext } from 'react';
 import React, {useReducer} from 'react';
 import customerReducer from './customerReducer';
 import axios from 'axios'
-import {CUSTOMERS} from '../shared/customers'
 import * as ActionTypes from './customerContextTypes'
 import { v4 as uid } from 'uuid'; 
+import { prettyAlert } from '../../utils/Formatter';
 
 export const CustomerContext = createContext();
 
+
+const config = {
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
 const CustomerState = props => {
     const initialState = {
-        customerList: CUSTOMERS,
+        customerList: null,
         currentCustomer: null,
         alerts: null,
         filteredCustomers: null
     }
 
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
     const [state, dispatch] = useReducer(customerReducer, initialState);
 
     const getCustomers = async () => {
-        dispatch({ type: ActionTypes.GET_ALL, payload: CUSTOMERS})
 
-        // try {
-        //     const res = await axios.get('/api/customers')
-        //     dispatch({
-        //         type: ActionTypes.GET_ALL,
-        //         payload: res.data
-        //     })
-        // } catch (err) {
-        //     console.info(err)
-        //     dispatch({
-        //         type: ActionTypes.SET_ALERTS,
-        //         payload: err.response.data.errors
-        //     })
-        // }
+        try {
+            const res = await axios.get('/api/customers')
+            dispatch({
+                type: ActionTypes.GET_ALL,
+                payload: res.data
+            })
+        } catch (err) {
+            console.info(err)
+            dispatch({
+                type: ActionTypes.SET_ALERTS,
+                payload: err.response.data.errors
+            })
+        }
     }
 
-    const saveCustomer = customer => {
+    const updateCustomer = async changes => {
+        
+        const res = await axios.put(`/api/customers/${changes._id}`, changes, config)
         dispatch({
             type: ActionTypes.UPDATE_CUSTOMER,
-            payload: customer
+            payload: res.data
         })
     }
 
-    const addNewVehicle = async (vehicle) => {
-        // const config = {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // }
+    const addNewVehicle = async (customerId, vehicle) => {
+        try {
+            const res = await axios.post(`/api/customers/${customerId}/vehicle`, vehicle, config)
+            alert(JSON.stringify(res.data, null, 4))
+            dispatch({
+                type: ActionTypes.UPDATE_CUSTOMER,
+                payload: res.data
+            })
+        } catch (err) {
+            dispatch({
+                type: ActionTypes.SET_ALERTS,
+                payload: err.response.data.errors
+            })
+        }
+    }
 
-        // try {
-        //     console.info("Sending New Vehicle to server for customer id: ", vehicle.customerId)
-        //     const res = await axios.post(`/api/customers/${vehicle.customerId}/vehicle`, vehicle, config)
-        //     console.info("RES", res.data)
-        //     dispatch({
-        //         type: ActionTypes.UPDATE_CUSTOMER,
-        //         payload: res.data
-        //     })
-        // } catch (err) {
-        //     console.info(err)
-        //     dispatch({
-        //         type: ActionTypes.SET_ALERTS,
-        //         payload: err.response.data.errors
-        //     })
-        // }
-        dispatch({
-            type: ActionTypes.ADD_VEHICLE,
-            payload: vehicle
-        })
+    const updateVehicle = async (customerId, vehicle) => {
+        try {
+            const res = await axios.put(`/api/customers/${customerId}/vehicle`, vehicle, config)
+            dispatch({
+                type: ActionTypes.UPDATE_CUSTOMER,
+                payload: res.data
+            })
+        } catch (err) {
+            dispatch({
+                type: ActionTypes.SET_ALERTS,
+                payload: err.response.data.errors
+            })
+        }
+    }
+
+    const addVehicleService = async (data) => {
+        try {
+            const res = await axios.post(`/api/customers/${data.customer}/vehicle/${data.vin}/service`, data.newService , config)
+            prettyAlert(res.data)
+            dispatch({
+                type: ActionTypes.UPDATE_CUSTOMER,
+                payload: res.data
+            })
+        } catch (err) {
+            dispatch({
+                type: ActionTypes.SET_ALERTS,
+                payload: err.response.data.errors
+            })
+        }
     }
     const addCustomer = async customer => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-
         try {
             const res = await axios.post('/api/customers', customer, config)
             console.info("RES", res.data)
@@ -114,14 +140,13 @@ const CustomerState = props => {
         })
     }
 
-    const addVehicleService = async (data) => {
-        data.newService.tripId = uid()
-        dispatch({
-            type: ActionTypes.ADD_SERVICE,
-            payload: data
-        })
-
-    }
+    // const addVehicleService = async (data) => {
+    //     data.newService.tripId = uid()
+    //     dispatch({
+    //         type: ActionTypes.ADD_SERVICE,
+    //         payload: data
+    //     })
+    // }
 
     return (
         <CustomerContext.Provider
@@ -132,13 +157,16 @@ const CustomerState = props => {
                 filteredCustomers: state.filteredCustomers,
                 quickView: state.quickView,
 
-                addVehicleService,
-                saveCustomer,
-                addNewVehicle,
-                filterCustomers,
-                getCustomerById,
                 addCustomer,
                 getCustomers,
+                updateCustomer,
+                filterCustomers,
+                getCustomerById,
+
+                updateVehicle,
+                addVehicleService,
+                addNewVehicle,
+                
                 removeAlert,
             }}>
 

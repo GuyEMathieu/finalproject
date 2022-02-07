@@ -50,6 +50,9 @@ app.use('/api/models', require('./routes/modelRoutes/modelController'))
 // Model Routes
 app.use('/api/inventoryVehicles', require('./routes/inventoryRoutes/vehicles/inventoryVehicleController'))
 
+// Customer Routes
+app.use('/api/customers', require('./routes/customerRoutes/customerController'))
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`SERVER STARTED ON PORT ${PORT}`.cyan.underline.bold))

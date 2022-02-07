@@ -49,7 +49,7 @@ const CustomerProfile = (props) => {
     return (
             <Grid container spacing={1}>
                 <Grid item xs={4} sx={{display: {sx: 'none', lg: 'block'}}}>
-                    {isLoading ? <Loading /> : <PeopleGlance profile={currentProfile} defaults={defaults} />}
+                    <PeopleGlance profile={currentProfile} defaults={defaults} />
                 </Grid>
 
                 <Grid xs item>
@@ -69,14 +69,13 @@ const CustomerProfile = (props) => {
                             <AccordionShell 
                                 expanded={expanded}
                                 title='Personal Information' handleChange={handleChange}>
-                                {isLoading 
-                                    ? <Loading  /> 
-                                    : <PersonalInfo 
-                                        data={currentProfile} handleChange={handleProfileChange}
-                                        defaults={defaults} isDisabled={profileDisabled} />}
+
+                                <PersonalInfo 
+                                    data={currentProfile} handleChange={handleProfileChange}
+                                    defaults={defaults} isDisabled={profileDisabled} />
                             </AccordionShell>
 
-                            <AccordionShell 
+                            {/* <AccordionShell 
                                 expanded={expanded}
                                 title='Personal Address' handleChange={handleChange}>
                                 {isLoading 
@@ -86,7 +85,7 @@ const CustomerProfile = (props) => {
                                         address={currentProfile.address} 
                                         defaults={defaults} isDisabled={profileDisabled}/> 
                                 }
-                            </AccordionShell>
+                            </AccordionShell> */}
                         </Grid>
                     </Grid>
                 </Grid>

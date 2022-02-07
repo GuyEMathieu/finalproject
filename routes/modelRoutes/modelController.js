@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
+const Manufacturer = require('../manufacturerRoutes/Manufacturer');
 const Model = require('./Model')
 
 // @route       GET api/models
@@ -68,19 +69,33 @@ router.post('/',
 router.post('/multiple', async (req, res) => 
     {
         try {
-            let _models = []
-            for(let i = 0; i < req.body.length; i++){
-                const {name, manufacturer} = req.body[i];
+            let models = [];
 
-                let newModel = await Model.findOne({name})
+            for(let i = 0; i < req.body.length; i++){
+                const {model, make} = req.body[i];
+                console.log({model, make})
+
+                let newModel = models.find(x => x.name === model);
+
                 if(!newModel){
-                    newModel = new Model({name, manufacturer});
-                    await newModel.save();
-                    _models.push(newModel)
+                    let foundManu = await Manufacturer.findOne({name: make});
+
+                    if(!foundManu) {
+                        foundManu = new Manufacturer({name: make});
+                        await foundManu.save()
+                    }
+                        
+                    newModel = {
+                        name: model, 
+                        manufacturer: foundManu._id
+                    }
+                    models.push(newModel)
                 }
             }
             
-            res.json(_models);
+            const data = await Model.insertMany(models)
+            
+            res.json(data);
 
         } catch (err) {
             console.error(err.msg);

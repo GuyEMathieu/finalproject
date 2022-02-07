@@ -56,7 +56,6 @@ export default function CustomerTable(props) {
                             <TableCell>{customer.firstName}</TableCell>
                             <TableCell>{customer.lastName}</TableCell>
                             <TableCell>{formatDate(customer.dateOfBirth)}</TableCell>
-
                         </TableRow>
                     ))}
 

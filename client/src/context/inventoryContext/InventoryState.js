@@ -7,8 +7,6 @@ import { v4 as uid } from 'uuid';
 
 import * as ActionTypes from './inventoryTypes'
 
-import {INVENTORYVEHICLES} from '../shared/inventoryVehicles'
-
 export const InventoryContext = createContext();
 
 const InventoryState = props => {

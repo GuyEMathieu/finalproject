@@ -3,39 +3,20 @@ import {
     Grid,TextField, MenuItem, Button, Typography
 } from '@mui/material';
 import {DefaultContext} from '../context/default_context/DefaultState';
-import { generateVIN, prettyAlert } from '../utils/Formatter';
 import Loading from './Loading';
 
 export default function NewVehicle(props){
     const defaultContext = useContext(DefaultContext);
     const {getAll, defaults} = defaultContext;
 
+    const {vehicle, handleVehicleChange, addNewVehicle} = props
+
     useEffect(() =>{
         if(defaults === null){
             getAll();
         }
+
     },[defaults, getAll])
-
-    
-    const [vehicle, setVehicle] = useState({vin: generateVIN().toUpperCase()})
-
-    const handleVehicleChange = e =>{
-        const {name, value} = e.target;
-        setVehicle(prev =>{
-            return {
-                ...prev,
-                [name]: value,
-                serviceLogs: []
-            }
-        })
-    }
-
-    const Models = () =>{
-        if(defaults && vehicle.make && vehicle.make.length > 0){
-            return defaults.models.filter(model => model.make === vehicle.make)
-        }
-        return []
-    }
 
     const Years = () => {
         let years = [];
@@ -43,26 +24,34 @@ export default function NewVehicle(props){
         for(let i = startYear; i > (startYear - 10); i--){
             years.push(i)
         }
-
         return years;
-    }
-
-    const handleSave = () => {
-        props.addNewVehicle(vehicle)
-        props.onClose()
-
     }
 
     if(defaults === null){
         return <Loading  />
     }
 
+    const onSave = () => {
+        if(vehicle && vehicle.vin 
+            && vehicle.year && vehicle.make
+            && vehicle.model && vehicle.miles){
+            //alert("Saving")
+            addNewVehicle(vehicle)
+        } else {
+            alert("Missing Fields")
+        }
+    }
+
     return (
         <Grid container spacing={2} justifyContent="space-around">
             <Grid item xs={12} >
-                <Typography >{`VIN: ${vehicle.vin}`}</Typography>
+                {/* <Typography >{`VIN: ${vehicle.vin}`}</Typography> */}
+                <TextField 
+                    onChange={handleVehicleChange}
+                    label="VIN" disabled
+                    value={vehicle.vin}/>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
                 <TextField 
                     onChange={handleVehicleChange}
                     label="Year" name='year'
@@ -74,7 +63,7 @@ export default function NewVehicle(props){
                 </TextField>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
                 <TextField 
                     onChange={handleVehicleChange}
                     label="Manufacturer" name='make'
@@ -86,18 +75,20 @@ export default function NewVehicle(props){
                 </TextField>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
                 <TextField 
                     onChange={handleVehicleChange}
                     label="Model" name='model' disabled={vehicle.make && vehicle.make.length > 0 ? false : true}
                     select value={vehicle.make}>
                     <MenuItem disabled>{'-- none --'}</MenuItem>
-                    {Models().map(model =>(
-                        <MenuItem key={model._id} value={model._id}>{model.name}</MenuItem>
+                    {vehicle.make && defaults.models
+                        .filter(model => model.manufacturer === vehicle.make)
+                        .map(model =>(
+                            <MenuItem key={model._id} value={model._id}>{model.name}</MenuItem>
                     ))}
                 </TextField>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
                 <TextField 
                     onChange={handleVehicleChange}
                     label="Miles" name='miles'
@@ -108,9 +99,8 @@ export default function NewVehicle(props){
                 <Button variant='outlined' fullWidth={false} onClick={props.onClose}>Cancel</Button>
             </Grid>
             <Grid item >
-                <Button fullWidth={false} onClick={handleSave}>Save</Button>
+                <Button fullWidth={false} onClick={onSave}>Save</Button>
             </Grid>
-            
         </Grid>
     )
 }

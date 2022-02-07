@@ -1,0 +1,792 @@
+[
+    {
+        "_id": "D3Q1nnfg3v4I9J7d290s8x3",
+        "firstName": "Hart",
+        "lastName": "Angrick",
+        "email": "hangrick0@topsy.com",
+        "gender": "Female",
+        "dateOfBirth": "1956-10-10",
+        "phone": "772-169-0755",
+        "ssn": "395-68-0108",
+        "address": {
+            "street": "32 Glacier Hill Street",
+            "city": "Fort Pierce",
+            "state": "FL",
+            "zipcode": 32437,
+            "country": "USA"
+        },
+        "driverLicense": {
+            "dlState": "FL",
+            "dlNumber": "W562-011-11-491-7"
+        },
+        "vehicles": [
+            {
+                "vin": "WAUJC68E62A854225",
+                "year": 2013,
+                "make": "Audi",
+                "model": "S4",
+                "miles": 1811,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-04-06",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.6,
+                            "cost": 80
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-12-12",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.5,
+                            "cost": 75
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "WBA1J7C58EV314598",
+                "year": 2011,
+                "make": "Honda",
+                "model": "Insight",
+                "miles": 1804,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-08-18",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.5,
+                            "cost": 125
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "R3v5HvuO6D7v1O2g7v6d7e4",
+        "firstName": "Buckie",
+        "lastName": "Timperley",
+        "email": "btimperley1@google.nl",
+        "gender": "Female",
+        "dateOfBirth": "1973-06-03",
+        "phone": "904-778-6786",
+        "ssn": "127-03-1838",
+        "address": {
+            "street": "13 Duke Lane",
+            "city": "Jacksonville",
+            "state": "FL",
+            "zipcode": 32957,
+            "country": "USA"
+        },
+        "driverLicense": {
+            "dlState": "FL",
+            "dlNumber": "A380-579-80-792-2"
+        },
+        "vehicles": [
+            {
+                "vin": "1G6AL5S39D0199428",
+                "year": 1999,
+                "make": "Volvo",
+                "model": "S80",
+                "miles": 2197,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-03-18",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.9,
+                            "cost": 95
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-04-04",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2,
+                            "cost": 100
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 3,
+                        "date": "2019-10-15",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.6,
+                            "cost": 80
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "SCFAB02E09G737986",
+                "year": 2005,
+                "make": "Acura",
+                "model": "RL",
+                "miles": 1552,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-06-23",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.6,
+                            "cost": 80
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "5UXFG8C58DL961475",
+                "year": 2005,
+                "make": "Lexus",
+                "model": "GX",
+                "miles": 1283,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-03-19",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2,
+                            "cost": 100
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "D9s13Jcq66174I3m1I3p0I0",
+        "firstName": "Vitoria",
+        "lastName": "Kimbell",
+        "email": "vkimbell2@pcworld.com",
+        "gender": "Male",
+        "dateOfBirth": "1959-08-27",
+        "phone": "772-503-4435",
+        "ssn": "794-35-3008",
+        "address": {
+            "street": "70519 Carioca Hill",
+            "city": "Fort Pierce",
+            "state": "FL",
+            "zipcode": 34182,
+            "country": "USA"
+        },
+        "driverLicense": {
+            "dlState": "FL",
+            "dlNumber": "J937-873-58-918-4"
+        },
+        "vehicles": [
+            {
+                "vin": "JTDKN3DP6C3475495",
+                "year": 1995,
+                "make": "Lincoln",
+                "model": "Mark VIII",
+                "miles": 4970,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-10-14",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 3,
+                            "cost": 150
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-06-10",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.4,
+                            "cost": 120
+                        },
+                        "parts": [
+                            {
+                                "partName": "Coolant Fluid",
+                                "quantity": 5,
+                                "unit": 25.99,
+                                "cost": 129.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 3,
+                        "date": "2019-10-21",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.2,
+                            "cost": 110
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "WBA3A5G58FN032633",
+                "year": 2000,
+                "make": "Chevrolet",
+                "model": "Tracker",
+                "miles": 2408,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-12-21",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.8,
+                            "cost": 140
+                        },
+                        "parts": [
+                            {
+                                "partName": "Coolant Fluid",
+                                "quantity": 5,
+                                "unit": 25.99,
+                                "cost": 129.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-06-03",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.7,
+                            "cost": 85
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 3,
+                        "date": "2019-02-23",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.4,
+                            "cost": 70
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "1G4HR54K45U837041",
+                "year": 1998,
+                "make": "Acura",
+                "model": "CL",
+                "miles": 3275,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-03-13",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.4,
+                            "cost": 70
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "1G6DM8EV4A0260530",
+                "year": 1992,
+                "make": "Mazda",
+                "model": "RX-7",
+                "miles": 2852,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-08-17",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.7,
+                            "cost": 85
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-12-15",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.5,
+                            "cost": 125
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 3,
+                        "date": "2019-06-02",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.1,
+                            "cost": 105
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "C9l18Vll8g1R441214850e2",
+        "firstName": "Mil",
+        "lastName": "Bapty",
+        "email": "mbapty3@time.com",
+        "gender": "Female",
+        "dateOfBirth": "1959-10-13",
+        "phone": "786-367-7969",
+        "ssn": "233-08-5784",
+        "address": {
+            "street": "227 Sage Trail",
+            "city": "Miami",
+            "state": "FL",
+            "zipcode": 33494,
+            "country": "USA"
+        },
+        "driverLicense": {
+            "dlState": "FL",
+            "dlNumber": "F349-302-78-419-9"
+        },
+        "vehicles": [
+            {
+                "vin": "WBSBL93466P299814",
+                "year": 2006,
+                "make": "Hyundai",
+                "model": "Tucson",
+                "miles": 1881,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-12-03",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.1,
+                            "cost": 105
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "2G4GP5EX4F9059561",
+                "year": 1994,
+                "make": "Mitsubishi",
+                "model": "Truck",
+                "miles": 1091,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-12-06",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.7,
+                            "cost": 135
+                        },
+                        "parts": [
+                            {
+                                "partName": "Coolant Fluid",
+                                "quantity": 5,
+                                "unit": 25.99,
+                                "cost": 129.95
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "1G6DF8E54D0414734",
+                "year": 1996,
+                "make": "GMC",
+                "model": "1500 Club Coupe",
+                "miles": 3470,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-09-04",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.4,
+                            "cost": 70
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-10-27",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.2,
+                            "cost": 60
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 3,
+                        "date": "2019-10-19",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.5,
+                            "cost": 75
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "V9f2IYep169f6S2L8J482G2",
+        "firstName": "Lesli",
+        "lastName": "Dartan",
+        "email": "ldartan4@github.io",
+        "gender": "Male",
+        "dateOfBirth": "1993-06-25",
+        "phone": "904-612-7947",
+        "ssn": "514-10-0119",
+        "address": {
+            "street": "07 Dennis Pass",
+            "city": "Jacksonville",
+            "state": "FL",
+            "zipcode": 30209,
+            "country": "USA"
+        },
+        "driverLicense": {
+            "dlState": "FL",
+            "dlNumber": "M983-981-22-440-7"
+        },
+        "vehicles": [
+            {
+                "vin": "1C3CDFDH6ED346319",
+                "year": 1993,
+                "make": "Buick",
+                "model": "Coachbuilder",
+                "miles": 1884,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-01-20",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.3,
+                            "cost": 115
+                        },
+                        "parts": [
+                            {
+                                "partName": "Coolant Fluid",
+                                "quantity": 5,
+                                "unit": 25.99,
+                                "cost": 129.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-09-12",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.4,
+                            "cost": 120
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "WVGAV7AX9AW680789",
+                "year": 2004,
+                "make": "Chevrolet",
+                "model": "Malibu",
+                "miles": 2990,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-10-31",
+                        "serviceName": "Oil Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1,
+                            "cost": 50
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-10-23",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.1,
+                            "cost": 55
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "vin": "5FNRL5H28CB165091",
+                "year": 2008,
+                "make": "Toyota",
+                "model": "Land Cruiser",
+                "miles": 2996,
+                "serviceLogs": [
+                    {
+                        "tripId": 1,
+                        "date": "2019-02-09",
+                        "serviceName": "Radiator Flush",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.3,
+                            "cost": 115
+                        },
+                        "parts": [
+                            {
+                                "partName": "Synthetic Oil",
+                                "quantity": 5,
+                                "unit": 19.99,
+                                "cost": 99.95
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 2,
+                        "date": "2019-07-22",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 1.3,
+                            "cost": 65
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    },
+                    {
+                        "tripId": 3,
+                        "date": "2019-03-11",
+                        "serviceName": "Tire Change",
+                        "labor": {
+                            "laborRate": 50,
+                            "duration": 2.8,
+                            "cost": 140
+                        },
+                        "parts": [
+                            {
+                                "partName": "Micheline Tire",
+                                "quantity": 4,
+                                "unit": 99,
+                                "cost": 396
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

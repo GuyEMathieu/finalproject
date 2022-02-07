@@ -10,7 +10,7 @@ import { DefaultContext } from '../../context/default_context/DefaultState';
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'
 import Loading from '../../components/Loading';
-
+import VehicleCardSkeleton from '../../components/skeletons/VehicleCardSkeleton';
 
 export default function Showroom() {
     const inventoryContext = useContext(InventoryContext);
@@ -63,7 +63,6 @@ export default function Showroom() {
             setVehicles(arr)
         }
     },[make, inventoryVehicles, model, year])
-
     
     const handleManufacturerChange = e => {
         setFilters({
@@ -72,6 +71,7 @@ export default function Showroom() {
             year: 'All'
         })
     }
+
     const handleModelChange = e => {
         setFilters(prev => {
             return {
@@ -98,6 +98,14 @@ export default function Showroom() {
             _filteredModels = defaults.models.filter(i => i.manufacturer === make)
         }
         return _filteredModels;
+    }
+
+    const displaySkeletons = () => {
+        let vs = [];
+        for(let i = 0; i < 8; i++){
+            vs.push(<VehicleCardSkeleton  />)
+        }
+        return vs;
     }
 
     return (
@@ -153,16 +161,22 @@ export default function Showroom() {
                     </Paper>
                 </Grid>
 
-                {defaults && vehicles 
-                    ?   <Grid xs={12} item container spacing={2}>
-                            {vehicles.map(vehicle => (
-                                <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
-                                    <VehicleCard vehicle={vehicle} defaults={defaults}/>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    : <Loading  />
-                }
+                <Grid xs={12} item container spacing={2}>
+                    {defaults && vehicles 
+                    
+                    ?   vehicles.map(vehicle => (
+                            <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
+                                <VehicleCard vehicle={vehicle} defaults={defaults}/>
+                            </Grid>
+                        ))
+                    :   displaySkeletons.map((skeles, i) => (
+                            <Grid item xs={12} md={4} lg={3} key={i}>
+                                <skeles  />
+                            </Grid>
+                    ))
+                    }
+                </Grid>
+
             </Grid>
         </MainContainer>
     );

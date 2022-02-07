@@ -1,53 +1,76 @@
 import {
-    Grid, Paper, TextField
+    Grid, Paper, TextField, Skeleton
 } from '@mui/material';
 
 import {getName, formatDate} from '../../utils/Formatter'
 
-export default function PeopleGlance({profile, defaults}) {
+export default function PeopleGlance({profile , defaults}) {
+
+    const animation = 'wave';
 
     return (
         <Paper>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
-                    <TextField
-                        variant='standard'
-                        label='First Name' disabled value={profile.firstName}
-                    />
+                    {(profile && defaults) 
+                        ?   <TextField
+                                variant='standard'
+                                label='First Name' disabled value={profile.firstName}
+                            />
+                        :   <Skeleton variant="text" animation={animation}/>
+                    }
                 </Grid>
+
                 <Grid item xs={6}>
-                    <TextField
-                        variant='standard'
-                        label='Last Name' disabled value={profile.lastName}
-                    />
+                    {(profile && defaults) 
+                        ?   <TextField
+                                variant='standard'
+                                label='Last Name' disabled value={profile.lastName}
+                        />
+                        :   <Skeleton variant="text" animation={animation}/>
+                    }
                 </Grid>
+
                 <Grid item xs={6}>
-                    <TextField
-                        variant='standard'
-                        label='Gender' disabled value={getName(defaults.genders, profile.gender)}
-                    />
+                    {(profile && defaults) 
+                        ?   <TextField
+                                variant='standard'
+                                label='Gender' disabled value={getName(defaults.genders, profile.gender)}
+                            />
+                        :   <Skeleton variant="text" animation={animation}/>
+                    }
                 </Grid>
+
                 <Grid item xs={6}>
-                    <TextField
-                        variant='standard'
-                        label='Date of Birth' disabled value={formatDate(profile.dateOfBirth)}
-                    />
+                    {(profile && defaults) 
+                        ?   <TextField
+                                variant='standard'
+                                label='Date of Birth' disabled value={formatDate(profile.dateOfBirth)}
+                            />
+                        :   <Skeleton variant="text" animation={animation}/>
+                    }
                 </Grid>
+
                 <Grid item xs={6}>
-                    <TextField
-                        variant='standard'
-                        label='Phone' disabled value={profile.phone}
-                    />
+                    {(profile && defaults) 
+                        ?   <TextField
+                                variant='standard'
+                                label='Phone' disabled value={profile.phone}
+                            />
+                        :   <Skeleton variant="text" animation={animation}/>
+                    }
                 </Grid>
+
                 <Grid item xs={6}>
-                    <TextField
-                        variant='standard'
-                        label='Email' disabled value={profile.email}
-                    />
+                    {(profile && defaults) 
+                        ?   <TextField
+                            variant='standard'
+                            label='Email' disabled value={profile.email}
+                        />
+                        :   <Skeleton variant="text" animation={animation}/>
+                    }
                 </Grid>
             </Grid>
-            
         </Paper>
     )
 }
-
