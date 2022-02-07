@@ -5,10 +5,10 @@ import Stack from '@mui/material/Stack';
 
 export default function Alerts(props) {
 
-    const {alerts, removeAlert} = props;
-    const alertMe = alert => {
-        alert(JSON.stringify(alert))
-    }
+    const {alerts, 
+        removeAlert = () => {}
+    } = props;
+
     return (
         <Stack sx={{ width: '100%' }} spacing={1}>
             {alerts.map(alert => (

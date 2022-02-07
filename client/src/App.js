@@ -2,13 +2,16 @@ import './App.css';
 import React, {useState, useContext} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { DefaultContext } from './context/default_context/DefaultState';
+
+
 //#region Components
 import EmployeeDash from './pages/employees/EmployeeDash';
 import Service from './pages/service/Service';
 import Showroom from './pages/sales/Showroom';
 import VehiclePurchase from './pages/sales/VehiclePurchase'
 import VehicleProfile from './pages/sales/VehicleProfile'
-import Login from './authPages/Login';
+//  import Login from './authPages/Login';
+import Login from './pages/home/Login'
 import PrivateRoute from './pages/PrivateRoute';
 import PageNotFound from './pages/PageNotFound';
 
@@ -31,7 +34,6 @@ import SaleState from './context/sales_context/SaleState';
 import { ThemeProvider } from '@mui/material/styles';
 import {lightTheme} from './themes/lightTheme'
 import {darkTheme} from './themes/darkTheme'
-import Test from './Test';
 
 // if(localStorage.token){
 //     setAuthToken(localStorage.token)
@@ -46,7 +48,7 @@ function App() {
     // console.info("Token", localStorage.token)
     return (
         <ThemeProvider theme={currentSettings.darkTheme ? darkTheme : lightTheme}> 
-        {/* <AuthState> */}
+        <AuthState>
             <CustomerState>
                 <AddressState>
                         <EmployeeState>
@@ -58,10 +60,10 @@ function App() {
                                                 <SaleState>                                                    <div className="App">
                                                         <BrowserRouter>
                                                             <Routes>
-                                                                <Route path='/login' element={<Login />} />
+                                                                <Route path='/' element={<Login />} />
                                                                 <Route path='*' element={<PageNotFound />} />
                                                                 {/* <Route path='/' element={<PrivateRoute />}> */}
-                                                                    <Route path='/' element={<Showroom  />} />
+                                                                    {/* <Route path='/' element={<Showroom  />} /> */}
                                                                     <Route path='/hr/employees' element={<EmployeeDash  />} />
 
                                                                     <Route path='/service' element={<Service  />} />
@@ -83,7 +85,7 @@ function App() {
                         </EmployeeState> 
                 </AddressState> 
             </CustomerState>
-        {/* </AuthState> */}
+        </AuthState>
         </ThemeProvider>
     );
 }

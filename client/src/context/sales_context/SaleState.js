@@ -24,15 +24,13 @@ const SaleState = props => {
 
     const [state, dispatch] = useReducer(salesReducer, initialState);
 
-    const saleVehicle = async (sale) => {
-        console.info("Sale\n", sale)
-        const res = await axios.post('/api/sales', sale, config);
-        console.info(res.data)
+    const getSales = async (sale) => {
+        const res = await axios.get('/api/sales');
         try {
-            // dispatch({
-            //     type: ActionTypes.SET_ERRORS,
-            //     payload: res.data
-            // })
+            dispatch({
+                type: ActionTypes.GET_SALES,
+                payload: res.data
+            })
         } catch (err){
             dispatch({
                 type: ActionTypes.SET_ERRORS,
@@ -41,11 +39,19 @@ const SaleState = props => {
         }
     }
 
-    const getVehicleSales = async () => {
-        // dispatch({
-        //     type: ActionTypes.GET_VEHICLE_SALES,
-        //     payload: []
-        // })
+    const saleVehicle = async (sale) => {
+        const res = await axios.post('/api/sales', sale, config);
+        try {
+            dispatch({
+                type: ActionTypes.ADD_SALE,
+                payload: res.data
+            })
+        } catch (err){
+            dispatch({
+                type: ActionTypes.SET_ERRORS,
+                payload: err.response.data.errors
+            })
+        }
     }
 
     const addUIErrors = errors => {
@@ -82,7 +88,6 @@ const SaleState = props => {
 
                 addUIErrors,
                 saleVehicle,
-                getVehicleSales,
                 clearErrors,
                 removeError
             }}>

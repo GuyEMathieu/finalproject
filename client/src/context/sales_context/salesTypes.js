@@ -4,4 +4,5 @@ export const SET_ERRORS = 'SET_ERRORS';
 export const REMOVE_ERROR = 'REMOVE_ERROR';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
+export const GET_SALES = 'GET_SALES'
 export const ADD_SALE = 'ADD_SALE'

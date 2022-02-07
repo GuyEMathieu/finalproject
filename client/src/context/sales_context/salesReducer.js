@@ -3,7 +3,12 @@ import * as ActionTypes from './salesTypes';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) =>{
     switch(action.type){
-        case ActionTypes.VEHICLE_SALE:
+        case ActionTypes.GET_SALES:
+            return {
+                ...state,
+                sales: action.payload
+            }
+        case ActionTypes.ADD_SALE:
             return {
                 ...state,
                 sales: [...state.sales || [], action.payload]
