@@ -3,106 +3,128 @@ import {
     Grid, styled, Paper,
     Button, ButtonGroup, Box
 } from '@mui/material';
-import AccordionShell from '../../components/AccordionShell';
+import {useParams} from 'react-router-dom';
 
-import { EmployeeContext } from '../../context/employee_context/EmployeeState';
-import {DefaultContext} from '../../context/default_context/DefaultState';
+import {DefaultContext} from '../../context/default_context/DefaultState'
+import {EmployeeContext} from '../../context/employee_context/EmployeeState'
 
-//#region COMPONENTS
-import PersonGlance from '../../components/peopleComponents/PeopleGlance';
+
+import PeopleGlance from '../../components/peopleComponents/PeopleGlance';
 import PersonalInfo from '../../components/peopleComponents/PersonalInfo';
 import EmploymentInfo from './EmploymentInfo'
 import Address from '../../components/Address';
 import Loading from '../../components/Loading';
 import DriverLicense from '../../components/DriverLicense';
-//#endregion
+import AccordionShell from '../../components/AccordionShell';
 
 const CustomGrid = styled(Grid)(({theme}) => ({
     paddingTop: theme.spacing(1)
 }))
 
-export default function EmployeeProfile(props) {
-    const employeeContext = useContext(EmployeeContext)
-    const {employeeList, updateEmployee} = employeeContext;
+
+function EmployeeProfile2(props) {
+    const {employeeId} = useParams();
+
+    const [isDisabled, setDisabled] = useState(true)
 
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
-
-    const {id} = props
-
-    const [employee, setEmployee] = useState(null);
-    const [tempEmployee, setTempEmployee] = useState(null);
-    const [changes, setChanges] = useState(null)
-    const [isLoading, setLoading] = useState(true)
-
     useEffect(() => {
         if(defaults === null){
             getAll()
         }
-        if(employee === null){
-            setEmployee(employeeList.find(e => e._id === id))
+    }, [defaults, getAll])
+
+    const employeeContext = useContext(EmployeeContext);
+    const {
+        employeeList, getEmployees, getProfile,
+        currentEmployee, updateEmployee
+    } = employeeContext;
+    useEffect(() => {
+        if(!employeeList === null){
+            getEmployees()
         }
 
-        if(employee !== null && defaults !== null){
-            setLoading(false)
+        if(currentEmployee === null || currentEmployee._id !== employeeId) {
+            getProfile(employeeId)
+        } else{
+            setEmployee(currentEmployee)
         }
-    }, [id, employee, employeeList, defaults, getAll])
+    },[employeeList, getEmployees, getProfile, employeeId, currentEmployee])
+
+    const [temp, setTemp] = useState(null)
+    const [changes, setChanges] = useState(null)
+    const [employee, setEmployee] = useState({
+        driverLicense: {},
+        employeeInfo: {},
+        address: {}
+    })
+
+    const onEdit = e =>{
+        setDisabled(false)
+        setTemp(employee)
+        setChanges({_id: employee._id})
+    }
+
+    const cancelEdit = e =>{
+        setDisabled(true);
+        setChanges(null)
+        setEmployee(temp);
+    }
 
     const [expanded, setExpanded] = useState('Personal Information');
-
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const [isDisabled, setIsDisabled] = useState(true);
-
-    const onEdit = () => {
-        setChanges({_id: employee._id})
-        setTempEmployee(employee)
-        setIsDisabled(false)
-    }
-
-    const onSave = () => {
-        updateEmployee(changes)
-        setIsDisabled(true)
-        setTempEmployee(null)
-        setChanges(null)
-    }
-
-    const cancelEdit = () => {
-        setIsDisabled(true)
-        setEmployee(tempEmployee)
-        setChanges(null)
-    }
-
     const handleEmployeeChange = e => {
         const {name, value} = e.target;
-        if(name === 'firstName' || name === 'middleName' || name === 'lastName' 
-            || name === 'ssn' || name === 'dateOfBirth' || name === 'gender' 
+
+        if(
+            name === 'firstName' || name === 'middleName' 
+            || name === 'lastName' || name === 'gender'
+            || name === 'ssn' || name === 'dateOfBirth' 
             || name === 'phone' || name === 'email'){
             setEmployee({...employee, [name]: value})
             setChanges({...changes, [name]: value})
         }
-        else if(name === 'dlState' || name === 'dlNumber'){
+
+        if(name === 'dlState' || name === 'dlNumber'){
             setEmployee({...employee, driverLicense: {...employee.driverLicense, [name]: value}})
-            setChanges({...employee, driverLicense: {...employee.driverLicense, [name]: value}})
-        } else if(name === 'street' || name === 'aptNum' || name === 'city' 
-            || name === 'state' || name === 'country' || name === 'zipcode'){
+            setChanges({...changes, driverLicense: {...changes.driverLicense, [name]: value}})
+        }
+        
+        if(
+            name === 'street' || name === 'aptNum'
+            || name === 'city' || name === 'state' 
+            || name === 'country' || name === 'zipcode'){
+
             setEmployee({...employee, address: {...employee.address, [name]: value}})
-            setChanges({...employee, address: {...employee.address, [name]: value}})
-        } else if(name === 'startDate' || name === 'position' || name === 'salary'
-            || name === 'department'){
+            setChanges({...changes, address: {...changes.address, [name]: value}})
+        }
+
+        if(
+            name === 'startDate' || name === 'salary'
+            || name === 'department' || name === 'position'){
+
             setEmployee({...employee, employmentInfo: {...employee.employmentInfo, [name]: value}})
-            setChanges({...employee, employmentInfo: {...employee.employmentInfo, [name]: value}})
+            setChanges({...changes, employmentInfo: {...changes.employmentInfo, [name]: value}})
         }
     }
-    
-    return (
-        <CustomGrid container spacing={1} sx>
-            <Grid item xs={4} sx={{display: {xs: 'none', lg: 'block'}}}>
-                {isLoading ? <Paper><Loading  /></Paper> : <PersonGlance profile={employee} defaults={defaults}/> }
-            </Grid>
 
+    const onSave = e => {
+        updateEmployee(changes)
+        setChanges(null);
+        setTemp(null);
+        setDisabled(true)
+    }
+
+
+    return (
+        <CustomGrid container spacing={2}>
+            <Grid item xs={4} sx={{display: {xs: 'none', lg: 'block'}}}>
+                <PeopleGlance profile={employee} defaults={defaults}/> 
+            </Grid>
             <Grid item xs={12} lg={8} container spacing={1}>
                 <Grid item xs={12} >
                     <Paper sx={{p: 1}}>
@@ -111,7 +133,6 @@ export default function EmployeeProfile(props) {
                             <ButtonGroup variant="outlined" size='small'>
                                 {isDisabled ? <Button onClick={onEdit}>Edit</Button> : <Button onClick={cancelEdit}>Cancel</Button> }
                                 {!isDisabled ? <Button variant='contained' onClick={onSave}>Save</Button> : null}
-                                {/* {!isDisabled ?  : null} */}
                             </ButtonGroup>
                         </Box>
                     </Paper>
@@ -122,56 +143,50 @@ export default function EmployeeProfile(props) {
                         handleChange={handleChange}
                         expanded={expanded} 
                         title={'Personal Information'}>
-                        {isLoading 
-                            ? <Loading  /> 
-                            : <PersonalInfo 
-                                data={employee || {}} 
-                                defaults={defaults} 
-                                isDisabled={isDisabled}
-                                handleChange={handleEmployeeChange}
-                            /> 
-                        }
+                        <PersonalInfo 
+                            data={employee} 
+                            defaults={defaults} 
+                            isDisabled={isDisabled}
+                            handleChange={handleEmployeeChange}
+                        /> 
                     </AccordionShell>
+
                     <AccordionShell 
                         handleChange={handleChange}
                         expanded={expanded} 
                         title={'Driver License'}>
-                        
-                        {isLoading 
-                            ? <Loading  /> 
-                            : <DriverLicense 
-                                handleChange={handleEmployeeChange}
-                                isDisabled={isDisabled}
-                                data={employee.driverLicense || {}} 
-                                defaults={defaults} /> }
+                        <DriverLicense 
+                            handleChange={handleEmployeeChange}
+                            isDisabled={isDisabled}
+                            driverLicense={employee ? employee.driverLicense : null} 
+                            defaults={defaults ? defaults : null} 
+                        />
                     </AccordionShell>
+
                     <AccordionShell 
                         handleChange={handleChange}
                         expanded={expanded} 
                         title={'Address Information'}>
-                        {isLoading 
-                            ? <Loading  /> : 
-                            <Address address={employee.address} 
+                        <Address address={employee ? employee.address : null} 
                             handleChange={handleEmployeeChange}
-                            defaults={defaults} isDisabled={isDisabled}/> 
-                        }
+                            defaults={defaults ? defaults : null} isDisabled={isDisabled}/> 
                     </AccordionShell>
+
                     <AccordionShell 
                         handleChange={handleChange}
                         expanded={expanded} 
                         title={'Employment Information'}>
-                        {isLoading 
-                            ? <Loading  /> :
                             <EmploymentInfo 
                                 handleChange={handleEmployeeChange}
-                                employmentInfo={employee.employmentInfo} 
-                                defaults={defaults} isDisabled={isDisabled}
-                            /> 
-                        }
+                                employmentInfo={employee ? employee.employmentInfo : null} 
+                                defaults={defaults ? defaults : null} isDisabled={isDisabled}
+                            />
                     </AccordionShell>
+                    
                 </Grid>
-            </Grid>
+            </Grid>  
         </CustomGrid>
     )
 }
 
+export default EmployeeProfile2

@@ -58,7 +58,7 @@ export default function Address (props) {
             <Grid item xs={12} md={3}>
                 <TextField
                     label='State' name='state'
-                    value={state} disabled={isDisabled}
+                    value={state || ''} disabled={isDisabled}
                     onChange={handleChange} select>
                     {defaults.states.map(state => (
                         <MenuItem key={state._id} value={state._id}>
@@ -71,7 +71,7 @@ export default function Address (props) {
             <Grid item xs={12} md={3}>
                 <TextField
                     label='Country' name='country'
-                    value={country} disabled={isDisabled}
+                    value={country || ''} disabled={isDisabled}
                     onChange={handleChange} select>
                     {defaults.countries.map(country => (
                         <MenuItem key={country._id} value={country._id}>

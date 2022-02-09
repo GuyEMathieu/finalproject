@@ -31,13 +31,17 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
 
     return (
         <Grid container spacing={2}>
-            <Grid item xs={12}md={4}>
+            <Grid item xs={12}md={6}>
                 <TextField  
                     label='Employee#' name='employeeNumber'
                     value={employmentInfo.employeeNumber || ''} disabled/>
             </Grid>
 
-            <Grid item md={8} sx={{xs:'none', md:'block'}}  />
+            <Grid item xs={12}md={6}>
+                <TextField  
+                    label='Team' name='team' 
+                    value={employmentInfo.team} disabled/>
+            </Grid>
             
             
             <Grid item xs={12} md={6}>
@@ -61,7 +65,7 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
                 <TextField  
                     disabled={isDisabled}
                     label='Department' name='department' select
-                    value={employmentInfo.department} onChange={handleChange}>
+                    value={employmentInfo.department || ''} onChange={handleChange}>
                     <MenuItem disabled >Select Department</MenuItem>
                     {defaults && defaults.departments.map(dept => (
                         <MenuItem key={dept._id} value={dept._id}>{dept.name}</MenuItem>
@@ -72,7 +76,7 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
                 <TextField  
                     select
                     label='Position' name='position' disabled={isDisabled}
-                    value={employmentInfo.position} onChange={handleChange}>
+                    value={employmentInfo.position || ''} onChange={handleChange}>
                     <MenuItem disabled >Select Position</MenuItem>
                     {defaults && defaults.positions.filter(pos => pos.department === employmentInfo.department).map(pos => (
                         <MenuItem key={pos._id} value={pos._id}>{pos.name}</MenuItem>

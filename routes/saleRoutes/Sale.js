@@ -11,8 +11,7 @@ var saleSchema = new mongoose.Schema({
         ref: 'customers'
     },
     vehicle: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'inventoryVehicles'
+        type: String
     },
     purchasePrice: {
         type: Number,

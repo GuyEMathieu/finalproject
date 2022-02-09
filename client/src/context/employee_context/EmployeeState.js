@@ -64,7 +64,7 @@ const EmployeeState = props => {
     const addEmployee = async employee => {
         try {
             const res = await axios.post('/api/employees', employee, config)
-            console.info("")
+            console.info(res.data)
             dispatch({
                 type: ActionTypes.ADD_EMPLOYEE,
                 payload: res.data
@@ -112,11 +112,8 @@ const EmployeeState = props => {
 
     const updateEmployee = async (changes) => {
         
-
         try {
-            prettyAlert(changes)
             const res = await axios.put(`/api/employees/${changes._id}`, changes, config)
-            prettyAlert(res.data)
             
             dispatch({
                 type: ActionTypes.UPDATE_EMPLOYEE,
@@ -129,10 +126,6 @@ const EmployeeState = props => {
                 payload: err.response.data.errors
             })
         }
-        dispatch({
-            type: ActionTypes.UPDATE_EMPLOYEE,
-            payload: changes
-        })
     }
 
     const removeAlert = async id => {

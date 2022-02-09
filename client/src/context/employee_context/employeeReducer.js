@@ -15,10 +15,20 @@ export default (state, action) => {
             }
         case SET_CURRENT_EMPLOYEE:
         case UPDATE_EMPLOYEE:
+            const list = state.employeeList;
+            if(state.employeeList){
+                
+                for(let i = 0; i < list.length; i++){
+                    if(list[i]._id === action.payload){
+                        list[i] = action.payload
+                    }
+                }
+            }
+
             return {
                 ...state,
                 currentEmployee: action.payload,
-                employeeList: state.employeeList.map(employee => employee._id === action.payload._id ? action.payload : employee)
+                employeeList: list
             }
 
         case GET_ALL:

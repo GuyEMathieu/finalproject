@@ -34,8 +34,8 @@ import SaleState from './context/sales_context/SaleState';
 import { ThemeProvider } from '@mui/material/styles';
 import {lightTheme} from './themes/lightTheme'
 import {darkTheme} from './themes/darkTheme'
-import EmployeeSearch from './pages/employees/EmployeeSearch2';
-import EmployeeMain from './pages/employees/EmployeeMain2';
+import EmployeeSearch from './pages/employees/EmployeeSearch';
+import EmployeeMain from './pages/employees/EmployeeMain';
 
 // if(localStorage.token){
 //     setAuthToken(localStorage.token)

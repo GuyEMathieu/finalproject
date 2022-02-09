@@ -5,6 +5,8 @@ const { v4: uid } = require('uuid');
 const Sale = require('./Sale')
 const InventoryVehicle = require('../inventoryRoutes/vehicles/InventoryVehicle');
 const Customer = require('../customerRoutes/Customer')
+const Employee = require('../employeeRoutes/Employee');
+const Position = require('../positionRoutes/Position')
 
 
 // @route       GET api/sales
@@ -20,6 +22,41 @@ router.get('/', async (req, res) => {
 
     } catch (err) {
         console.error(err.msg);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route       POST api/sales
+// @desc        Add Sale objects
+// @access      private
+router.post('/performance', async (req, res) => {
+    try {
+        let sales = []
+        const position = await Position.findOne({name: "Sales Representative"});
+        let employees = await Employee.find()
+        employees = employees.filter(e => e.employmentInfo.position.toString() === position._id.toString())
+        const customers = await Customer.find();
+
+        function getRandom(arr){
+            return arr[Math.floor(Math.random()*arr.length)];
+        }
+
+        for(let i = 0; i < req.body.length; i++){
+            const newSale = {
+                purchaseDate: req.body[i].purchaseDate,
+                vehicle: req.body[i].vehicle,
+                purchasePrice: req.body[i].purchasePrice,
+                soldBy: getRandom(employees)._id,
+                paymentType: req.body[i].paymentType
+            }
+            sales.push(newSale)
+        }
+
+        const sold = await Sale.insertMany(sales)
+
+        res.json(sold);
+    } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })

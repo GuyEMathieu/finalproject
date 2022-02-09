@@ -130,6 +130,17 @@ export default function Header(props) {
                     </ListItemButton>
                 </CustomLink>
 
+                <CustomLink to={'/hr/employees'}>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <BadgeIcon color='primary'/>
+                        </ListItemIcon>
+                        <ListItemText primary="Employees" />
+                    </ListItemButton>
+                </CustomLink>
+
+
+
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
                         <AdminPanelSettingsIcon color='primary'/>
@@ -141,14 +152,14 @@ export default function Header(props) {
 
                 <Collapse in={openAdmin} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <CustomLink to={'/hr/employees'}>
+                        {/* <CustomLink to={'/hr/employees'}>
                             <ListItemButton sx={{ pl: 4 }}>
                                 <ListItemIcon>
                                     <BadgeIcon color='primary'/>
                                 </ListItemIcon>
                                 <ListItemText primary="Employees" />
                             </ListItemButton>
-                        </CustomLink>
+                        </CustomLink> */}
                     </List>
                 </Collapse>
 

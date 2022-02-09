@@ -28,6 +28,7 @@ export default function PersonalInfo(props) {
             setLoading(false)
         }
     }, [data, defaults])
+
     const {
         firstName, lastName, middleName, dateOfBirth, 
         gender, phone, ssn, email

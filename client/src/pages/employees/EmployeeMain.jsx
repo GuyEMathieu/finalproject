@@ -1,65 +1,68 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { Box, Tab, Paper } from '@mui/material';
-import {TabContext, TabList, TabPanel } from '@mui/lab';
+import {useContext, useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
+import { Box, Tab } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 
-import {DefaultContext} from '../../context/default_context/DefaultState'
+import EmployeeProfile from './EmployeeProfile'
+import MainContainer from '../../components/MainContainer'
+import EmployeePerfomance from './EmployeePerformance'
+import ManagerPerformance from './ManagerPerformance'
 
-import EmployeeProfile from './EmployeeProfile';
-import EmployeePerformance from './EmployeePerformance';
-import ManagerPerformance from './ManagerPerformance';
-import Loading from '../../components/Loading';
-import { getName, prettyAlert } from '../../utils/Formatter';
+import { EmployeeContext } from '../../context/employee_context/EmployeeState';
+import {DefaultContext} from '../../context/default_context/DefaultState';
 
-function EmployeeMain(props) {
+const EmployeeMain2 = () => {
+    const {employeeId} = useParams();
+    const employeeContext = useContext(EmployeeContext);
+    const {getProfile, currentEmployee} = employeeContext;
+
     const defaultContext = useContext(DefaultContext);
     const {defaults, getAll} = defaultContext;
 
-    const {id, team, position} = props;
+    const [isManager, setManager] = useState(false)
 
     useEffect(() => {
-        if(defaults === null){
-            getAll()
+        if(!defaults){
+            getAll();
         }
-    }, [defaults, getAll])
 
-    const [value, setValue] = useState('Performance');
+        if(currentEmployee === null){
+            getProfile(employeeId)
+        }
+
+        if(defaults && currentEmployee && currentEmployee._id === employeeId) {
+            const position = defaults.positions.find(p => p._id === currentEmployee.employmentInfo.position);
+            if(position.name.split(" ")[1] === "Manager"){
+                setManager(true)
+            }
+        }
+    }, [defaults, getAll, getProfile, currentEmployee, employeeId])
+
+    const [value, setValue] = useState('Profile');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const isManager = () => {
-        if(defaults){
-            return getName(defaults.positions, position).split(' ')[1] === 'Manager' ? true : false
-        }
-
-        return false
-    }
-
-    if(defaults === null){
-        return <Loading  />
-    }
-
     return (
-        <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 1 }}>
-                <Paper sx={{p:0}}>
-                    <TabList onChange={handleChange} variant="scrollable" >
-                        <Tab label='Profile' value='Profile'/>
-                        <Tab label='Performance' value='Performance'/>
-                    </TabList>
-                </Paper>
+        <MainContainer>
+            <Box sx={{ width: '100%', typography: 'body1' }}>
+                <TabContext value={value}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
+                        <TabList onChange={handleChange} aria-label="lab API tabs example">
+                            <Tab label="Profile" value="Profile" />
+                            <Tab label="Performance" value="Performance" />
+                        </TabList>
+                    </Box>
+                    <TabPanel value="Profile" sx={{px: 0, py: 0}}>
+                        <EmployeeProfile />
+                    </TabPanel>
+                    <TabPanel value="Performance" sx={{px: 0, py: 0}}>
+                        {isManager ? <ManagerPerformance /> : <EmployeePerfomance  />}
+                    </TabPanel>
+                </TabContext>
             </Box>
-            <TabPanel value="Profile" sx={{px: 0, py: 0, my: 0}}>
-                <EmployeeProfile id={id} /> 
-            </TabPanel>
-            <TabPanel value="Performance" sx={{px: 0, py: 1, my: 0}}>
-                {isManager() 
-                    ? <ManagerPerformance employeeId={id} teamNumber={team}/>
-                    : <EmployeePerformance employeeId={id}/>
-                }
-            </TabPanel>
-        </TabContext>
+        </MainContainer>
     )
 }
 
-export default EmployeeMain
+export default EmployeeMain2

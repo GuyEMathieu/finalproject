@@ -72,6 +72,7 @@ router.put('/:employeeId', async (req, res) => {
             if(salary) employee.employmentInfo.salary = salary;
         }
 
+        await employee.save();
 
         res.json(employee)
     } catch (err) {
@@ -172,7 +173,7 @@ router.post('/multiple', auth, async (req, res) => {
             const {
                 firstName, lastName, middleName, dateOfBirth,
                 ssn, email, phone, team, avatar, gender,
-                driverLicense, address, employmentInfo
+                driverLicense, address, employmentInfo, 
             } = req.body[i];
 
             let newEmployee = await Employee.findOne({firstName, lastName, ssn})
@@ -190,12 +191,14 @@ router.post('/multiple', auth, async (req, res) => {
                     user.password = await bcrypt.hash(user.password, salt)
                     await user.save();
 
+
                     newEmployee = new Employee({
-                        user: user._id,
+                        user: user._id, ssn, 
                         firstName, lastName, middleName,
                         dateOfBirth: new Date(dateOfBirth),
                         email, phone, team, avatar, gender,
-                        address, driverLicense, employmentInfo
+                        address, driverLicense, 
+                        employmentInfo: {...employmentInfo, team: team.split("_").join(" ")}
                     });
 
                     await newEmployee.save();

@@ -14,6 +14,9 @@ const employmentInfoSchema = new mongoose.Schema({
     startDate: {
         type: Date
     },
+    team: {
+        type: String
+    },
     position: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'positions'
