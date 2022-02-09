@@ -1,33 +1,45 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-    Grid, TextField, MenuItem
+    Grid, TextField, MenuItem, Skeleton
 } from '@mui/material'
+import Loading from './Loading'
 
-const DriverLicense = ({data, handleChange, isDisabled, defaults}) => {
-    const {
-        dlState, dlNumber
-    } = data
+const DriverLicense = ({driverLicense, handleChange, isDisabled, defaults}) => {
+    const animation = 'wave';
+
+    const [isLoading, setLoading] = useState(true)
+    
+    useEffect(() => {
+        if(driverLicense && defaults){
+            setLoading(false)
+        }
+    }, [driverLicense, defaults])
+
+    if(isLoading){
+        return <Loading  />
+    }
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
                 <TextField
                     disabled={isDisabled}
                     label="DL State" name='dlState' select
-                    value={dlState || ''} onChange={handleChange}>
+                    value={driverLicense.dlState || ''} onChange={handleChange}>
                         <MenuItem disabled>Select DL State</MenuItem>
-                        {defaults.states.map(state => (
+                        {defaults && defaults.states.map(state => (
                             <MenuItem key={state._id} value={state._id}>{state.name}</MenuItem>
                         ))}
-                    </TextField>
+                </TextField>
             </Grid>
+
             <Grid item xs={12} md={6}>
                 <TextField
                     disabled={isDisabled}
                     label="DL Number" name='dlNumber' 
-                    value={dlNumber} onChange={handleChange}/>
+                    value={driverLicense.dlNumber} onChange={handleChange}/>
             </Grid>
-            
         </Grid>
+        
     )
 }
 

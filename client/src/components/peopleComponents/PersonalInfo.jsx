@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Grid, TextField, MenuItem
 } from '@mui/material';
 import DatePicker from '@mui/lab/DatePicker';
 import { formatPhone } from '../../utils/Formatter';
 import Skeleton from '@mui/material/Skeleton';
+import Loading from '../Loading'
+
+
 export default function PersonalInfo(props) {
 
     const {
@@ -13,10 +16,22 @@ export default function PersonalInfo(props) {
         isDisabled = true,
         handleChange, defaults
     } = props
+
+    const [isLoading, setLoading] = useState(true)
+    const [personalInfo, setPersonalInfo] = useState({})
+    useEffect(() => {
+        if(data){
+            setPersonalInfo(data)
+        }
+
+        if(data && defaults){
+            setLoading(false)
+        }
+    }, [data, defaults])
     const {
         firstName, lastName, middleName, dateOfBirth, 
         gender, phone, ssn, email
-    } = data
+    } = personalInfo;
 
     const handleDateChange = date => {
         const e = {
@@ -27,84 +42,68 @@ export default function PersonalInfo(props) {
         handleChange(e)
     }
 
+    if(isLoading){
+        return <Loading  />
+    }
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={5}>
-                {data 
-                    ?   <TextField
-                            error={!isDisabled && firstName.length === 0}
-                            helperText={!isDisabled && firstName.length === 0 ? 'Required': ''}
-                            label='First Name' name='firstName' disabled={isDisabled}
-                            value={firstName} onChange={handleChange}
-                        />
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    error={!isDisabled && firstName.length === 0}
+                    helperText={!isDisabled && firstName.length === 0 ? 'Required': ''}
+                    label='First Name' name='firstName' disabled={isDisabled}
+                    value={firstName} onChange={handleChange}
+                />
             </Grid>
             <Grid item xs={12} md={2}>
-                {data 
-                    ?   <TextField
-                            label='M.I.' name='middleName' disabled={isDisabled}
-                            value={middleName} onChange={handleChange}/>
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    label='M.I.' name='middleName' disabled={isDisabled}
+                    value={middleName} onChange={handleChange}/>
             </Grid>
             <Grid item xs={12} md={5}>
-                {data 
-                    ?   <TextField
-                            error={!isDisabled && lastName.length === 0 ? true : false}
-                            helperText={!isDisabled && lastName.length === 0 ? 'Required' : ''}
-                            label='Last Name' name='lastName' disabled={isDisabled}
-                            value={lastName} onChange={handleChange}/>
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    error={!isDisabled && lastName.length === 0 ? true : false}
+                    helperText={!isDisabled && lastName.length === 0 ? 'Required' : ''}
+                    label='Last Name' name='lastName' disabled={isDisabled}
+                    value={lastName} onChange={handleChange}/>
             </Grid>
             
             <Grid item xs={12} md={4}>
-                {data 
-                    ?   <TextField
-                            label='SSN' name='ssn' disabled={isDisabled}
-                            value={ssn} onChange={handleChange}/>
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    label='SSN' name='ssn' disabled={isDisabled}
+                    value={ssn} onChange={handleChange}/>
+                
             </Grid>
             <Grid item xs={12} md={4}>
-                {data 
-                    ?   <DatePicker
-                            label="Date of Birth"
-                            value={dateOfBirth} disabled={isDisabled}
-                            onChange={(date) => handleDateChange(date)}
-                            renderInput={(params) => <TextField  {...params} />}
-                        />
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <DatePicker
+                    label="Date of Birth"
+                    value={dateOfBirth} disabled={isDisabled}
+                    onChange={(date) => handleDateChange(date)}
+                    renderInput={(params) => <TextField  {...params} />}
+                />
+                
             </Grid>
             <Grid item xs={12} md={4}>
-                {data 
-                    ?   <TextField
-                            label='Gender' name='gender' disabled={isDisabled}
-                            value={gender || ''} onChange={handleChange} select>
-                            {defaults && defaults.genders.map(g => (
-                                <MenuItem key={g._id} value={g._id}>{g.name}</MenuItem>
-                            ))}
-                        </TextField>
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    label='Gender' name='gender' disabled={isDisabled}
+                    value={gender || ''} onChange={handleChange} select>
+                    {defaults && defaults.genders.map(g => (
+                        <MenuItem key={g._id} value={g._id}>{g.name}</MenuItem>
+                    ))}
+                </TextField>
+                
             </Grid>
             <Grid item xs={12} md={6}>
-                {data 
-                    ?   <TextField
-                            label='Phone' name='phone' disabled={isDisabled}
-                            value={formatPhone(phone)} onChange={handleChange}/>
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    label='Phone' name='phone' disabled={isDisabled}
+                    value={formatPhone(phone)} onChange={handleChange}/>
+                
             </Grid>
             <Grid item xs={12} md={6}>
-                {data 
-                    ?   <TextField
-                            label='Email' name='email' disabled={isDisabled}
-                            value={email} onChange={handleChange}/>
-                    :   <Skeleton variant='text' animation={animation}  />
-                }
+                <TextField
+                    label='Email' name='email' disabled={isDisabled}
+                    value={email} onChange={handleChange}/>
             </Grid>
         </Grid>
     )

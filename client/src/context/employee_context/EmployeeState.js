@@ -6,18 +6,24 @@ import axios from 'axios'
 
 import * as ActionTypes from './employeeContextTypes'
 
-import {SALES_ONE, SALES_TWO} from '../shared/employees/salesEmployees'
 import {SALES_PERFORMANCE} from '../shared/salesPerformance'
+import { prettyAlert } from '../../utils/Formatter';
 
 
 export const EmployeeContext = createContext();
 
 const EmployeeState = props => {
     const initialState = {
-        employeeList: SALES_ONE.concat(SALES_TWO),
+        employeeList: null,
         salesPerformance: SALES_PERFORMANCE,
         currentEmployee: null,
         alerts: null,
+    }
+
+    const config = {
+        headers: {
+            "Content-Type": 'application/json'
+        }
     }
 
     const [state, dispatch] = useReducer(employeeReducer, initialState);
@@ -56,12 +62,6 @@ const EmployeeState = props => {
     }
 
     const addEmployee = async employee => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-
         try {
             const res = await axios.post('/api/employees', employee, config)
             console.info("")
@@ -95,7 +95,7 @@ const EmployeeState = props => {
         try {
             console.info("Searching for ", employee)
             const res = await axios.post(`/api/employees/search`, employee, config);
-            console.info("Search Result: ", res.data)
+            prettyAlert("Search Result: ", res.data)
             
             // dispatch({
             //     type: SEARCH,
@@ -111,26 +111,24 @@ const EmployeeState = props => {
     }
 
     const updateEmployee = async (changes) => {
-        // const config = {
-        //     headers: {
-        //         "Content-Type": 'application/json'
-        //     }
-        // }
+        
 
-        // try {
-        //     const res = await axios.patch(`/api/employees/${id}`, changes, config)
+        try {
+            prettyAlert(changes)
+            const res = await axios.put(`/api/employees/${changes._id}`, changes, config)
+            prettyAlert(res.data)
             
-        //     dispatch({
-        //         type: UPDATE_EMPLOYEE,
-        //         payload: res.data
-        //     })
+            dispatch({
+                type: ActionTypes.UPDATE_EMPLOYEE,
+                payload: res.data
+            })
 
-        // } catch (err) {
-        //     dispatch({
-        //         type: SET_ALERTS,
-        //         payload: err.response.data.errors
-        //     })
-        // }
+        } catch (err) {
+            dispatch({
+                type: ActionTypes.SET_ALERTS,
+                payload: err.response.data.errors
+            })
+        }
         dispatch({
             type: ActionTypes.UPDATE_EMPLOYEE,
             payload: changes

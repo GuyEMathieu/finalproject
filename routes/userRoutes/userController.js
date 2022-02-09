@@ -5,12 +5,13 @@ const { v4: uid } = require('uuid');
 const User = require('./User');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const config = require("config")
+const config = require("config");
+const auth = require('../auth')
 
 // @route       GET api/users
-// @desc        Get user list
+// @desc        Get all users
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/all', auth, async (req, res) => {
 
     try {
         const users = await User.find()
@@ -21,6 +22,24 @@ router.get('/', async (req, res) => {
 
     } catch (err) {
         console.error(err.msg);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route       GET api/users
+// @desc        Get logged in user
+// @access      private
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+            .select('-password')
+            .select('-createdAt')
+            .select('-updatedAt')
+            .select('-__v')
+            
+        res.json(user)
+    } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -60,7 +79,8 @@ router.post('/register',
 
             const payload = {
                 user: {
-                    _id: newUser._id
+                    id: newUser._id,
+                    isAdmin: newUser.isAdmin
                 }
             }
 
@@ -77,6 +97,7 @@ router.post('/register',
         }
     }
 )
+
 // @route       POST api/users/login
 // @desc        register a user
 // @access      private
@@ -111,7 +132,8 @@ router.post('/login',
 
             const payload = {
                 user: {
-                    _id: user._id
+                    id: user._id,
+                    isAdmin: user.isAdmin
                 }
             }
 

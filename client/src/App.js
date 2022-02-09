@@ -34,6 +34,8 @@ import SaleState from './context/sales_context/SaleState';
 import { ThemeProvider } from '@mui/material/styles';
 import {lightTheme} from './themes/lightTheme'
 import {darkTheme} from './themes/darkTheme'
+import EmployeeSearch from './pages/employees/EmployeeSearch2';
+import EmployeeMain from './pages/employees/EmployeeMain2';
 
 // if(localStorage.token){
 //     setAuthToken(localStorage.token)
@@ -60,11 +62,12 @@ function App() {
                                                 <SaleState>                                                    <div className="App">
                                                         <BrowserRouter>
                                                             <Routes>
-                                                                <Route path='/' element={<Login />} />
+                                                                <Route path='/' element={<Showroom />} />
                                                                 <Route path='*' element={<PageNotFound />} />
                                                                 {/* <Route path='/' element={<PrivateRoute />}> */}
                                                                     {/* <Route path='/' element={<Showroom  />} /> */}
-                                                                    <Route path='/hr/employees' element={<EmployeeDash  />} />
+                                                                    <Route path='/hr/employees' element={<EmployeeSearch  />} />
+                                                                    <Route path='/hr/employees/profile/:employeeId' element={<EmployeeMain  />} />
 
                                                                     <Route path='/service' element={<Service  />} />
 

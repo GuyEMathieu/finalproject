@@ -32,7 +32,7 @@ export default function EmployeeProfile(props) {
 
     const [employee, setEmployee] = useState(null);
     const [tempEmployee, setTempEmployee] = useState(null);
-
+    const [changes, setChanges] = useState(null)
     const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -57,19 +57,22 @@ export default function EmployeeProfile(props) {
     const [isDisabled, setIsDisabled] = useState(true);
 
     const onEdit = () => {
+        setChanges({_id: employee._id})
         setTempEmployee(employee)
         setIsDisabled(false)
     }
 
     const onSave = () => {
-        updateEmployee(employee)
+        updateEmployee(changes)
         setIsDisabled(true)
         setTempEmployee(null)
+        setChanges(null)
     }
 
     const cancelEdit = () => {
         setIsDisabled(true)
         setEmployee(tempEmployee)
+        setChanges(null)
     }
 
     const handleEmployeeChange = e => {
@@ -78,15 +81,19 @@ export default function EmployeeProfile(props) {
             || name === 'ssn' || name === 'dateOfBirth' || name === 'gender' 
             || name === 'phone' || name === 'email'){
             setEmployee({...employee, [name]: value})
+            setChanges({...changes, [name]: value})
         }
         else if(name === 'dlState' || name === 'dlNumber'){
             setEmployee({...employee, driverLicense: {...employee.driverLicense, [name]: value}})
+            setChanges({...employee, driverLicense: {...employee.driverLicense, [name]: value}})
         } else if(name === 'street' || name === 'aptNum' || name === 'city' 
             || name === 'state' || name === 'country' || name === 'zipcode'){
             setEmployee({...employee, address: {...employee.address, [name]: value}})
+            setChanges({...employee, address: {...employee.address, [name]: value}})
         } else if(name === 'startDate' || name === 'position' || name === 'salary'
             || name === 'department'){
             setEmployee({...employee, employmentInfo: {...employee.employmentInfo, [name]: value}})
+            setChanges({...employee, employmentInfo: {...employee.employmentInfo, [name]: value}})
         }
     }
     

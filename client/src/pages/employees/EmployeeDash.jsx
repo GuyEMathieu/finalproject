@@ -13,10 +13,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import EmployeeMain from './EmployeeMain';
 import EmployeeSearch from './EmployeeSearch'
 import MainContainer from '../../components/MainContainer'
-import { getName, prettyAlert } from '../../utils/Formatter';
 
 export default function EmployeeDash() {
-
 
     const [value, setValue] = useState('Employees');
     const handleChange = (event, newValue) => {
@@ -50,7 +48,6 @@ export default function EmployeeDash() {
         setTabs(newTabs)
     }
 
-    
 
     return (
         <MainContainer>

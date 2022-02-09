@@ -14,11 +14,6 @@ export default (state, action) => {
                 employeeList: [...state.employeeList, action.payload]
             }
         case SET_CURRENT_EMPLOYEE:
-            return {
-                ...state,
-                currentEmployee: action.payload,
-            }
-
         case UPDATE_EMPLOYEE:
             return {
                 ...state,

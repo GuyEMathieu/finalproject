@@ -1,15 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     TextField, MenuItem, Grid
 } from '@mui/material'
 import {DatePicker} from '@mui/lab'
 import {FormatNumber} from '../../utils/Formatter';
+import Loading from '../../components/Loading'
 
 const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) => {
-    const {
-        employeeNumber, department,
-        startDate, position, salary,
-    } = employmentInfo;
 
     const handleDateChange =  date => {
         const e ={
@@ -21,12 +18,23 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
         handleChange(e)
     }
 
+    const [isLoading, setLoading] = useState(true)
+    useEffect(() => {
+        if(employmentInfo && defaults){
+            setLoading(false)
+        }
+    }, [employmentInfo, defaults])
+
+    if(isLoading){
+        return <Loading  />
+    }
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}md={4}>
                 <TextField  
                     label='Employee#' name='employeeNumber'
-                    value={employeeNumber} disabled/>
+                    value={employmentInfo.employeeNumber || ''} disabled/>
             </Grid>
 
             <Grid item md={8} sx={{xs:'none', md:'block'}}  />
@@ -35,7 +43,7 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
             <Grid item xs={12} md={6}>
                 <DatePicker
                     label="Start Date"
-                    value={startDate} disabled={isDisabled}
+                    value={employmentInfo.startDate} disabled={isDisabled}
                     onChange={(date) => handleDateChange(date)}
                     renderInput={(params) => <TextField {...params} />}
                 />
@@ -45,7 +53,7 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
                 <TextField  
                     disabled={isDisabled}
                     label='Salary' name='salary'
-                    value={FormatNumber(salary)} 
+                    value={FormatNumber(employmentInfo.salary)} 
                     onChange={handleChange}/>
             </Grid>
 
@@ -53,9 +61,9 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
                 <TextField  
                     disabled={isDisabled}
                     label='Department' name='department' select
-                    value={department} onChange={handleChange}>
+                    value={employmentInfo.department} onChange={handleChange}>
                     <MenuItem disabled >Select Department</MenuItem>
-                    {defaults.departments.map(dept => (
+                    {defaults && defaults.departments.map(dept => (
                         <MenuItem key={dept._id} value={dept._id}>{dept.name}</MenuItem>
                     ))}
                 </TextField>
@@ -64,9 +72,9 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
                 <TextField  
                     select
                     label='Position' name='position' disabled={isDisabled}
-                    value={position} onChange={handleChange}>
+                    value={employmentInfo.position} onChange={handleChange}>
                     <MenuItem disabled >Select Position</MenuItem>
-                    {defaults.positions.filter(pos => pos.department === department).map(pos => (
+                    {defaults && defaults.positions.filter(pos => pos.department === employmentInfo.department).map(pos => (
                         <MenuItem key={pos._id} value={pos._id}>{pos.name}</MenuItem>
                     ))}
                 </TextField>
