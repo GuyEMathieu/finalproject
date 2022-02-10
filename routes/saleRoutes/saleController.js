@@ -26,6 +26,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+
 // @route       POST api/sales
 // @desc        Add Sale objects
 // @access      private

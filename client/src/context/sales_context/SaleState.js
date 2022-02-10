@@ -18,8 +18,8 @@ const config = {
 const SaleState = props => {
     const initialState = {
         sales: null,
+        currentEmployeeSales: null,
         errors: null
-
     }
 
     const [state, dispatch] = useReducer(salesReducer, initialState);
@@ -84,8 +84,9 @@ const SaleState = props => {
             value= {{
                 sales: state.sales,
                 errors: state.errors,
+                currentEmployeeSales: state.currentEmployeeSales,
 
-
+                getSales,
                 addUIErrors,
                 saleVehicle,
                 clearErrors,

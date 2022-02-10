@@ -6,3 +6,4 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export const GET_SALES = 'GET_SALES'
 export const ADD_SALE = 'ADD_SALE'
+export const CURRENT_EMPLOYEE_SALE = 'CURRENT_EMPLOYEE_SALE'

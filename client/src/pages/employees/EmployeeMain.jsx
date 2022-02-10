@@ -5,7 +5,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 import EmployeeProfile from './EmployeeProfile'
 import MainContainer from '../../components/MainContainer'
-import EmployeePerfomance from './EmployeePerformance'
+import EmployeePerfomance from './EmployeePerformance2'
 import ManagerPerformance from './ManagerPerformance'
 
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
@@ -56,7 +56,7 @@ const EmployeeMain2 = () => {
                     <TabPanel value="Profile" sx={{px: 0, py: 0}}>
                         <EmployeeProfile />
                     </TabPanel>
-                    <TabPanel value="Performance" sx={{px: 0, py: 0}}>
+                    <TabPanel value="Performance" sx={{px: 0, py: 0, pt: 1}}>
                         {isManager ? <ManagerPerformance /> : <EmployeePerfomance  />}
                     </TabPanel>
                 </TabContext>
