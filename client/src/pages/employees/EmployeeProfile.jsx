@@ -119,7 +119,6 @@ function EmployeeProfile2(props) {
         setDisabled(true)
     }
 
-
     return (
         <CustomGrid container spacing={2}>
             <Grid item xs={4} sx={{display: {xs: 'none', lg: 'block'}}}>

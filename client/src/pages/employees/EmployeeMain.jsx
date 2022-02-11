@@ -5,13 +5,13 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 import EmployeeProfile from './EmployeeProfile'
 import MainContainer from '../../components/MainContainer'
-import EmployeePerfomance from './EmployeePerformance2'
+import EmployeePerfomance from './EmployeePerformance'
 import ManagerPerformance from './ManagerPerformance'
 
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 import {DefaultContext} from '../../context/default_context/DefaultState';
 
-const EmployeeMain2 = () => {
+const EmployeeMain = () => {
     const {employeeId} = useParams();
     const employeeContext = useContext(EmployeeContext);
     const {getProfile, currentEmployee} = employeeContext;
@@ -65,4 +65,4 @@ const EmployeeMain2 = () => {
     )
 }
 
-export default EmployeeMain2
+export default EmployeeMain
