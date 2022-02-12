@@ -63,5 +63,5 @@ app.use('/api/users', require('./routes/userRoutes/userController'))
 app.use('/api/employees', require('./routes/employeeRoutes/employeeController'))
 
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`SERVER STARTED ON PORT ${PORT}`.cyan.underline.bold))

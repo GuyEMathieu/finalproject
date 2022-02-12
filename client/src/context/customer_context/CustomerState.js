@@ -44,7 +44,6 @@ const CustomerState = props => {
 
     const addCustomer = async customer => {
         try {
-            prettyAlert(customer)
             const res = await axios.post('/api/customers', customer, config)
             dispatch({
                 type: ActionTypes.ADD_CUSTOMER,
@@ -59,6 +58,20 @@ const CustomerState = props => {
         }
     }
 
+    const filterCustomers = async criteria => {
+        dispatch({
+            type: ActionTypes.FILTER_CUSTOMERS,
+            payload: criteria
+        })
+    }
+
+    const resetFilteredCustomers = async () => {
+        dispatch({
+            type: ActionTypes.REMOVE_FILTER,
+            payload: null
+        })
+    }
+
     const updateCustomer = async changes => {
         
         const res = await axios.put(`/api/customers/${changes._id}`, changes, config)
@@ -71,7 +84,6 @@ const CustomerState = props => {
     const addNewVehicle = async (customerId, vehicle) => {
         try {
             const res = await axios.post(`/api/customers/${customerId}/vehicle`, vehicle, config)
-            alert(JSON.stringify(res.data, null, 4))
             dispatch({
                 type: ActionTypes.UPDATE_CUSTOMER,
                 payload: res.data
@@ -102,7 +114,6 @@ const CustomerState = props => {
     const addVehicleService = async (data) => {
         try {
             const res = await axios.post(`/api/customers/${data.customer}/vehicle/${data.vin}/service`, data.newService , config)
-            prettyAlert(res.data)
             dispatch({
                 type: ActionTypes.UPDATE_CUSTOMER,
                 payload: res.data
@@ -117,12 +128,7 @@ const CustomerState = props => {
 
     
 
-    const filterCustomers = async criteria => {
-        dispatch({
-            type: ActionTypes.FILTER_CUSTOMERS,
-            payload: criteria
-        })
-    }
+    
 
     const removeAlert = async id => {
         dispatch({
@@ -159,6 +165,7 @@ const CustomerState = props => {
                 updateCustomer,
                 filterCustomers,
                 getCustomerById,
+                resetFilteredCustomers,
 
                 updateVehicle,
                 addVehicleService,

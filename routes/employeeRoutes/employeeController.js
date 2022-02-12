@@ -191,7 +191,6 @@ router.post('/multiple', auth, async (req, res) => {
                     user.password = await bcrypt.hash(user.password, salt)
                     await user.save();
 
-
                     newEmployee = new Employee({
                         user: user._id, ssn, 
                         firstName, lastName, middleName,

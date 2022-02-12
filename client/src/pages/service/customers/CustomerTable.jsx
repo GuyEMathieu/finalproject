@@ -11,14 +11,16 @@ import TablePaginationActions from '../../../components/PaginationActions';
 
 export default function CustomerTable(props) {
 
-    const { customers, handleSelection, } = props;
+    const { customers, filteredCustomers, resetFilteredCustomers} = props;
     const [ availableCustomers, setAvailableCustomers] = useState([])
 
     useEffect(() => {
-        if (customers) {
+        if (customers && !filteredCustomers) {
             setAvailableCustomers(customers)
+        }else if (filteredCustomers) {
+            setAvailableCustomers(filteredCustomers)
         }
-    }, [customers])
+    }, [customers, filteredCustomers])
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -33,6 +35,11 @@ export default function CustomerTable(props) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const handleSelection = selection =>{
+        props.handleSelection(selection)
+        resetFilteredCustomers();
+    }
     
     return (
         <TableContainer component={Paper}>

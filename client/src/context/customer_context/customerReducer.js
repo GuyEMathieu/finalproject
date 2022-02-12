@@ -9,10 +9,25 @@ export default (state, action) => {
                 ...state,
                 customerList: action.payload
             }
-        case ActionTypes.FILTER_CUSTOMERS:
+        case ActionTypes.REMOVE_FILTER:
             return {
                 ...state,
-                filteredCustomers: [...state.customerList, action.payload]
+                filteredCustomers: null
+            }
+        case ActionTypes.FILTER_CUSTOMERS:
+            let filtered = null
+            if(action.payload.firstName && !action.payload.lastName){
+                filtered = state.customerList.filter(s => s.firstName === action.payload.firstName)
+            } else if(!action.payload.firstName && action.payload.lastName){
+                filtered = state.customerList.filter(s => s.lastName === action.payload.lastName)
+            }else {
+                filtered = state.customerList.filter(s => s.firstName === action.payload.firstName
+                    && s.lastName === action.payload.lastName
+                )
+            }
+            return {
+                ...state,
+                filteredCustomers: filtered
             }
         case ActionTypes.UPDATE_CUSTOMER:
         case ActionTypes.ADD_CUSTOMER:

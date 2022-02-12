@@ -5,7 +5,6 @@ import {
 } from '@mui/material'
 import { DatePicker } from '@mui/lab';
 import {CustomerContext} from '../../../context/customer_context/CustomerState';
-import {useNavigate} from 'react-router-dom';
 
 
 export default function NewCustomerUI (props) {
@@ -14,7 +13,6 @@ export default function NewCustomerUI (props) {
         setOpen
     } = props;
 
-    const navigate = useNavigate()
     const customerContext = useContext(CustomerContext)
     const {addCustomer, currentCustomer} = customerContext;
 
@@ -22,7 +20,6 @@ export default function NewCustomerUI (props) {
     const {firstName, lastName, dateOfBirth} = customer;
 
     useEffect(() => {
-
         if(currentCustomer 
             && currentCustomer.firstName === customer.firstName
             && currentCustomer.lastName === customer.lastName
@@ -77,7 +74,6 @@ export default function NewCustomerUI (props) {
             <Grid item xs={12} md={6}>
                 <Button variant='contained' onClick={saveCustomer}>Save</Button>
             </Grid>
-
         </Grid>
     )
 }
