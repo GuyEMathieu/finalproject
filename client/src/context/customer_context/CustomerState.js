@@ -23,12 +23,6 @@ const CustomerState = props => {
         filteredCustomers: null
     }
 
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
     const [state, dispatch] = useReducer(customerReducer, initialState);
 
     const getCustomers = async () => {
@@ -41,6 +35,23 @@ const CustomerState = props => {
             })
         } catch (err) {
             console.info(err)
+            dispatch({
+                type: ActionTypes.SET_ALERTS,
+                payload: err.response.data.errors
+            })
+        }
+    }
+
+    const addCustomer = async customer => {
+        try {
+            prettyAlert(customer)
+            const res = await axios.post('/api/customers', customer, config)
+            dispatch({
+                type: ActionTypes.ADD_CUSTOMER,
+                payload: res.data
+            })
+
+        } catch (err) {
             dispatch({
                 type: ActionTypes.SET_ALERTS,
                 payload: err.response.data.errors
@@ -103,22 +114,8 @@ const CustomerState = props => {
             })
         }
     }
-    const addCustomer = async customer => {
-        try {
-            const res = await axios.post('/api/customers', customer, config)
-            console.info("RES", res.data)
-            dispatch({
-                type: ActionTypes.ADD_CUSTOMER,
-                payload: res.data
-            })
 
-        } catch (err) {
-            dispatch({
-                type: ActionTypes.SET_ALERTS,
-                payload: err.response.data.errors
-            })
-        }
-    }
+    
 
     const filterCustomers = async criteria => {
         dispatch({

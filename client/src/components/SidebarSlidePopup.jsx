@@ -4,7 +4,7 @@ import {
 
 const drawerWidth = 340;
 
-export default function Header(props) {
+export default function SidebarSlidePopup(props) {
     return (
         <Drawer
             sx={{
@@ -20,11 +20,11 @@ export default function Header(props) {
             anchor="right"
             open={props.open}
         >
-          <Box sx={{py:'25vh'}}>
-            <Divider  sx={{mb: 3}}/>
-              {props.children}
-            <Divider  sx={{mt: 3}}/>
-          </Box>
+            <Box sx={{py:'25vh'}}>
+              <Divider  sx={{mb: 3}}/>
+                {props.children}
+              <Divider  sx={{mt: 3}}/>
+            </Box>
             
         </Drawer>
     );

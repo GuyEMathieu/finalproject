@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {
-    Paper, Grid, styled,
-    TextField, Button
+    Paper, Grid, styled, 
+    TextField, Button, 
 } from '@mui/material'
-
+import SidebarSlidePopup from '../../../components/SidebarSlidePopup'
 import {CustomerContext} from '../../../context/customer_context/CustomerState';
-
+import NewCustomerUI from './NewCustomerUI'
 //#region ICONS
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -42,17 +42,18 @@ export default function CustomerSearch (props) {
 
     const [search, setSearch] = useState({})
     
+    
     const onSearch = () => {
         alert("Search")
     }
 
-    const onNewCustomer = () => {
-        alert("Adding New Employee")
-    }
 
     const handleCustomerSelection = customer => {
         props.createCustomerTab(customer)
     }
+
+    const [openNewCustomerUI, setOpenNewCustomerUI] = useState(false)
+    
 
     return (
         <Container container rowSpacing={1}>
@@ -79,7 +80,7 @@ export default function CustomerSearch (props) {
                         <Grid item xs={12} md={3}>
                             <Button
                                 startIcon={<AddCircleIcon  />}
-                                onClick={onNewCustomer}>New</Button>
+                                onClick={() => setOpenNewCustomerUI(true)}>New</Button>
                         </Grid>
                     </Grid>
                 </Paper>
@@ -91,7 +92,12 @@ export default function CustomerSearch (props) {
                     handleSelection={handleCustomerSelection}
                 />
             </Grid>
+
+            <SidebarSlidePopup open={openNewCustomerUI}>
+                {openNewCustomerUI ? <NewCustomerUI  setOpen={setOpenNewCustomerUI} handleCustomer={handleCustomerSelection}/> : null}
+            </SidebarSlidePopup>
         </Container>
     )
 }
+
 

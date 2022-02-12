@@ -9,17 +9,13 @@ export default (state, action) => {
                 ...state,
                 customerList: action.payload
             }
-        case ActionTypes.ADD_CUSTOMER:
-            return {
-                ...state,
-                customerList: [...state.customerList, action.payload]
-            }
         case ActionTypes.FILTER_CUSTOMERS:
             return {
                 ...state,
                 filteredCustomers: [...state.customerList, action.payload]
             }
         case ActionTypes.UPDATE_CUSTOMER:
+        case ActionTypes.ADD_CUSTOMER:
             return {
                 ...state,
                 currentCustomer: action.payload,
