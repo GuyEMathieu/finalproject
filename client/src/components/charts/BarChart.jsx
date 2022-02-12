@@ -11,7 +11,7 @@ ChartJS.register(
 );
 
 const options = {
-    maintainAspectRation: false,
+    maintainAspectRation: true,
     scales: {
         y: {
             beginAtZero: true

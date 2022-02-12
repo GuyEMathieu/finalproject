@@ -2,13 +2,15 @@ import React, {useState, useEffect, useContext} from 'react';
 import {SalesContext} from '../../context/sales_context/SaleState';
 import {useParams} from 'react-router-dom'
 import BarChart from '../../components/charts/BarChart';
-//import DoughnutChart from '../../components/charts/PieChart';
 import {
     Grid, Paper, FormControl,
     FormLabel, RadioGroup,
     FormControlLabel, Radio, Divider
 } from '@mui/material'
-
+import {
+    YTD_Sales, YTD_Commission,
+    MTD_Sales, MTD_Commission
+} from '../../utils/performanceUtils'
 
 function EmployeePerformance() {
     const {employeeId} = useParams();
@@ -141,119 +143,4 @@ function EmployeePerformance() {
     )
 }
 
-const Color = () => {
-    const r = () => Math.random() * 256 >> 0;
-    return `${r()}, ${r()}, ${r()}`;
-}
-
-function MTD_Commission(performance){
-    const today = new Date()
-    const color = Color();
-
-    let sales = 0;
-    if(performance){
-        for(let i = 0; i < performance.length; i++){
-            sales += performance[i].purchasePrice * 0.03
-        }
-    }
-    
-    const month = today.toLocaleString('default', { month: 'short' });
-    
-    let data = {
-        labels: [month],
-        datasets: [
-            {
-                label: `MTD Commission (${month})`,
-                data: [sales],
-                backgroundColor: [`rgba(${color}, 0.2)`],
-                borderColor: [`rgb(${color})`],
-                borderWidth: 1
-            }
-        ]
-    }
-    return data
-}
-
-function YTD_Sales(performance){
-    let data = {
-        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                label: "YTD Sale",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1
-            },
-        ]
-    }
-    if(performance) {
-        
-        for (let i = 0; i < performance.length; i++){
-            const perf = performance[i];
-            let color = Color()
-            data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-            data.datasets[0].borderColor.push(`rgb(${color})`)
-            const month = new Date(perf.purchaseDate).getMonth();
-            data.datasets[0].data[month] += perf.purchasePrice;
-        }
-        data.datasets[0].label = `YTD Sale (${new Date(performance[0].purchaseDate).getFullYear()})`
-    }
-    return data;
-}
-
-function YTD_Commission(performance){
-    let data = {
-        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                label: "YTD Commission",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1
-            },
-        ]
-    }
-    if(performance) {
-        for (let i = 0; i < performance.length; i++){
-            const perf = performance[i];
-            let color = Color()
-            data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-            data.datasets[0].borderColor.push(`rgb(${color})`)
-            const month = new Date(perf.purchaseDate).getMonth();
-            data.datasets[0].data[month] += perf.purchasePrice * 0.03;
-        }
-        data.datasets[0].label = `YTD Commission (${new Date(performance[0].purchaseDate).getFullYear()})`
-    }
-    return data;
-}
-
-function MTD_Sales(performance){
-    const today = new Date()
-    const color = Color();
-
-    let sales = 0;
-    if(performance){
-        for(let i = 0; i < performance.length; i++){
-            sales += performance[i].purchasePrice
-        }
-    }
-    
-    const month = today.toLocaleString('default', { month: 'short' });
-    
-    let data = {
-        labels: [month],
-        datasets: [
-            {
-                label: `MTD Sale (${month})`,
-                data: [sales],
-                backgroundColor: [`rgba(${color}, 0.4)`],
-                borderColor: [`rgb(${color})`],
-                borderWidth: 1
-            }
-        ]
-    }
-    return data
-}
 export default EmployeePerformance

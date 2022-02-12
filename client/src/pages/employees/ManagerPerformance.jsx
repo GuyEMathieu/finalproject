@@ -5,9 +5,13 @@ import BarChart from '../../components/charts/BarChart';
 //import DoughnutChart from '../../components/charts/PieChart';
 import {
     Grid, Paper, FormControl,
-    FormLabel, RadioGroup,
-    FormControlLabel, Radio, Divider
+    FormLabel, RadioGroup, 
+    FormControlLabel, Radio, Typography
 } from '@mui/material'
+import {
+    Team_YTD_Sales, Team_YTD_Commission,
+    Team_MTD_Sales, Team_MTD_Commission,
+} from '../../utils/performanceUtils'
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 
 
@@ -25,14 +29,10 @@ function ManagerPerformance() {
         setChartType(event.target.value);
     };
     
-
-
     const [ytdSale, setYTDSale] = useState(null)
     const [mtdSale, setMTDSale] = useState(null)
     const [lastYear, setLastYear] = useState(null)
     const [showPriorYear, setShowPriorYear] = useState('no');
-
-    const [team, setTeam] = useState(null)
 
     const handleShowLastYear = (event) => {
         setShowPriorYear(event.target.value);
@@ -56,68 +56,52 @@ function ManagerPerformance() {
                 && e._id !== employeeId
             );
 
-            const teamSales = [];
-
+            let teamSales = [];
             function getSales (member, sales, start, end){
                 return {
                     name: `${member.firstName} ${member.lastName}`,
                     performance: sales.filter(s => s.soldBy === member._id
-                        && new Date(s.purchaseDate) >= start //new Date(`01/01/${new Date().getFullYear() - 1}`)
+                        && new Date(s.purchaseDate) >= start
                         && new Date(s.purchaseDate) <= end
                     )
                 } 
             }
+            const today = new Date()
+            for(let i = 0; i < teamSalesPerson.length; i++){
+                const memberSales = getSales(
+                        teamSalesPerson[i],
+                        sales,
+                        new Date(`01/01/${new Date().getFullYear()}`),
+                        today
+                    )
+                teamSales.push(memberSales)
+            }
+            setYTDSale(teamSales)
 
+            teamSales = [];
+            for(let i = 0; i < teamSalesPerson.length; i++){
+                const memberSales = getSales(
+                        teamSalesPerson[i],
+                        sales,
+                        new Date(today.getFullYear(), today.getMonth(), 1),
+                        today
+                    )
+                teamSales.push(memberSales)
+            }
+            setMTDSale(teamSales)
+
+            teamSales = [];
             for(let i = 0; i < teamSalesPerson.length; i++){
                 const memberSales = getSales(
                         teamSalesPerson[i],
                         sales,
                         new Date(`01/01/${new Date().getFullYear() - 1}`),
-                        new Date(`12/31/${new Date().getFullYear() - 1}`) 
+                        new Date(`12/31/${new Date().getFullYear() - 1}`),
                     )
                 teamSales.push(memberSales)
             }
+            setLastYear(teamSales)
 
-            console.info(teamSales)
-
-            for(let i = 0; i < teamSalesPerson.length; i++){
-                const today = new Date()
-                const memberSales = getSales(
-                        teamSalesPerson[i],
-                        sales,
-                        new Date(today.getFullYear(), today.getMonth(), 1),
-                        today 
-                    )
-                teamSales.push(memberSales)
-            }
-
-            console.info(teamSales)
-
-
-
-
-
-            
-
-            
-
-            
-
-
-            // setYTDSale( 
-            //     // sales.filter(s => 
-            //     // s.soldBy === employeeId 
-            //     // && new Date(s.purchaseDate) >= new Date(`01/01/${new Date().getFullYear()}`)
-            //     // && new Date(s.purchaseDate) <= new Date()
-
-            // ));
-
-            // const today = new Date()
-            // setMTDSale(sales.filter(s =>
-            //     s.soldBy === employeeId 
-            //     && new Date(s.purchaseDate) >= new Date(today.getFullYear(), today.getMonth(), 1)
-            //     && new Date(s.purchaseDate) <= today
-            // ))
         }
     },[sales, getSales, employeeId, employeeList, getEmployees])
 
@@ -155,123 +139,49 @@ function ManagerPerformance() {
             </Grid>
 
             
+            <Grid item xs={12} md={12} lg={6}>
+                <Paper >
+                    <Typography>Y-T-D</Typography>
+                    {chartType === 'Sale' 
+                        ?   <BarChart data={Team_YTD_Sales(ytdSale)} /> : <BarChart data={Team_YTD_Commission(ytdSale)} />
+                    }
+                </Paper>
+            </Grid>
+            
+            <Grid item xs={12} md={12} lg={6}>
+                <Paper >
+                    <Typography>M-T-D</Typography>
+                    {chartType === 'Sale' 
+                        ?   <BarChart data={Team_MTD_Sales(mtdSale)} /> : <BarChart data={Team_MTD_Commission(mtdSale)} />
+                    }
+                </Paper>
+            </Grid>
+
+            {showPriorYear === 'yes' &&
+                <React.Fragment>
+                    <Grid item xs={12}>
+                        <Paper>
+                        <Typography>{new Date().getFullYear() - 1} Sales & Commission</Typography>
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} lg={6}>
+                        <Paper>
+                            <Typography>{new Date().getFullYear() - 1} Sales</Typography>
+                            <BarChart data={Team_YTD_Sales(lastYear)} />
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} lg={6}>
+                        <Paper>
+                            <Typography>{new Date().getFullYear() - 1} Commissions</Typography>
+                            <BarChart data={Team_YTD_Commission(lastYear)} />
+                        </Paper>
+                    </Grid>
+                </React.Fragment>
+            }
         </Grid>
     )
 }
 
-const Color = () => {
-    const r = () => Math.random() * 256 >> 0;
-    return `${r()}, ${r()}, ${r()}`;
-}
-
-function MTD_Commission(performance){
-    const today = new Date()
-    const color = Color();
-
-    let sales = 0;
-    if(performance){
-        for(let i = 0; i < performance.length; i++){
-            sales += performance[i].purchasePrice * 0.03
-        }
-    }
-    
-    const month = today.toLocaleString('default', { month: 'short' });
-    
-    let data = {
-        labels: [month],
-        datasets: [
-            {
-                label: `MTD Commission (${month})`,
-                data: [sales],
-                backgroundColor: [`rgba(${color}, 0.2)`],
-                borderColor: [`rgb(${color})`],
-                borderWidth: 1
-            }
-        ]
-    }
-    return data
-}
-
-function YTD_Sales(performance){
-    let data = {
-        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                label: "YTD Sale",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1
-            },
-        ]
-    }
-    if(performance) {
-        
-        for (let i = 0; i < performance.length; i++){
-            const perf = performance[i];
-            let color = Color()
-            data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-            data.datasets[0].borderColor.push(`rgb(${color})`)
-            const month = new Date(perf.purchaseDate).getMonth();
-            data.datasets[0].data[month] += perf.purchasePrice;
-        }
-        data.datasets[0].label = `YTD Sale (${new Date(performance[0].purchaseDate).getFullYear()})`
-    }
-    return data;
-}
-
-function YTD_Commission(performance){
-    let data = {
-        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                label: "YTD Commission",
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: [],
-                borderColor: [],
-                borderWidth: 1
-            },
-        ]
-    }
-    if(performance) {
-        for (let i = 0; i < performance.length; i++){
-            const perf = performance[i];
-            let color = Color()
-            data.datasets[0].backgroundColor.push(`rgba(${color}, 0.2)`)
-            data.datasets[0].borderColor.push(`rgb(${color})`)
-            const month = new Date(perf.purchaseDate).getMonth();
-            data.datasets[0].data[month] += perf.purchasePrice * 0.03;
-        }
-        data.datasets[0].label = `YTD Commission (${new Date(performance[0].purchaseDate).getFullYear()})`
-    }
-    return data;
-}
-
-function MTD_Sales(performance){
-    const today = new Date()
-    const color = Color();
-
-    let sales = 0;
-    if(performance){
-        for(let i = 0; i < performance.length; i++){
-            sales += performance[i].purchasePrice
-        }
-    }
-    
-    const month = today.toLocaleString('default', { month: 'short' });
-    
-    let data = {
-        labels: [month],
-        datasets: [
-            {
-                label: `MTD Sale (${month})`,
-                data: [sales],
-                backgroundColor: [`rgba(${color}, 0.4)`],
-                borderColor: [`rgb(${color})`],
-                borderWidth: 1
-            }
-        ]
-    }
-    return data
-}
 export default ManagerPerformance
