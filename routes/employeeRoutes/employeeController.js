@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs')
 // @route       POST api/employees
 // @desc        Add New Employee
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/',  async (req, res) => {
     try {
         const employees = await Employee.find();
         res.json(employees)
@@ -191,14 +191,20 @@ router.post('/multiple', auth, async (req, res) => {
                     user.password = await bcrypt.hash(user.password, salt)
                     await user.save();
 
+                    
+
                     newEmployee = new Employee({
                         user: user._id, ssn, 
                         firstName, lastName, middleName,
                         dateOfBirth: new Date(dateOfBirth),
                         email, phone, team, avatar, gender,
                         address, driverLicense, 
-                        employmentInfo: {...employmentInfo, team: team.split("_").join(" ")}
+                        employmentInfo: {...employmentInfo, employeeNumber: Math.floor(Math.random() * (5000 - 100 + 1) + 100), position: null}
                     });
+
+                    
+
+
 
                     await newEmployee.save();
 

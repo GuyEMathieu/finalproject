@@ -8,6 +8,8 @@ const Manufacturer = require ('../manufacturerRoutes/Manufacturer');
 const Model = require("../modelRoutes/Model")
 const State = require('../stateRoutes/State')
 const Country = require('../countryRoutes/Country');
+const Employee = require('../employeeRoutes/Employee');
+const Service = require("../serviceRoutes/Service")
 const { json } = require('express');
 
 
@@ -277,11 +279,60 @@ router.post('/:customerId/vehicle/:vin/service', async(req, res) => {
             return res.json({errors: [{severity: 'error', msg: `Customer vehicle with ${vin} not found`, _id: uid()}]})
         }
 
+        const repairEmployees = await Employee.find({$and: [
+            {team: "Tech_One"}, 
+            {"employmentInfo.position": {$ne: "61ef86f07177568a49026616"}}
+        ]})
+
+        const {serviceName, labor, parts, date} = req.body;
+
+        let serviceValue = labor.laborRate * labor.duration;
+        parts.forEach(part  => {
+            serviceValue += part.unit * part.quantity
+        });
+
+        let newService = new Service({
+            date: date,
+            employee: repairEmployees[Math.floor(Math.random() * repairEmployees.length - 0)]._id,
+            vehicle: vin,
+            serviceName: serviceName,
+            serviceValue: serviceValue
+        })
+
+        await newService.save()
+
         for(let i = 0; i < customer.vehicles.length; i++){
             if(customer.vehicles[i].vin === vin){
                 customer.vehicles[i].serviceLogs.push(req.body);
             }
         }
+
+        await customer.save();
+
+        res.json(customer)
+        
+    } catch (err) {
+        console.error(err.msg);
+        res.status(500).send('Server Error');
+    }
+})
+
+router.delete('/:customerId/vehicle/:vin/service', async (req, res) => {
+    try {
+        const customerId = req.params.customerId;
+        const vin = req.params.vin;
+        let customer = await Customer.findById(customerId);
+        if(!customer){
+            return res.json({errors: [{severity: 'error', msg: "Customer not found", _id: uid()}]})
+        }
+        
+        if(!customer.vehicles.find(v => v.vin === vin)){
+            return res.json({errors: [{severity: 'error', msg: `Customer vehicle with ${vin} not found`, _id: uid()}]})
+        }
+
+        customer.vehicles.forEach(vehicle => {
+            vehicle.serviceLogs = []
+        });
 
         await customer.save();
 

@@ -29,6 +29,7 @@ import BaseVehicleState from './context/baseVehicle_context/BaseVehicleState'
 import CustomerState from './context/customer_context/CustomerState'
 import InventoryState from './context/inventoryContext/InventoryState';
 import SaleState from './context/sales_context/SaleState';
+import ServiceState from './context/service_context/ServiceState';
 //#endregion
 
 import { ThemeProvider } from '@mui/material/styles';
@@ -59,27 +60,29 @@ function App() {
                                     <DeptPosState>
                                         <DefaultState>
                                             <InventoryState> 
-                                                <SaleState>                                                    <div className="App">
-                                                        <BrowserRouter>
-                                                            <Routes>
-                                                                <Route path='/' element={<Showroom />} />
-                                                                <Route path='*' element={<PageNotFound />} />
-                                                                {/* <Route path='/' element={<PrivateRoute />}> */}
-                                                                    {/* <Route path='/' element={<Showroom  />} /> */}
-                                                                    <Route path='/hr/employees' element={<EmployeeSearch  />} />
-                                                                    <Route path='/hr/employees/profile/:employeeId' element={<EmployeeMain  />} />
+                                                <ServiceState>
+                                                    <SaleState>                                                    <div className="App">
+                                                            <BrowserRouter>
+                                                                <Routes>
+                                                                    <Route path='/' element={<Showroom />} />
+                                                                    <Route path='*' element={<PageNotFound />} />
+                                                                    {/* <Route path='/' element={<PrivateRoute />}> */}
+                                                                        {/* <Route path='/' element={<Showroom  />} /> */}
+                                                                        <Route path='/hr/employees' element={<EmployeeSearch  />} />
+                                                                        <Route path='/hr/employees/profile/:employeeId' element={<EmployeeMain  />} />
 
-                                                                    <Route path='/service' element={<Service  />} />
+                                                                        <Route path='/service' element={<Service  />} />
 
-                                                                    <Route path='/sales/showroom' element={<Showroom  />} />
-                                                                    <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
-                                                                    <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile  />} />
-                                                                {/* </Route> */}
-                                                                {/* <PrivateRoute path='/hr/employees' element={<PrivateRoute component={EmployeeDash}/>} /> */}
-                                                            </Routes>
-                                                        </BrowserRouter>
-                                                    </div>
-                                                </SaleState>
+                                                                        <Route path='/sales/showroom' element={<Showroom  />} />
+                                                                        <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
+                                                                        <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile  />} />
+                                                                    {/* </Route> */}
+                                                                    {/* <PrivateRoute path='/hr/employees' element={<PrivateRoute component={EmployeeDash}/>} /> */}
+                                                                </Routes>
+                                                            </BrowserRouter>
+                                                        </div>
+                                                    </SaleState>
+                                                </ServiceState>
                                             </InventoryState>
                                         </DefaultState>
                                     </DeptPosState>

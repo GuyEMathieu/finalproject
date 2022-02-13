@@ -126,6 +126,7 @@ const CustomerState = props => {
         }
     }
 
+
     
 
     
@@ -172,6 +173,7 @@ const CustomerState = props => {
                 addNewVehicle,
                 
                 removeAlert,
+
             }}>
 
             {props.children}

@@ -7,7 +7,9 @@ export const lightTheme = createTheme({
 
     palette: {
         primary: {
-            main: "#f00"
+             main: "#f00",
+           // main: "#31313a",
+
         }
     },
 
@@ -23,6 +25,15 @@ export const lightTheme = createTheme({
             styleOverrides: {
                 root: {
                     textTransform: 'none'
+                }
+            }
+        },
+        MuiAccordion: {
+            styleOverrides: {
+                root: {
+                    color: 'primary',
+                    padding: '0px',
+                    marginTop: '0px'
                 }
             }
         },

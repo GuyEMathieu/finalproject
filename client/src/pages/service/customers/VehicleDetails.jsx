@@ -168,7 +168,11 @@ export default function VehicleDetails (props) {
                                 <TableRow>
                                     <TableCell>Service Dates</TableCell>
                                     <TableCell align='right'>
-                                        <Button fullWidth={false} onClick={() => setOpenPopup(true)}>New</Button>
+                                        <Button 
+                                            fullWidth={false} 
+                                            onClick={() => setOpenPopup(true)}>
+                                                New
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             </TableHead>

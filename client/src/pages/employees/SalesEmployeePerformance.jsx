@@ -12,7 +12,8 @@ import {
     MTD_Sales, MTD_Commission
 } from '../../utils/performanceUtils'
 
-function EmployeePerformance() {
+
+function SalesEmployeePerformance() {
     const {employeeId} = useParams();
     const salesContext = useContext(SalesContext);
     const {sales, getSales} = salesContext;
@@ -91,56 +92,55 @@ function EmployeePerformance() {
                     </Grid>
                 </Paper>
             </Grid>
-
-            {chartType === 'Sale'
-            ?   <Grid item xs={12} md={6}>
-                    <Paper >
-                        <BarChart data={YTD_Sales(ytdSale)} />
-                    </Paper>
-                </Grid>
-            :   <Grid item xs={12} md={6}>
-                    <Paper >
-                        <BarChart data={YTD_Commission(ytdSale)} />
-                    </Paper>
-                </Grid>
-            }
-
-            {chartType === 'Sale'
-                ?   <Grid item xs={12} md={6}>
-                        <Paper >
-                            <BarChart data={MTD_Sales(mtdSale)} />
-                        </Paper>
-                    </Grid>
-                :   <Grid item xs={12} md={6}>
-                        <Paper >
-                            <BarChart data={MTD_Commission(mtdSale)} />
-                        </Paper>
-                    </Grid>
-            }
-
-            {showPriorYear === 'yes' && 
+            {showPriorYear === 'no' 
+                ?
                 <React.Fragment>
-                    <Grid item xs={12}>
-                        <Divider> Year {new Date().getFullYear() -1}</Divider>
-                    </Grid>
+                    {chartType === 'Sale'
+                        ?   <Grid item xs={12} md={6}>
+                                <Paper >
+                                    <BarChart data={YTD_Sales(ytdSale)} />
+                                </Paper>
+                            </Grid>
+                        :   <Grid item xs={12} md={6}>
+                                <Paper >
+                                    <BarChart data={YTD_Commission(ytdSale)} />
+                                </Paper>
+                            </Grid>
+                        }
 
-                    <Grid item xs={12} md={6}>
-                        <Paper >
-                            <BarChart data={YTD_Sales(lastYear)} />
-                        </Paper>
-                    </Grid>
+                        {chartType === 'Sale'
+                            ?   <Grid item xs={12} md={6}>
+                                    <Paper >
+                                        <BarChart data={MTD_Sales(mtdSale)} />
+                                    </Paper>
+                                </Grid>
+                            :   <Grid item xs={12} md={6}>
+                                    <Paper >
+                                        <BarChart data={MTD_Commission(mtdSale)} />
+                                    </Paper>
+                                </Grid>
+                        }
+                    </React.Fragment>
+                :   <React.Fragment>
+                        <Grid item xs={12}>
+                            <Divider> Year {new Date().getFullYear() -1}</Divider>
+                        </Grid>
 
-                    <Grid item xs={12} md={6}>
-                        <Paper >
-                            <BarChart data={YTD_Commission(lastYear)} />
-                        </Paper>
-                    </Grid>
-                </React.Fragment>
+                        <Grid item xs={12} md={6}>
+                            <Paper >
+                                <BarChart data={YTD_Sales(lastYear)} />
+                            </Paper>
+                        </Grid>
+
+                        <Grid item xs={12} md={6}>
+                            <Paper >
+                                <BarChart data={YTD_Commission(lastYear)} />
+                            </Paper>
+                        </Grid>
+                    </React.Fragment>
             }
-
-
         </Grid>
     )
 }
 
-export default EmployeePerformance
+export default SalesEmployeePerformance

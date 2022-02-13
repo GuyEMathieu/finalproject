@@ -15,7 +15,7 @@ import {
 import { EmployeeContext } from '../../context/employee_context/EmployeeState';
 
 
-function ManagerPerformance() {
+function SalesManagerPerformance() {
     const {employeeId} = useParams();
     const employeeContext = useContext(EmployeeContext);
     const {employeeList, getEmployees} = employeeContext;
@@ -138,50 +138,52 @@ function ManagerPerformance() {
                 </Paper>
             </Grid>
 
-            
-            <Grid item xs={12} md={12} lg={6}>
-                <Paper >
-                    <Typography>Y-T-D</Typography>
-                    {chartType === 'Sale' 
-                        ?   <BarChart data={Team_YTD_Sales(ytdSale)} /> : <BarChart data={Team_YTD_Commission(ytdSale)} />
-                    }
-                </Paper>
-            </Grid>
-            
-            <Grid item xs={12} md={12} lg={6}>
-                <Paper >
-                    <Typography>M-T-D</Typography>
-                    {chartType === 'Sale' 
-                        ?   <BarChart data={Team_MTD_Sales(mtdSale)} /> : <BarChart data={Team_MTD_Commission(mtdSale)} />
-                    }
-                </Paper>
-            </Grid>
+            {showPriorYear === 'no'
+                ?   <React.Fragment>
+                        <Grid item xs={12} md={12} lg={6}>
+                            <Paper >
+                                <Typography>Y-T-D</Typography>
+                                {chartType === 'Sale' 
+                                    ?   <BarChart data={Team_YTD_Sales(ytdSale)} /> : <BarChart data={Team_YTD_Commission(ytdSale)} />
+                                }
+                            </Paper>
+                        </Grid>
+                        
+                        <Grid item xs={12} md={12} lg={6}>
+                            <Paper >
+                                <Typography>M-T-D</Typography>
+                                {chartType === 'Sale' 
+                                    ?   <BarChart data={Team_MTD_Sales(mtdSale)} /> : <BarChart data={Team_MTD_Commission(mtdSale)} />
+                                }
+                            </Paper>
+                        </Grid>
+                    </React.Fragment>
+                :   <React.Fragment>
+                        <Grid item xs={12}>
+                            <Paper>
+                            <Typography>{new Date().getFullYear() - 1} Sales & Commission</Typography>
+                            </Paper>
+                        </Grid>
 
-            {showPriorYear === 'yes' &&
-                <React.Fragment>
-                    <Grid item xs={12}>
-                        <Paper>
-                        <Typography>{new Date().getFullYear() - 1} Sales & Commission</Typography>
-                        </Paper>
-                    </Grid>
+                        <Grid item xs={12} lg={6}>
+                            <Paper>
+                                <Typography>{new Date().getFullYear() - 1} Sales</Typography>
+                                <BarChart data={Team_YTD_Sales(lastYear)} />
+                            </Paper>
+                        </Grid>
 
-                    <Grid item xs={12} lg={6}>
-                        <Paper>
-                            <Typography>{new Date().getFullYear() - 1} Sales</Typography>
-                            <BarChart data={Team_YTD_Sales(lastYear)} />
-                        </Paper>
-                    </Grid>
-
-                    <Grid item xs={12} lg={6}>
-                        <Paper>
-                            <Typography>{new Date().getFullYear() - 1} Commissions</Typography>
-                            <BarChart data={Team_YTD_Commission(lastYear)} />
-                        </Paper>
-                    </Grid>
-                </React.Fragment>
+                        <Grid item xs={12} lg={6}>
+                            <Paper>
+                                <Typography>{new Date().getFullYear() - 1} Commissions</Typography>
+                                <BarChart data={Team_YTD_Commission(lastYear)} />
+                            </Paper>
+                        </Grid>
+                    </React.Fragment>
             }
+                
+
         </Grid>
     )
 }
 
-export default ManagerPerformance
+export default SalesManagerPerformance
