@@ -47,13 +47,16 @@ export function FormatNumber(x) {
 }
 
 export const getName = (arr, id) => {
-
-    if (arr) {
-        const obj = arr.find(ele => ele._id === id)
-        return obj ? obj.name : id
+    if(arr && id){
+        if (arr) {
+            const obj = arr.find(ele => ele._id === id)
+            return obj ? obj.name : id
+        }
+        return id
     }
-    return id
+    return ''
 }
+
 export const getCode = (arr, id) => {
 
     if (arr) {

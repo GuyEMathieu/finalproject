@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         res.json(states);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -53,7 +53,7 @@ router.post('/multiple', async (req, res) => {
         res.json(states);
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })

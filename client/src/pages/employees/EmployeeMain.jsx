@@ -34,7 +34,10 @@ const EmployeeMain = () => {
 
         if(defaults && currentEmployee && currentEmployee._id === employeeId) {
             const position = defaults.positions.find(p => p._id === currentEmployee.employmentInfo.position);
-            setPosition(position.name)
+            if(position){
+                setPosition(position.name)
+            }
+            
         }
     }, [defaults, getAll, getProfile, currentEmployee, employeeId])
 

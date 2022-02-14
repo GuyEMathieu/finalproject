@@ -6,6 +6,8 @@ const Employee = require('./Employee')
 const auth = require('../auth');
 const User = require("../userRoutes/User")
 const bcrypt = require('bcryptjs')
+const State = require("../stateRoutes/State")
+const Position = require("../positionRoutes/Position")
 
 
 // @route       POST api/employees
@@ -97,12 +99,12 @@ router.get('/:employeeId', async (req, res) => {
 // @route       POST api/employees
 // @desc        Add New Employee
 // @access      private
-router.post('/', [auth,
-        [
-            check('firstName', 'Employee first name is required').not().isEmpty(),
-            check('lastName', 'Employee last name is required').not().isEmpty(),
-            check('dateOfBirth', 'Employee date of birth is required').not().isEmpty(),
-        ]
+router.post('/', [
+        
+        check('firstName', 'Employee first name is required').not().isEmpty(),
+        check('lastName', 'Employee last name is required').not().isEmpty(),
+        check('dateOfBirth', 'Employee date of birth is required').not().isEmpty(),
+        
     ],
     async (req, res) => {
         let rawErrors = validationResult(req);
@@ -120,7 +122,7 @@ router.post('/', [auth,
             const {
                 firstName, lastName, middleName, dateOfBirth,
                 ssn, email, phone, team, avatar, gender,
-                driverLicense, address, employmentInfo
+                driverLicense, address, employmentInfo, 
             } = req.body;
 
             let newEmployee = await Employee.findOne({firstName, lastName, ssn})
@@ -145,12 +147,30 @@ router.post('/', [auth,
             user.password = await bcrypt.hash(user.password, salt)
             await user.save();
 
+            const state = await State.findOne({name:'Florida'})
+            const position = await Position.findOne({name: employmentInfo.position})
+
             newEmployee = new Employee({
                 user: user._id,
                 firstName, lastName, middleName,
                 dateOfBirth: new Date(dateOfBirth),
                 email, phone, team, avatar, gender,
-                address, driverLicense, employmentInfo
+                address:{
+                    ...address,
+                    state: state._id,
+                    country: state.country
+                }, 
+                driverLicense: {
+                    ...driverLicense,
+                    dlState: state._id
+                },
+                employmentInfo:{
+                    salary: employmentInfo.salary,
+                    position: position._id,
+                    department: position.department,
+                    employeeNumber: Math.floor(Math.random() * (5000 - 100 + 1) + 100), 
+                    team: team
+                }
             });
 
             await newEmployee.save();
@@ -165,7 +185,7 @@ router.post('/', [auth,
 // @route       POST api/employees
 // @desc        Add New Employee
 // @access      private
-router.post('/multiple', auth, async (req, res) => {
+router.post('/multiple', async (req, res) => {
     try {
         let employees = []
         for(let i = 0; i < req.body.length; i++){
@@ -199,11 +219,12 @@ router.post('/multiple', auth, async (req, res) => {
                         dateOfBirth: new Date(dateOfBirth),
                         email, phone, team, avatar, gender,
                         address, driverLicense, 
-                        employmentInfo: {...employmentInfo, employeeNumber: Math.floor(Math.random() * (5000 - 100 + 1) + 100), position: null}
+                        employmentInfo: {
+                            position: null,
+                            salary: employmentInfo.salary,
+                            employeeNumber: Math.floor(Math.random() * (5000 - 100 + 1) + 100), 
+                        }
                     });
-
-                    
-
 
 
                     await newEmployee.save();

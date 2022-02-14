@@ -22,7 +22,7 @@ router.delete('/:id',  async (req, res) => {
         res.json(banks);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
         res.json(banks);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -72,7 +72,7 @@ router.post('/multiple', async (req, res) => {
         
         res.json(_banks);
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -100,7 +100,7 @@ router.post('/',
             res.json(bank);
 
         } catch (err) {
-            console.error(err.msg);
+            console.error(err.message);
             res.status(500).send('Server Error');
         }
     }

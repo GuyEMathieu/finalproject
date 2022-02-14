@@ -52,7 +52,7 @@ export default function EmployeeTable(props) {
                     </TableRow>
                     </TableHead>
                 <TableBody>
-                    {(rowsPerPage > 0
+                    {((availableEmployees && defaults) && rowsPerPage > 0
                         ? availableEmployees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : availableEmployees
                     ).map((employee, i) =>(
