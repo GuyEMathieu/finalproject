@@ -5,8 +5,8 @@ const path = require('path')
 const { connect } = require("mongoose");
 const connectDB = require("./config/db");
 
-// Connect Database
-connectDB();
+// // Connect Database
+// connectDB();
 
 // //Init Middleware
 app.use(express.json({ extended: false, limit: '50mb' }));
@@ -68,13 +68,22 @@ app.use('/api/services', require('./routes/serviceRoutes/serviceController'))
 //  Serve static assets if in production
 if(process.env.NODE_ENV === "production"){
     // Set Static folder
-    app.use(express.static("client/build"))
+    app.use(express.static(path.join(__dirname, "/client/build")))
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+        res.sendFile(path.join(__dirname, "/client/build", "index.html"))
     })
 }
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`SERVER STARTED ON PORT ${PORT}`.cyan.underline.bold))
+app.listen(PORT, async () => {
+    
+    try{
+        // Connect Database
+        connectDB();
+        console.log(`SERVER STARTED ON PORT ${PORT}`.cyan.underline.bold)
+    } catch(err){
+        console.log(err)
+    }
+})
