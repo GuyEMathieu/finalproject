@@ -8,6 +8,7 @@ const User = require("../userRoutes/User")
 const bcrypt = require('bcryptjs')
 const State = require("../stateRoutes/State")
 const Position = require("../positionRoutes/Position")
+const Gender = require("../genderRoutes/Gender")
 
 
 // @route       POST api/employees
@@ -121,7 +122,7 @@ router.post('/', [
         try {
             const {
                 firstName, lastName, middleName, dateOfBirth,
-                ssn, email, phone, team, avatar, gender,
+                ssn, email, phone, team, avatar, 
                 driverLicense, address, employmentInfo, 
             } = req.body;
 
@@ -149,12 +150,15 @@ router.post('/', [
 
             const state = await State.findOne({name:'Florida'})
             const position = await Position.findOne({name: employmentInfo.position})
+            const gender = await Gender.findOne({name: req.body.gender})
 
             newEmployee = new Employee({
+                avatar: avatar,
                 user: user._id,
                 firstName, lastName, middleName,
                 dateOfBirth: new Date(dateOfBirth),
-                email, phone, team, avatar, gender,
+                email, phone, team, avatar, 
+                gender: gender._id,
                 address:{
                     ...address,
                     state: state._id,
@@ -192,46 +196,64 @@ router.post('/multiple', async (req, res) => {
             
             const {
                 firstName, lastName, middleName, dateOfBirth,
-                ssn, email, phone, team, avatar, gender,
+                ssn, email, phone, team, avatar, 
                 driverLicense, address, employmentInfo, 
             } = req.body[i];
 
             let newEmployee = await Employee.findOne({firstName, lastName, ssn})
 
-            if(!newEmployee){
-                let user = await User.findOne({username: `${firstName}.${lastName}`});
-
-                if(!user){
-                    user = new User({
-                        username: `${firstName}.${lastName}`,
-                        password: 'password'
-                    })
-                    
-                    const salt = await bcrypt.genSalt(10);
-                    user.password = await bcrypt.hash(user.password, salt)
-                    await user.save();
-
-                    
-
-                    newEmployee = new Employee({
-                        user: user._id, ssn, 
-                        firstName, lastName, middleName,
-                        dateOfBirth: new Date(dateOfBirth),
-                        email, phone, team, avatar, gender,
-                        address, driverLicense, 
-                        employmentInfo: {
-                            position: null,
-                            salary: employmentInfo.salary,
-                            employeeNumber: Math.floor(Math.random() * (5000 - 100 + 1) + 100), 
-                        }
-                    });
-
-
-                    await newEmployee.save();
-
-                    employees.push(newEmployee)
-                }
+            if(newEmployee){
+                return res.status(400).json({errors: [{severity: 'error', msg: 'Employee Exists', _id: uid()}]})
             }
+
+            const salt = await bcrypt.genSalt(10);
+
+            let user = await User.findOne({username: `${firstName}.${lastName}`});
+
+            if(user){
+                return res.status(400).json({errors: [{severity: 'error', msg: 'username already Exists', _id: uid()}]})
+            }
+
+            user = new User({
+                username: `${firstName}.${lastName}`,
+                password: 'password'
+            })
+            
+            user.password = await bcrypt.hash(user.password, salt)
+            await user.save();
+
+            const state = await State.findOne({name:'Florida'})
+            const position = await Position.findOne({name: employmentInfo.position})
+            const gender = await Gender.findOne({name: req.body[i].gender})
+
+            newEmployee = new Employee({
+                avatar: avatar,
+                user: user._id,
+                firstName, lastName, middleName,
+                dateOfBirth: new Date(dateOfBirth),
+                email, phone, team, avatar, 
+                gender: gender._id,
+                address:{
+                    ...address,
+                    state: state._id,
+                    country: state.country
+                }, 
+                driverLicense: {
+                    ...driverLicense,
+                    dlState: state._id
+                },
+                employmentInfo:{
+                    salary: employmentInfo.salary,
+                    position: position._id,
+                    department: position.department,
+                    employeeNumber: Math.floor(Math.random() * (5000 - 100 + 1) + 100), 
+                    team: team
+                }
+            });
+
+            await newEmployee.save();
+
+            employees.push(newEmployee)
         }
 
         res.json(employees)

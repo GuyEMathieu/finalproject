@@ -83,7 +83,7 @@ function SalesManagerPerformance() {
                 const memberSales = getSales(
                         teamSalesPerson[i],
                         sales,
-                        new Date(today.getFullYear(), today.getMonth(), 1),
+                        new Date(today.getFullYear(), today.getMonth(),1),
                         today
                     )
                 teamSales.push(memberSales)
@@ -101,7 +101,6 @@ function SalesManagerPerformance() {
                 teamSales.push(memberSales)
             }
             setLastYear(teamSales)
-
         }
     },[sales, getSales, employeeId, employeeList, getEmployees])
 

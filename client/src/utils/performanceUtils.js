@@ -5,6 +5,36 @@ const Color = () => {
 
 //#region SALES TEAM
 //#region INDIVIDUAL
+export function Member_Prior_Repair(member){
+    let color = Color();
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: "YTD Service",
+                data: [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0],
+                backgroundColor: [],
+                borderColor: [],
+                borderWidth: 1
+            },
+        ]
+    }
+    
+    if(member) {
+        console.info("performance", member)
+        
+        for (let i = 0; i < member.performance.length; i++){
+            const perf = member.performance[i];
+            data.datasets[0].backgroundColor.push(color)
+            data.datasets[0].borderColor.push(color)
+            const month = new Date(perf.date).getMonth();
+            data.datasets[0].data[month] += perf.serviceValue;
+        }
+        data.datasets[0].label = `${member.name} Service Value (${new Date(member.performance[0].date).getFullYear()})`
+    }
+    return data;
+}
+
 export function MTD_Sales(performance){
     const today = new Date()
     const color = Color();
@@ -289,8 +319,10 @@ export function YTD_Repair(performance){
             },
         ]
     }
-
+    console.info("performance", performance)
     if(performance) {
+
+        
         for (let i = 0; i < performance.length; i++){
             const perf = performance[i];
             data.datasets[0].backgroundColor.push(color)
@@ -331,3 +363,88 @@ export function MTD_Repair(performance){
     
     return data
 }
+
+
+
+
+
+export function Team_MTD_Repairs(repairs){
+    const today = new Date()
+    const month = today.toLocaleString('default', { month: 'short' });
+
+    let data = {
+        labels: [month],
+        datasets: []
+    }
+    let chosenColors = []
+
+    if(repairs){
+        for(let i = 0; i < repairs.length; i++){
+            let color = Color()
+            while(chosenColors.includes(color)){
+                color = Color()
+            }
+            chosenColors.push(color)
+            const person = repairs[i];
+            let set = {
+                label: person.name,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 1,
+                data: [0]
+            }
+
+            const perf = person.performance;
+            for(let x = 0; x < perf.length; x++){
+                set.data[0]  += perf[x].serviceValue
+            }
+            data.datasets.push(set)
+        }
+    }
+    return data
+}
+
+export function Team_YTD_Repairs(repairs){
+    let data = {
+        labels: ["Jan", "Fed", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        datasets: [
+            {
+                label: `One`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: 'yellow',
+                borderColor: 'yellow',
+            }
+        ]
+    }
+    if(repairs) {
+        let chosenColors = []
+
+        let roughData = data;
+        roughData.datasets = []
+        for(let i = 0; i < repairs.length; i++){
+            let color = Color()
+            while(chosenColors.includes(color)){
+                color = Color()
+            }
+            chosenColors.push(color)
+            const person = repairs[i]
+            const set = {
+                label: `${person.name}`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: color,
+                borderColor: color,
+            };
+            const performance = person.performance
+
+            for(let d = 0; d < performance.length; d++){
+                const month = new Date(performance[d].date).getMonth()
+                set.data[month] += performance[d].serviceValue;
+            }
+            roughData.datasets.push(set)
+        }
+    }
+    return data;
+}
+
+
+

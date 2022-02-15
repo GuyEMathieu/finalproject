@@ -12,6 +12,7 @@ ChartJS.register(
 
 const options = {
     maintainAspectRation: false,
+    responsive: true,
     scales: {
         y: {
             beginAtZero: true
@@ -21,8 +22,9 @@ const options = {
         labels: {
             fontSize: 26
         }
-    }
+    },
 }
+
 
 const BarChart = ({data}) => {
     return <Bar data={data} options={options} height={200}/> 
