@@ -11,7 +11,7 @@ const connectDB = require("./config/db");
 // //Init Middleware
 app.use(express.json({ extended: false, limit: '50mb' }));
 
-app.get('/', (req, res) => ({ msg: 'Welcome to  API' }));
+
 
 
 // Default Routes
@@ -68,11 +68,13 @@ app.use('/api/services', require('./routes/serviceRoutes/serviceController'))
 //  Serve static assets if in production
 if(process.env.NODE_ENV === "production"){
     // Set Static folder
-    app.use(express.static(path.join(__dirname, "/client/build")))
+    app.use(express.static(path.join(__dirname, "../client/build")))
 
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, "/client/build", "index.html"))
+        res.sendFile(path.join(__dirname, "../", "client", "build", "index.html"))
     })
+} else {
+    app.get('/', (req, res) => ({ msg: 'Welcome to  API' }));
 }
 
 const PORT = process.env.PORT || 5000;
