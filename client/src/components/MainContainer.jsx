@@ -1,8 +1,9 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {
     Box, CssBaseline, styled,
 } from '@mui/material';
 
+import {useAuth} from '../hooks/customHooks';
 import Header from './navigations/Header';
 import Sidebar from './navigations/Sidebar';
 import Copyright from './Copyright'
@@ -41,6 +42,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 
 export default function MainContainer(props) {
+    const authContext = useAuth();
+
+    useEffect(() => {
+        authContext.loadUser();
+        // eslint-disable-next-line
+    },[])
     const [open, setOpen] = useState(true);
 
     const handleDrawerOpen = () => {
@@ -50,6 +57,9 @@ export default function MainContainer(props) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    
+
     return (
         <Box sx={{ display: 'flex', backgroundColor: "#f5f5f5" }}>
             <CssBaseline />

@@ -1,7 +1,9 @@
-import {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect} from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
+import {
+    List, Box, ListItemAvatar, Avatar
+} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -13,18 +15,19 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
+
 import Popup from '../Popup'
 
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import CarRentalIcon from '@mui/icons-material/CarRental';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
-import Settings from '../Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-import {DefaultContext} from '../../context/default_context/DefaultState';
+import { useAuth } from '../../hooks/customHooks';
 
 const drawerWidth = 240;
 
@@ -43,10 +46,9 @@ const CustomLink = styled(Link)(({theme}) => ({
 }))
 
 
-
 export default function Header(props) {
-    const defaultContext = useContext(DefaultContext);
-    const {settings, updateSettings} = defaultContext;
+    const navigate = useNavigate()
+    const {user, logout} = useAuth()
 
     const theme = useTheme();
 
@@ -54,31 +56,20 @@ export default function Header(props) {
         open, handleDrawerClose
     } = props
 
-    const [openAdmin, setOpenAdmin] = useState(false)
+    const [openSetting, setOpenSettings] = useState(false)
     const handleClick = () => {
-        setOpenAdmin(!openAdmin);
+        setOpenSettings(!openSetting);
     };
 
-    const [currentSettings, setCurrentSettings] = useState(settings)
-
-    const handleSettingsChange = e => {
-        const {checked, name} = e.target;
-        alert(JSON.stringify(e.target))
-        // setCurrentSettings(prev => {
-        //     return {
-        //         ...prev,
-        //         [name]: checked
-        //     }
-        // })
+    const goToProfile = () => {
+        navigate(`/hr/employees/profile/${user.profile._id}`)
     }
 
-
-    const [openPopup, setOpenPopup] = useState(false)
-    const handleOpenPopup = () => setOpenPopup(true);
-    const handleClosePopup = () => {
-        updateSettings(currentSettings)
-        setOpenPopup(false)
+    const handleLogout = () => {
+        logout();
+        navigate(`/login`)
     }
+
 
     return (
 
@@ -112,6 +103,7 @@ export default function Header(props) {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 >
+
                 <CustomLink to={'/sales/showroom'}>
                     <ListItemButton>
                         <ListItemIcon>
@@ -139,43 +131,59 @@ export default function Header(props) {
                     </ListItemButton>
                 </CustomLink>
 
+                <Divider />
 
-
+            
+            <Box sx={{
+                position: 'fixed',
+                bottom: 0,
+                textAlign: 'center',
+                paddingBottom: 3
+            }}>
+ 
                 <ListItemButton onClick={handleClick}>
-                    <ListItemIcon>
-                        <AdminPanelSettingsIcon color='primary'/>
-                    </ListItemIcon>
-                    <ListItemText primary="Admin" />
-                    {openAdmin ? <ExpandLess color='primary'/> : <ExpandMore color='primary'/>}
-                </ListItemButton>
-
-
-                <Collapse in={openAdmin} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        {/* <CustomLink to={'/hr/employees'}>
-                            <ListItemButton sx={{ pl: 4 }}>
-                                <ListItemIcon>
-                                    <BadgeIcon color='primary'/>
-                                </ListItemIcon>
-                                <ListItemText primary="Employees" />
-                            </ListItemButton>
-                        </CustomLink> */}
-                    </List>
-                </Collapse>
-
-                <Divider  />
-
-                <ListItemButton sx={{marginTop: 1}} onClick={handleOpenPopup}>
                     <ListItemIcon>
                         <SettingsIcon color='primary'/>
                     </ListItemIcon>
-                    <ListItemText primary="Setting" />
+                    <ListItemText primary="Settings" />
+                    {openSetting ? <ExpandMore color='primary'/> : <ExpandLess color='primary'/>}
                 </ListItemButton>
+
+                    <Collapse in={openSetting} timeout="auto" unmountOnExit>
+                        <List component="div" sx={{pl: 3}}>
+                            <ListItemAvatar >
+                                <Avatar 
+                                    alt={`${user.profile.firstName} ${user.profile.lastName}`} 
+                                    src={user.profile.avatar} 
+                                    sx={{width: '100px',
+                                        height: '100px', 
+                                        mx: 'auto',
+                                    }}
+                                />
+                                <ListItemText>{user.profile.firstName} {user.profile.lastName}</ListItemText>
+                            </ListItemAvatar>
+                            <ListItemButton onClick={() => goToProfile()}>
+                                <ListItemIcon>
+                                    <AccountCircleIcon color='primary'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Profile" />
+                            </ListItemButton>
+
+                            <Divider />
+
+                            <ListItemButton onClick={handleLogout}>
+                                <ListItemIcon>
+                                    <LogoutIcon color='primary'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Logout" />
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
+
+                    <Divider  />
+                </Box>
             </List>
 
-            <Popup open={openPopup} handleClose={handleClosePopup} title={'Settings'}>
-                <Settings settings={currentSettings} handleChange={handleSettingsChange} />
-            </Popup>
         </Drawer>
     );
 }

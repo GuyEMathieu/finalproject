@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext} from 'react';
+import {useState, useEffect} from 'react';
 import {
     Box,
     Tab, Paper
@@ -11,8 +11,7 @@ import { getName } from '../../../utils/Formatter';
 import Loading from '../../../components/Loading';
 
 //#region Context
-import {CustomerContext} from '../../../context/customer_context/CustomerState'
-import {DefaultContext} from '../../../context/default_context/DefaultState'
+import {useDefault, useCustomer} from '../../../hooks/customHooks';
 //#endRegion
 
 import ClearIcon from '@mui/icons-material/Clear';
@@ -23,14 +22,13 @@ import VehicleDetails from './VehicleDetails';
 
 export default function CustomerMain (props) {
     const {id} = props;
-    const customerContext = useContext(CustomerContext);
+    
     const {
         customerList, getCustomerById, getCustomers, 
         currentCustomer, updateCustomer
-    } = customerContext;
+    } = useCustomer();
 
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    const {defaults, getAll} =  useDefault();
 
     const [isLoading, setLoading] = useState(true)
     const [tempProfile, setTempProfile] = useState(null);
@@ -114,7 +112,7 @@ export default function CustomerMain (props) {
                 panel: () => <VehicleDetails 
                         vehicleVin={vehicle.vin} 
                         customerId={currentCustomer._id} 
-                        customerContext={customerContext}
+                        customerContext={useDefault}
                     />
             }])
             setValue(label)
@@ -170,7 +168,7 @@ export default function CustomerMain (props) {
                             handleSelection={createVehicleTab} 
                             profile={currentProfile} 
                             defaults={defaults} 
-                            context={customerContext}
+                            context={useDefault}
                         />
                 }
             </TabPanel>

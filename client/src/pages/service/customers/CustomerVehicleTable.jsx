@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-    Box,
     Table, TableBody, TableCell, TableRow, TablePagination,
     TableContainer, TableHead, Paper, TableFooter, Button
 } from '@mui/material';
@@ -11,13 +10,14 @@ import {getName} from '../../../utils/Formatter'
 
 import { generateVIN } from '../../../utils/Formatter';
 
-import { maskString, prettyAlert } from '../../../utils/Formatter';
+import { maskString } from '../../../utils/Formatter';
 // Components
 import TablePaginationActions from '../../../components/PaginationActions';
-import { DefaultContext } from '../../../context/default_context/DefaultState';
+
+import {useDefault} from '../../../hooks/customHooks';
 
 export default function CustomerVehicleTable(props) {
-    const defaultContext = useContext(DefaultContext)
+    const defaultContext = useDefault()
     const {defaults, getAll} = defaultContext;
     const { profile, handleSelection, context} = props;
     const {addNewVehicle} = context

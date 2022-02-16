@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     Table, TableBody, TableCell, TableRow, TablePagination,
     TableContainer, TableHead, Paper, TableFooter
 } from '@mui/material';
-import { DefaultContext } from '../../context/default_context/DefaultState';
+import {useDefault} from '../../hooks/customHooks';
+
 import { getName } from '../../utils/Formatter';
+
 // Components
 import TablePaginationActions from '../../components/PaginationActions';
 
 export default function EmployeeTable(props) {
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    const {defaults, getAll} = useDefault();
 
     const { employees, handleSelection, } = props;
     const [ availableEmployees, setAvailableEmployees] = useState([])

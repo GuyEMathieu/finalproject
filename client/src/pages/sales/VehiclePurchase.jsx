@@ -1,20 +1,15 @@
-import {useState, useEffect, useContext} from 'react';
-import {Navigate, useNavigate, useParams} from 'react-router-dom'
+import {useState, useEffect} from 'react';
+import {useNavigate, useParams} from 'react-router-dom'
 import {
     Paper, TextField, MenuItem, Stack
 } from '@mui/material'
 import {
     styled
 } from '@mui/styles'
-import {prettyAlert, RoundToTwo} from '../../utils/Formatter';
-
-
+import {RoundToTwo} from '../../utils/Formatter';
 
 //#region CONTEXT
-import { InventoryContext } from '../../context/inventoryContext/InventoryState';
-import {CustomerContext} from '../../context/customer_context/CustomerState';
-import {DefaultContext} from '../../context/default_context/DefaultState';
-import {SalesContext} from '../../context/sales_context/SaleState'
+import { useInventoryVehicles, useSales, useCustomer, useDefault } from '../../hooks/customHooks';
 //#endregion
 
 //#region COMPONENTS
@@ -27,6 +22,7 @@ import Financing from './Financing';
 import VehicleInfo from './VehicleInfo';
 import Loading from '../../components/Loading';
 import Alerts from '../../components/Alerts';
+
 //#endregion
 
 const Image = styled('img')(() => ({
@@ -38,17 +34,11 @@ const Image = styled('img')(() => ({
 const VehiclePurchase = () => {
     const {id} = useParams();
     const navigate = useNavigate()
-    const inventoryContext = useContext(InventoryContext);
-    const {inventoryVehicles, getVehicles, getVehicleById, currentVehicle} = inventoryContext;
-
-    const saleContext = useContext(SalesContext)
-    const {saleVehicle, addUIErrors, errors, removeError} = saleContext;
-
-    const customerContext = useContext(CustomerContext);
-    const {customerList, getCustomers} = customerContext;
-
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    
+    const {inventoryVehicles, getVehicles, getVehicleById, currentVehicle} = useInventoryVehicles();
+    const {saleVehicle, addUIErrors, errors, removeError} = useSales();
+    const {customerList, getCustomers} = useCustomer();
+    const {defaults, getAll} = useDefault();
 
     const [isLoading, setLoading] = useState(true)
 
@@ -57,7 +47,7 @@ const VehiclePurchase = () => {
         customer: {address: {}}
     })
     useEffect(() => {
-        if(inventoryContext.inventoryVehicles === null){
+        if(inventoryVehicles === null){
             getVehicles()
         }
 
@@ -80,7 +70,7 @@ const VehiclePurchase = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
-            inventoryContext, id, 
+            inventoryVehicles, id, 
             customerList, getCustomers, defaults,
             errors,
         ]
@@ -91,7 +81,7 @@ const VehiclePurchase = () => {
             getVehicleById(id)
         }
 
-        if(currentVehicle && inventoryContext.currentVehicle._id === id){
+        if(currentVehicle && currentVehicle._id === id){
 
             const dealerPercentage = 0.1
             const stateTax = 0.07;
@@ -105,7 +95,7 @@ const VehiclePurchase = () => {
             const grandTotal = balance
             setPurchase({
                 ...purchase, 
-                vehicle: inventoryContext.currentVehicle,
+                vehicle: currentVehicle,
                 sale: {
                     financing: {},
                     vehiclePrice: vehicle.price,
@@ -121,6 +111,7 @@ const VehiclePurchase = () => {
                 }
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[currentVehicle, id, getVehicleById])
 
     const [activeStep, setActiveStep] = useState(0);

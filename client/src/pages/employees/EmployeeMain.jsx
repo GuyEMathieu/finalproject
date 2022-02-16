@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Paper, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -10,16 +10,14 @@ import SalesManagerPerformance from './SalesManagerPerformance'
 import RepairEmployeePerformance from './RepairEmployeePerformance'
 import RepairManagerPerformance from './RepairManagerPerformance'
 
-import { EmployeeContext } from '../../context/employee_context/EmployeeState';
-import {DefaultContext} from '../../context/default_context/DefaultState';
+import {useDefault, useEmployee} from '../../hooks/customHooks';
+
 
 const EmployeeMain = () => {
     const {employeeId} = useParams();
-    const employeeContext = useContext(EmployeeContext);
-    const {getProfile, currentEmployee} = employeeContext;
+    const {getProfile, currentEmployee} = useEmployee();
 
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    const {defaults, getAll} = useDefault();
 
     const [position, setPosition] = useState('')
 

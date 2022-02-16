@@ -1,23 +1,18 @@
-import {useState, useEffect, useContext} from 'react';
+import {useState, useEffect } from 'react';
 import {
     Paper, Grid, TextField, 
     MenuItem, 
 } from '@mui/material';
 
-import { InventoryContext } from '../../context/inventoryContext/InventoryState';
-import { DefaultContext } from '../../context/default_context/DefaultState';
-
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'
-import Loading from '../../components/Loading';
 import VehicleCardSkeleton from '../../components/skeletons/VehicleCardSkeleton';
+import { useDefault, useInventoryVehicles } from '../../hooks/customHooks';
 
 export default function Showroom() {
-    const inventoryContext = useContext(InventoryContext);
-    const {getVehicles, inventoryVehicles} = inventoryContext;
+    const {getVehicles, inventoryVehicles} = useInventoryVehicles();
 
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    const {defaults, getAll} = useDefault();
 
     const [vehicles, setVehicles] = useState([])
     

@@ -1,12 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Paper, Grid, styled,
     TextField, Button
 } from '@mui/material'
 import MainContainer from '../../components/MainContainer';
-import {EmployeeContext} from '../../context/employee_context/EmployeeState';
 import { useNavigate } from 'react-router-dom';
-
+import { useEmployee} from '../../hooks/customHooks';
 //#region ICONS
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -32,8 +31,7 @@ const Container = styled(Grid)(({ theme }) => ({
 
 export default function EmployeeSearch (props) {
     const navigate = useNavigate();
-    const employeeContext = useContext(EmployeeContext)
-    const {employeeList, getEmployees} = employeeContext;
+    const {employeeList, getEmployees} = useEmployee();
 
     useEffect(() => {
         if(!employeeList){

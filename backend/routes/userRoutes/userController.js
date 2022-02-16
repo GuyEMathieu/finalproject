@@ -3,6 +3,7 @@ const router = express.Router();
 const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
 const User = require('./User');
+const Employee = require("../employeeRoutes/Employee")
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const config = require("config");
@@ -31,13 +32,27 @@ router.get('/all', auth, async (req, res) => {
 // @access      private
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id)
+        let user = await User.findById(req.user.id)
             .select('-password')
             .select('-createdAt')
             .select('-updatedAt')
             .select('-__v')
-            
-        res.json(user)
+        
+        const employee = await Employee.findOne({user: user._id})
+            .select('-createdAt')
+            .select('-updatedAt')
+            .select('-__v')
+        
+        user.profile = employee
+
+        let data = {
+            isAdmin: user.isAdmin,
+            _id: user._id,
+            username: user.username,
+            profile: employee
+        }
+
+        res.json(data)
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -53,13 +68,13 @@ router.post('/register',
         check("password", "a valid password of 6 or more characters").isLength({min: 7})
     ],
     async (req, res) => {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            const alerts = [];
-            for( let i = 0; i < errors.array().length; i++){
-                alerts.push({severity: 'error', msg: errors.array()[i].msg, _id: uid()})
+        const rawErrors = validationResult(req);
+        if(!rawErrors.isEmpty()){
+            const errors = [];
+            for( let i = 0; i < rawErrors.array().length; i++){
+                alerts.push({severity: 'error', msg: rawErrors.array()[i].msg, _id: uid()})
             }
-            return res.status(400).json({errors: alerts})
+            return res.status(400).json({errors})
         }
         try {
 
@@ -67,7 +82,7 @@ router.post('/register',
             let newUser = await User.findOne({username: username});
 
             if(newUser){
-                return res.status(400).json({alerts: [{severity: "error", msg: "User already exists", _id: uid()}]})
+                return res.status(400).json({errors: [{severity: "error", msg: "User already exists", _id: uid()}]})
             }
 
             newUser = new User({username, password});
@@ -121,7 +136,7 @@ router.post('/login',
             let user = await User.findOne({username: username});
 
             if(!user){
-                return res.status(400).json({alerts: [{severity: "error", msg: "Invalid username or password", _id: uid()}]})
+                return res.status(400).json({errors: [{severity: "error", msg: "Invalid username or password", _id: uid()}]})
             }
 
             const isMatch = await bcrypt.compare(password, user.password);

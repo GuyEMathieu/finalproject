@@ -4,10 +4,11 @@ import authReducer from './authReducer';
 import axios from 'axios';
 
 import {prettyAlert} from '../../utils/Formatter'
-
+import setAuthToken from '../../utils/setAuthToken';
 import * as ActionTypes from './authTypes'
 
 export const AuthContext = createContext();
+
 
 
 const AuthState = props => {
@@ -28,20 +29,55 @@ const AuthState = props => {
     }
 
     // Load User
+    const loadUser = async () => {
+        //@todo - Load token into global headers
+        if(localStorage.token){
+            setAuthToken(localStorage.token)
+        }
 
-    // Register User
+        try{
+            const res = await axios.get('/api/users');
+            dispatch({
+                type: ActionTypes.USER_LOADED,
+                payload: res.data
+            })
+        } catch(err){
+            
+            dispatch({
+                type: ActionTypes.AUTH_ERROR,
+                payload: err.response.data.errors
+            })
+        }
+    }
+
     const loginUser = async user => {
         try{
-            const res = await axios.post('/api/users', user, config)
-            prettyAlert(res.data)
+            const res = await axios.post('/api/users/login', user, config)
             dispatch({
                 type: ActionTypes.LOGIN_SUCCESS,
                 payload: res.data
             })
+
+            loadUser()
         } catch(err){
-            console.info(err.response.data)
             dispatch({
-                type: ActionTypes.SET_ERRORS,
+                type: ActionTypes.LOGIN_FAIL,
+                payload: err.response.data.errors
+            })
+        }
+    }
+    const registerUser = async user => {
+        try{
+            const res = await axios.post('/api/users/register', user, config)
+            dispatch({
+                type: ActionTypes.LOGIN_SUCCESS,
+                payload: res.data
+            })
+
+            loadUser()
+        } catch(err){
+            dispatch({
+                type: ActionTypes.LOGIN_FAIL,
                 payload: err.response.data.errors
             })
         }
@@ -50,6 +86,11 @@ const AuthState = props => {
     // Login User
 
     // Logout
+    const logout = id => {
+        dispatch({
+            type: ActionTypes.USER_LOGOUT,
+        })
+    }
 
     // Clear Errors
     const clearError = id => {
@@ -58,6 +99,7 @@ const AuthState = props => {
             payload: id
         })
     }
+    
 
     return (
         <AuthContext.Provider
@@ -68,9 +110,11 @@ const AuthState = props => {
                 errors: state.errors,
                 user: state.user,
 
-
+                registerUser,
                 loginUser,
-                clearError
+                loadUser,
+                clearError,
+                logout
             }}>
                 {props.children}
         </AuthContext.Provider>

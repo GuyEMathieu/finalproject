@@ -21,8 +21,7 @@ export function Member_Prior_Repair(member){
     }
     
     if(member) {
-        console.info("performance", member)
-        
+       
         for (let i = 0; i < member.performance.length; i++){
             const perf = member.performance[i];
             data.datasets[0].backgroundColor.push(color)
@@ -153,8 +152,6 @@ export function YTD_Commission(performance){
 export function Team_MTD_Sales(sales){
     const today = new Date()
     const month = today.toLocaleString('default', { month: 'short' });
-
-    console.info("Sales", sales)
 
     let data = {
         labels: [month],

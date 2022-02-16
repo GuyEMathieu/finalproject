@@ -1,5 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {ServiceContext} from '../../context/service_context/ServiceState';
+import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom'
 import BarChart from '../../components/charts/BarChart';
 import {
@@ -8,15 +7,12 @@ import {
     FormControlLabel, Radio
 } from '@mui/material'
 
-import {
-    YTD_Repair, YTD_Commission,
-    MTD_Repair, MTD_Commission
-} from '../../utils/performanceUtils'
+import {useService} from '../../hooks/customHooks';
+import {YTD_Repair, MTD_Repair} from '../../utils/performanceUtils'
 
 const RepairEmployeePerformance = () => {
     const {employeeId} = useParams();
-    const serviceContext = useContext(ServiceContext)
-    const {getServices, services} = serviceContext;
+    const {getServices, services} = useService();
 
     const [dateRange, setDateRange] = useState('Current');
     const [ytdPerformance, setYTDPerformance] = useState(null)

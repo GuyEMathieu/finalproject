@@ -1,12 +1,12 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Grid, Button} from '@mui/material';
 import {styled} from '@mui/styles'
 import MainContainer from '../../components/MainContainer';
 import VehicleInfo from './VehicleInfo';
 import Loading from '../../components/Loading';
 import {useParams, useNavigate} from 'react-router-dom'
-import { InventoryContext } from '../../context/inventoryContext/InventoryState';
-import { DefaultContext } from '../../context/default_context/DefaultState';
+
+import { useDefault, useInventoryVehicles } from '../../hooks/customHooks';
 
 const Profile = styled('div')(({theme}) => ({
     border: '1px solid #f00',
@@ -19,11 +19,9 @@ const Profile = styled('div')(({theme}) => ({
 const VehicleProfile = () => {
     const navigate = useNavigate()
     const {id} = useParams()
-    const inventoryContext = useContext(InventoryContext);
-    const {inventoryVehicles, getVehicles} = inventoryContext;
+    const {inventoryVehicles, getVehicles} = useInventoryVehicles();
 
-    const defaultContext = useContext(DefaultContext)
-    const {defaults, getAll} = defaultContext
+    const {defaults, getAll} = useDefault()
 
     const [vehicle, setVehicle] = useState({})
     const [isLoading, setLoading] = useState(true);

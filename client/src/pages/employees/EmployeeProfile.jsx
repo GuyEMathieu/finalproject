@@ -1,13 +1,11 @@
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
     Grid, styled, Paper,
     Button, ButtonGroup, Box
 } from '@mui/material';
 import {useParams} from 'react-router-dom';
 
-import {DefaultContext} from '../../context/default_context/DefaultState'
-import {EmployeeContext} from '../../context/employee_context/EmployeeState'
-
+import {useDefault, useEmployee} from '../../hooks/customHooks';
 
 import PeopleGlance from '../../components/peopleComponents/PeopleGlance';
 import PersonalInfo from '../../components/peopleComponents/PersonalInfo';
@@ -27,19 +25,17 @@ function EmployeeProfile2(props) {
 
     const [isDisabled, setDisabled] = useState(true)
 
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    const {defaults, getAll} = useDefault();
     useEffect(() => {
         if(defaults === null){
             getAll()
         }
     }, [defaults, getAll])
 
-    const employeeContext = useContext(EmployeeContext);
     const {
         employeeList, getEmployees, getProfile,
         currentEmployee, updateEmployee
-    } = employeeContext;
+    } = useEmployee();
     useEffect(() => {
         if(!employeeList === null){
             getEmployees()

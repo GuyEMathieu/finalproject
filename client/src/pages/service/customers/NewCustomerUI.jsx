@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Grid, Typography,
     TextField, Button, 
 } from '@mui/material'
 import { DatePicker } from '@mui/lab';
-import {CustomerContext} from '../../../context/customer_context/CustomerState';
 
+import {useCustomer} from '../../../hooks/customHooks';
 
 export default function NewCustomerUI (props) {
     const {
@@ -13,8 +13,7 @@ export default function NewCustomerUI (props) {
         setOpen
     } = props;
 
-    const customerContext = useContext(CustomerContext)
-    const {addCustomer, currentCustomer} = customerContext;
+    const {addCustomer, currentCustomer} = useCustomer();
 
     const [customer, setCustomer] = useState({});
     const {firstName, lastName, dateOfBirth} = customer;

@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Paper, Grid, styled, 
     TextField, Button, 
 } from '@mui/material'
 import SidebarSlidePopup from '../../../components/SidebarSlidePopup'
-import {CustomerContext} from '../../../context/customer_context/CustomerState';
 import NewCustomerUI from './NewCustomerUI'
+
 //#region ICONS
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -16,6 +16,8 @@ import BackspaceIcon from '@mui/icons-material/Backspace';
 //#region COMPONENTS
 import CustomerTable from './CustomerTable'
 //#endregion
+
+import {useCustomer} from '../../../hooks/customHooks';
 
 
 //#region CSS
@@ -32,11 +34,10 @@ const Container = styled(Grid)(({ theme }) => ({
 //#endregion
 
 export default function CustomerSearch (props) {
-    const customerContext = useContext(CustomerContext)
     const {
         customerList, getCustomers, filterCustomers, 
         filteredCustomers, resetFilteredCustomers
-    } = customerContext;
+    } = useCustomer();
 
     useEffect(() => {
         if(!customerList){

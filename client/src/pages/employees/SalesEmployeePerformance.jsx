@@ -1,5 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {SalesContext} from '../../context/sales_context/SaleState';
+import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom'
 import BarChart from '../../components/charts/BarChart';
 import {
@@ -12,11 +11,11 @@ import {
     MTD_Sales, MTD_Commission
 } from '../../utils/performanceUtils'
 
-
+import {useSales} from '../../hooks/customHooks';
 function SalesEmployeePerformance() {
     const {employeeId} = useParams();
-    const salesContext = useContext(SalesContext);
-    const {sales, getSales} = salesContext;
+    const {sales, getSales} = useSales();
+    
 
     const [chartType, setChartType] = useState('Sale');
 

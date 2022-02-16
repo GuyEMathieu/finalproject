@@ -1,4 +1,4 @@
-import React, {useState, Fragment, useEffect, useContext} from 'react'
+import React, {useState, Fragment, useEffect} from 'react'
 import {
     Grid, Paper, Button, Typography, 
     MenuItem, TextField, Stack
@@ -16,8 +16,7 @@ import ServiceDetails from './ServiceDetail'
 import Popup from '../../../components/Popup';
 import NewServiceTrip from './NewServiceTrip';
 
-import {DefaultContext} from '../../../context/default_context/DefaultState'
-import {CustomerContext} from '../../../context/customer_context/CustomerState'
+import {useDefault, useCustomer} from '../../../hooks/customHooks';
 
 export default function VehicleDetails (props) {
     const [tempVehicle, setTempVehicle] = useState(null)
@@ -25,19 +24,17 @@ export default function VehicleDetails (props) {
         vehicleVin, customerId
     } = props
 
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll}= defaultContext;
+    const {defaults, getAll}= useDefault();
     useEffect(() => {
         if(!defaults){
             getAll()
         }
     },[defaults, getAll])
 
-    const customerContext = useContext(CustomerContext);
     const {
         addVehicleService, currentCustomer, 
         updateVehicle, getCustomers, customerList
-    } = customerContext;
+    } = useCustomer();
 
     const [currentVehicle, setCurrentVehicle] = useState({})
     const {serviceLogs} = currentVehicle;

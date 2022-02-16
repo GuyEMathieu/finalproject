@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Grid, Button, ButtonGroup, Paper
 } from '@mui/material'
 
 //#region Context
-import {DefaultContext} from '../../../context/default_context/DefaultState'
+import {useDefault} from '../../../hooks/customHooks';
 //#endRegion
 
 //#region Components
@@ -22,8 +22,7 @@ const CustomerProfile = (props) => {
         cancelEdit, handleProfileChange
     } = props
 
-    const defaultContext = useContext(DefaultContext);
-    const {defaults, getAll} = defaultContext;
+    const {defaults, getAll} =  useDefault();;
 
     const [isLoading, setLoading] = useState(true);
     const [currentProfile, setCurrentProfile] = useState({address: {}})
@@ -75,7 +74,7 @@ const CustomerProfile = (props) => {
                                     defaults={defaults} isDisabled={profileDisabled} />
                             </AccordionShell>
 
-                            {/* <AccordionShell 
+                            <AccordionShell 
                                 expanded={expanded}
                                 title='Personal Address' handleChange={handleChange}>
                                 {isLoading 
@@ -85,7 +84,7 @@ const CustomerProfile = (props) => {
                                         address={currentProfile.address} 
                                         defaults={defaults} isDisabled={profileDisabled}/> 
                                 }
-                            </AccordionShell> */}
+                            </AccordionShell>
                         </Grid>
                     </Grid>
                 </Grid>

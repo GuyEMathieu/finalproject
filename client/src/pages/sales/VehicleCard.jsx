@@ -19,6 +19,8 @@ const CustomCard = styled(Card)(({theme}) => ({
 
 const Media = styled(CardMedia)(() => ({
     ":hover": {cursor: 'pointer'},
+    width:'100%',
+    height: '100%',
     objectFit: 'contain'
 }))
 export default function MediaCard({vehicle, defaults}) {
