@@ -3,7 +3,6 @@ import {
     Paper, Grid, TextField, 
     MenuItem, 
 } from '@mui/material';
-import SimpleBar from 'simplebar-react';
 
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'
@@ -123,7 +122,7 @@ export default function Showroom() {
                                 <TextField
                                     disabled={make === 'All' ? true : false}
                                     value={model} onChange={handleModelChange}
-                                    label='filteredModels' name={'filteredModels'} select>
+                                    label='Models' name={'filteredModels'} select>
                                     <MenuItem disabled>Select Model</MenuItem>
                                     {defaults && 
                                         [
