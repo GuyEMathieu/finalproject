@@ -46,50 +46,50 @@ const CustomerProfile = (props) => {
     };
 
     return (
-            <Grid container spacing={1}>
-                <Grid item xs={4} sx={{display: {sx: 'none', lg: 'block'}}}>
-                    <PeopleGlance profile={currentProfile} defaults={defaults} />
-                </Grid>
+        <Grid container spacing={1}>
+            <Grid item xs={4} sx={{display: {sx: 'none', lg: 'block'}}}>
+                <PeopleGlance profile={currentProfile} defaults={defaults} />
+            </Grid>
 
-                <Grid xs item>
-                    <Grid container spacing={1}>
-                        <Grid item xs={12}>
-                            <Paper sx={{display: 'flex', justifyContent: 'flex-end', py: 0.5}}>
-                                <ButtonGroup variant="outlined" size='small'>
-                                    {!profileDisabled 
-                                        ? <Button onClick={cancelEdit}>Cancel</Button>
-                                        : <Button onClick={enableEdit}>Edit</Button>
-                                    }
-                                    {!profileDisabled ? <Button variant='contained' onClick={onSaveProfile}>Save</Button> : null}
-                                </ButtonGroup>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <AccordionShell 
-                                expanded={expanded}
-                                title='Personal Information' handleChange={handleChange}>
-
-                                <PersonalInfo 
-                                    data={currentProfile} handleChange={handleProfileChange}
-                                    defaults={defaults} isDisabled={profileDisabled} />
-                            </AccordionShell>
-
-                            <AccordionShell 
-                                expanded={expanded}
-                                title='Personal Address' handleChange={handleChange}>
-                                {isLoading 
-                                    ? <Loading  /> 
-                                    : <Address 
-                                        handleChange={handleProfileChange}
-                                        address={currentProfile.address} 
-                                        defaults={defaults} isDisabled={profileDisabled}/> 
+            <Grid xs item>
+                <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <Paper sx={{display: 'flex', justifyContent: 'flex-end', py: 0.5}}>
+                            <ButtonGroup variant="outlined" size='small'>
+                                {!profileDisabled 
+                                    ? <Button onClick={cancelEdit}>Cancel</Button>
+                                    : <Button onClick={enableEdit}>Edit</Button>
                                 }
-                            </AccordionShell>
-                        </Grid>
+                                {!profileDisabled ? <Button variant='contained' onClick={onSaveProfile}>Save</Button> : null}
+                            </ButtonGroup>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <AccordionShell 
+                            expanded={expanded}
+                            title='Personal Information' handleChange={handleChange}>
+
+                            <PersonalInfo 
+                                data={currentProfile} handleChange={handleProfileChange}
+                                defaults={defaults} isDisabled={profileDisabled} />
+                        </AccordionShell>
+
+                        <AccordionShell 
+                            expanded={expanded}
+                            title='Personal Address' handleChange={handleChange}>
+                            {isLoading 
+                                ? <Loading  /> 
+                                : <Address 
+                                    handleChange={handleProfileChange}
+                                    address={currentProfile.address} 
+                                    defaults={defaults} isDisabled={profileDisabled}/> 
+                            }
+                        </AccordionShell>
                     </Grid>
                 </Grid>
-                
             </Grid>
+            
+        </Grid>
     )
 }
 

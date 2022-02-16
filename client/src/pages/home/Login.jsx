@@ -15,28 +15,27 @@ import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/customHooks';
 
-const CustomContainer = styled(Container)(({theme}) => ({
-    // marginLeft: '20vw',
-    // marginRight: '20vw',
-    
-    // backgroundColor: 'silver',
-    padding: 0,
-    // marginLeft: '25vw',
-    marginTop: '25vh',
+const CustomContainer = styled('div')(({theme}) => ({
+    backgroundColor: theme.palette.background.default,    
+    height: '100vh',
+    maxHeight: '100vh',
+    display: 'flex',
+    position: 'relative'
 }))
-const CustomerPaper = styled(Paper)(({theme}) => ({
-    // marginLeft: '20vw',
-    // marginRight: '20vw',
-    // marginTop: '25vh',
-    margin:'auto',
-    width: '100%',
-    marginLeft: 0,
-    backgroundColor: 'gray'
+const CustomerPaper = styled(Container)(({theme}) => ({
+    height: '25vh',
+    position: 'absolute',
+    marginTop: '25vh',
+    left: '35vw',
+    width: '30vw',   
 }))
 
 const StyledAvatar = styled(Avatar)(({theme}) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+}))
+const Typo = styled(Typography)(({theme}) => ({
+    color: theme.palette.text.primary
 }))
 
 
@@ -54,100 +53,99 @@ const Login = () => {
         // eslint-disable-next-line
     },[isAuthenticated])
 
-    const [user, setUser] = useState({
-        username: 'Giffy.Willsmore',
-        password: 'password'
-    });
+    const list = [
+        {
+            username: "Steve.Pudge",
+            label: "Steve Pudge (Sales Manager)",
+            password: 'password'
+        },
+        {
+            username: "Giffy.Willsmore",
+            label: "Giffy Willsmore (Sales Representative)" ,
+            password: 'password'
+        },
+        {
+            username: "Horten.Learie",
+            label: "Horten Learie (Repair Manager)",
+            password: 'password'
+        },
+        {
+            username: "Omero.Lathwell",
+            label: "Omero Lathwell (Repair Technician)",
+            password: 'password'
+        },
+    ]
+    const [user, setUser] = useState(list[1]);
 
     const onLogin = e => {
         loginUser(user)
     }
 
     const handleChange = e => {
-        const {name, value} =  e.target;
+        let {name, value} =  e.target;
         setUser({...user, [name]: value})
     }
-    const list = [
-        {
-            username: "Steve.Pudge",
-            label: "Steve Pudge (Sales Manager)"
-        },
-        {
-            username: "Giffy.Willsmore",
-            label: "Giffy Willsmore (Sales Representative)" 
-        },
-        {
-            username: "Horten.Learie",
-            label: "Horten Learie (RePair Manager)"
-        },
-        {
-            username: "Omero.Lathwell",
-            label: "Omero Lathwell (Repair Technician)"
-        },
-    ]
+    
     return (
-            <CustomContainer maxWidth='md'>
-                <CustomerPaper >
-                    <Stack direction={'row'} sx={{pb: 2}}>
-                        <StyledAvatar >
-                            <LockOutlinedIcon />
-                        </StyledAvatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                    </Stack>    
-                    {errors && 
-                        <Alerts alerts={errors} removeAlert={clearError}/>
-                    }
-                    <Stack spacing={2}>
+        <CustomContainer>
+            <CustomerPaper >
+                <Stack direction={'row'} sx={{mb: 0, alignItems: 'center'}} justifyContent='center'>
+                    <StyledAvatar >
+                        <LockOutlinedIcon />
+                    </StyledAvatar>
+                    <Typo component="h1" variant="h5" align='center'>
+                        Sign in
+                    </Typo>
+                </Stack>    
+                {errors && 
+                    <Alerts alerts={errors} removeAlert={clearError} />
+                }
+                <Stack spacing={2} sx={{mt: 2}}>
+                    <TextField
+                        label='Select A User' value={user.username} select
+                        onChange={handleChange} name='username'
+                    >
+                        {list.map(ele => (
+                            <MenuItem key={ele.username} value={ele.username}>{ele.label}</MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField
+                        label={'Username'} name='username'
+                        value={user.username} onChange={handleChange}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <TextField
+                        label={'Password'} name='password' type={'password'}
+                        value={user.password} onChange={handleChange}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <LockIcon />
+                                </InputAdornment>
+                            ),
+                        }}    
+                    />
 
-                        <TextField
-                            label='Select User' value={user.username} select
-                            onChange={handleChange} name='username'
-                        >
-                            <MenuItem disabled>Select User</MenuItem>
-                            {list.map(ele => (
-                                <MenuItem key={ele.username} value={ele.username}>{ele.label}</MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            label={'Username'} name='username'
-                            value={user.username} onChange={handleChange}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountCircle />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <TextField
-                            label={'Password'} name='password' type={'password'}
-                            value={user.password} onChange={handleChange}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LockIcon />
-                                    </InputAdornment>
-                                ),
-                            }}    
-                        />
+                    <Button
+                        onClick={onLogin}
+                        variant="contained"
+                        color="primary"
+                    >
+                        Sign In
+                    </Button>
+                </Stack>
 
-                        <Button
-                            onClick={onLogin}
-                            variant="contained"
-                            color="primary"
-                        >
-                            Sign In
-                        </Button>
-                    </Stack>
-
-                    <Box mt={2}>
-                        <Copyright />
-                    </Box>
-                </CustomerPaper>
-            </CustomContainer>
-
+                <Box mt={2}>
+                    <Copyright />
+                </Box>
+            </CustomerPaper> 
+        </CustomContainer>
     )
 };
 

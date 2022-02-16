@@ -8,7 +8,7 @@ const CustomLink = styled(Link)(({theme}) => ({
     color: theme.palette.text.primary
 }))
 const Typo = styled(Typography)(({theme}) => ({
-    color:"textSecondary",
+    color: theme.palette.text.primary,
     align:"center",
     margin: theme.spacing(2)
 }))

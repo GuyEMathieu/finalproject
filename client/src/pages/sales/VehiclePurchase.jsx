@@ -270,10 +270,10 @@ const VehiclePurchase = () => {
                     :   <div >
                             <TextField 
                                 sx={{pb: 2}}
-                                fullWidth label='Customer List' value={''}
+                                fullWidth label='Customer List' value={purchase.customer._id}
                                 select onChange={e => setPurchase({...purchase, customer: customerList.find(c => c._id === e.target.value)})}
                             >
-                                <MenuItem disabled>Select Customer</MenuItem>
+                                <MenuItem value={''}> -- Select Customer -- </MenuItem>
 
                                 {customerList && customerList.map(customer => (
                                     <MenuItem key={customer._id} value={customer._id}>{customer.firstName} {customer.lastName}</MenuItem>

@@ -3,27 +3,8 @@ import {
     FormLabel, RadioGroup, 
     FormControlLabel, Radio, FormControl
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 
 import { RoundToTwo, FormatNumber, AddressString } from '../../utils/Formatter';
-
-const useStyles = makeStyles(theme => ({
-    start:{
-        border: '1px solid red',
-        borderTopLeftRadius: 10,
-        borderBottomLeftRadius: 10,
-        paddingRight: theme.spacing(1),
-    },
-    middle: {
-        border: '1px solid red',
-    },
-    end:{
-        border: '1px solid red',
-        borderTopRightRadius: 10,
-        borderBottomRightRadius: 10,
-        paddingRight: theme.spacing(1),
-    }
-}))
 
 const Financing = (props) => {
     const {

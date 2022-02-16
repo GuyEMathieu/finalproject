@@ -14,13 +14,12 @@ import { maskString } from '../../../utils/Formatter';
 // Components
 import TablePaginationActions from '../../../components/PaginationActions';
 
-import {useDefault} from '../../../hooks/customHooks';
+import {useDefault, useCustomer} from '../../../hooks/customHooks';
 
 export default function CustomerVehicleTable(props) {
-    const defaultContext = useDefault()
-    const {defaults, getAll} = defaultContext;
-    const { profile, handleSelection, context} = props;
-    const {addNewVehicle} = context
+    const {defaults, getAll} = useDefault();
+    const { profile, handleSelection} = props;
+    const {addNewVehicle} = useCustomer();
     const [ availableVehicles, setAvailableVehicles] = useState([])
 
     
@@ -64,7 +63,9 @@ export default function CustomerVehicleTable(props) {
     const onAddNewVehicle = () => {
         const {year, vin, make, miles} = newVehicle;
         if(vin && year && make && miles){
+            
             addNewVehicle(profile._id, newVehicle)
+            
             handleCloseNewVehiclePopup();
         }
     }
