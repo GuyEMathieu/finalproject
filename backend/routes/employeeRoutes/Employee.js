@@ -2,8 +2,6 @@
 
 const mongoose = require('mongoose');
 
-
-
 //#region Employment Info
 const employmentInfoSchema = new mongoose.Schema({
     employeeNumber: {
@@ -12,21 +10,26 @@ const employmentInfoSchema = new mongoose.Schema({
         unique: true
     },
     startDate: {
-        type: Date
+        type: Date,
+        default: ''
     },
     team: {
-        type: String
+        type: String,
+        default: ''
     },
     position: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'positions'
+        ref: 'positions',
+        default: ''
     },
     department: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'departments'
+        ref: 'departments',
+        default: ''
     },
     salary: {
-        type: Number
+        type: Number,
+        default: 35000
     }
 })
 //#endregion
@@ -35,10 +38,12 @@ const employmentInfoSchema = new mongoose.Schema({
 const driverLicenseSchema = new mongoose.Schema({
     dlState: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'states'
+        ref: 'states',
+        default: ''
     },
     dlNumber:{
-        type: String
+        type: String,
+        default: ''
     }
 },{
     timestamps: true
@@ -48,25 +53,30 @@ const driverLicenseSchema = new mongoose.Schema({
 //#region ADDRESS
 const addressSchema = new mongoose.Schema({
     street:{
-        type: String
+        type: String,
+        default: ''
     },
     aptNum:{
         type: String
     },
     city:{
-        type: String
+        type: String,
+        default: ''
     },
     
     zipcode:{
-        type: String
+        type: String,
+        default: ''
     },
     state: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'states'
+        ref: 'states',
+        default: ''
     },
     country: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'countries'
+        ref: 'countries',
+        default: ''
     },
     
 },{
@@ -94,23 +104,28 @@ const employeeSchema = new mongoose.Schema({
     },
     dateOfBirth: {
         type: Date,
-        required: true
+        required: true,
+        default: ''
     },
     email: {
         type: String,
+        default: ''
     },
     phone: {
         type: String,
+        default: ''
     },
     ssn: {
         type: String,
         unique: true
     },
     team: {
-        type: String
+        type: String,
+        default: ''
     },
     avatar: {
-        type: String
+        type: String,
+        default: ''
     },
     gender: {
         type: mongoose.SchemaTypes.ObjectId,
