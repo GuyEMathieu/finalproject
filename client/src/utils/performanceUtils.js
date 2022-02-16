@@ -21,7 +21,6 @@ export function Member_Prior_Repair(member){
     }
     
     if(member) {
-       
         for (let i = 0; i < member.performance.length; i++){
             const perf = member.performance[i];
             data.datasets[0].backgroundColor.push(color)
@@ -298,7 +297,6 @@ export function Team_YTD_Commission(sales){
 
 //#endregion END OF SALES TEAM
 
-
 //#region REPAIR REGION
 
 //#region INDIVIDUAL REPAIR REGION
@@ -360,10 +358,6 @@ export function MTD_Repair(performance){
     
     return data
 }
-
-
-
-
 
 export function Team_MTD_Repairs(repairs){
     const today = new Date()

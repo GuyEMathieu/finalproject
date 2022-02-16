@@ -6,7 +6,7 @@ import {
 import {useAuth} from '../hooks/customHooks';
 import Header from './navigations/Header';
 import Sidebar from './navigations/Sidebar';
-import Copyright from './Copyright'
+import Copyright from './Copyright';
 
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -70,8 +70,7 @@ export default function MainContainer(props) {
 
             <Main open={open}>
                 <DrawerHeader />
-                {props.children}
-
+                    {props.children}
                 <Copyright  />
             </Main>
         </Box>

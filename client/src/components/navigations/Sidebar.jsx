@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import {
@@ -15,9 +15,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-
-
-import Popup from '../Popup'
 
 import {Link, useNavigate} from 'react-router-dom'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -76,17 +73,9 @@ export default function Header(props) {
         navigate(`/login`)
     }
 
-    const {currentTheme, changeTheme} = useDefault();
-
-    const handleChangeTheme = () => {
-        console.info("current", currentTheme)
-
-        changeTheme(currentTheme === 'light' ? 'dark' : 'light') 
-    }
-
+    const {changeTheme} = useDefault();
 
     return (
-
         <Drawer
             sx={{
             width: drawerWidth,
@@ -146,7 +135,6 @@ export default function Header(props) {
                 </CustomLink>
 
                 <Divider />
-
             
             <Box sx={{
                 position: 'fixed',
@@ -184,7 +172,6 @@ export default function Header(props) {
                                 <ListItemText primary="Profile" />
                             </ListItemButton>
 
-
                             <ListItem>
                                 <div>
                                     <ListItemText primary={'Mode'} sx={{borderColor: 'black'}}/>
@@ -209,7 +196,6 @@ export default function Header(props) {
                     <Divider  />
                 </Box>
             </List>
-
         </Drawer>
     );
 }

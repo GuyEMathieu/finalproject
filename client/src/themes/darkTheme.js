@@ -1,6 +1,4 @@
 import { createTheme } from '@mui/material/styles'
-import { deepOrange,grey } from '@mui/material/colors'
-
 
 // // Create theme instance
 export const darkTheme = createTheme({
@@ -12,10 +10,10 @@ export const darkTheme = createTheme({
             paper: "#001e3c"
         },
         primary: {
-            main: "#ff1744"
+            main: "#F3DCE1"
         },
         text: {
-            primary: '#fff'
+            primary: '#ffffff'
         }
     },
 
@@ -70,7 +68,7 @@ export const darkTheme = createTheme({
         },
         MuiPaper: {
             defaultProps: {
-                elevation: 1,
+                elevation: 4,
                 square: true,
             }, 
             styleOverrides: {
@@ -93,7 +91,6 @@ export const darkTheme = createTheme({
             root: {
                 padding: '0px',
                 marginTop: '0px',
-                //margin: '3px'
             }
         },
         MuiAccordionDetails: {
@@ -113,7 +110,6 @@ export const darkTheme = createTheme({
 
         MuiButton: {
             root: {
-                //borderRadius: 20,
                 textTransform: 'none' // Prevent All Caps
             }
         }
@@ -122,7 +118,7 @@ export const darkTheme = createTheme({
 
     props: {
         MuiPaper: {
-            elevation: 1,
+            elevation: 2,
             square: true,
         }
     }
