@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 
 const CustomLink = styled(Link)(({theme}) => ({
     textDecoration: 'none',
+    color: theme.palette.text.primary
 }))
 const Typo = styled(Typography)(({theme}) => ({
     color:"textSecondary",

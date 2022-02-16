@@ -63,7 +63,7 @@ const EmployeeMain = () => {
         <MainContainer>
             <Box sx={{ width: '100%', typography: 'body1' }}>
                 <TabContext value={value}>
-                    <Paper sx={{ backgroundColor: 'white', py: 0}}>
+                    <Paper sx={{ py: 0}}>
                         <TabList onChange={handleChange} >
                             <Tab label="Profile" value="Profile" />
                             <Tab label="Performance" value="Performance" />

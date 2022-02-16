@@ -2,20 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-// import { ThemeProvider } from '@mui/material/styles';
-// import {theme} from './theme'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import AuthState from './context/auth_context/AuthState'
+import DefaultState from './context/default_context/DefaultState'
 ReactDOM.render(
     <React.StrictMode>
-        {/* <ThemeProvider theme={theme}> */}
+        
         <AuthState>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <App />
-            </LocalizationProvider>
+            <DefaultState>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <App />
+                </LocalizationProvider>
+            </DefaultState>
         </AuthState>
-        {/* </ThemeProvider> */}
     </React.StrictMode>,
     document.getElementById('root')
 );

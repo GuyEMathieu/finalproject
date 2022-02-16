@@ -13,9 +13,7 @@ const DefaultState = props => {
     const initialState = {
         defaults: null,
         alerts: null,
-        settings: {
-            darkTheme: true
-        }
+        currentTheme: 'dark',
     }
 
     const [state, dispatch] = useReducer(defaultReducer, initialState);
@@ -48,11 +46,10 @@ const DefaultState = props => {
         })
     }
 
-    const updateSettings = settings => {
-        console.info("Settings", settings)
+    const changeTheme = theme => {
         dispatch({
-            type: ActionTypes.UPDATE_SETTINGS,  
-            payload: settings
+            type: ActionTypes.CHANGE_THEME,  
+            payload: theme
         })
     }
 
@@ -61,12 +58,13 @@ const DefaultState = props => {
             value={{
                 defaults: state.defaults,
                 alerts: state.alerts,
-                settings: state.settings,
+                firstName: state.firstName,
+                currentTheme: state.currentTheme,
 
                 getAll,
                 clearAlerts,
                 removeAlert,
-                updateSettings,
+                changeTheme,
             }}>
             {props.children}
         </DefaultContext.Provider>

@@ -15,10 +15,22 @@ import LockIcon from '@mui/icons-material/Lock';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/customHooks';
 
-const CustomerPaper = styled(Paper)(({theme}) => ({
-    // marginLeft: '30vw',
-    // marginRight: '30vw',
+const CustomContainer = styled(Container)(({theme}) => ({
+    // marginLeft: '20vw',
+    // marginRight: '20vw',
+    
+    // backgroundColor: 'silver',
+    padding: 0,
+    // marginLeft: '25vw',
     marginTop: '25vh',
+}))
+const CustomerPaper = styled(Paper)(({theme}) => ({
+    // marginLeft: '20vw',
+    // marginRight: '20vw',
+    // marginTop: '25vh',
+    margin:'auto',
+    width: '100%',
+    marginLeft: 0,
     backgroundColor: 'gray'
 }))
 
@@ -74,7 +86,7 @@ const Login = () => {
         },
     ]
     return (
-            <Container >
+            <CustomContainer maxWidth='md'>
                 <CustomerPaper >
                     <Stack direction={'row'} sx={{pb: 2}}>
                         <StyledAvatar >
@@ -129,12 +141,12 @@ const Login = () => {
                             Sign In
                         </Button>
                     </Stack>
-                </CustomerPaper>
 
-                <Box mt={8}>
-                    <Copyright />
-                </Box>
-            </Container>
+                    <Box mt={2}>
+                        <Copyright />
+                    </Box>
+                </CustomerPaper>
+            </CustomContainer>
 
     )
 };

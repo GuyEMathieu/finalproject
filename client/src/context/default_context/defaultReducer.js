@@ -18,10 +18,10 @@ export default (state, action) => {
                 ...state,
                 alerts: null
             }
-        case ActionTypes.UPDATE_SETTINGS:
+        case ActionTypes.CHANGE_THEME:
             return {
                 ...state,
-                settings: action.payload
+                currentTheme: action.payload
             }
         case ActionTypes.REMOVE_ALERT:
             return {

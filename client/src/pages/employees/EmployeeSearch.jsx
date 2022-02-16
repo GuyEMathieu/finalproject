@@ -56,7 +56,7 @@ export default function EmployeeSearch (props) {
     }
 
     return (
-        <MainContainer>
+        <MainContainer title="Employees">
             <Container container rowSpacing={1}>
                 <Grid item xs={12} >
                     <Paper sx={{margin:0}}>

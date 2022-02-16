@@ -46,7 +46,7 @@ const Service = () => {
         }
     },[tabs])
     return (
-        <MainContainer>
+        <MainContainer title='Customers'>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Paper sx={{p:0}}>

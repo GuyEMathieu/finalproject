@@ -6,10 +6,16 @@ import { deepOrange,grey } from '@mui/material/colors'
 export const lightTheme = createTheme({
 
     palette: {
+        mode: 'dark',
+        background: {
+            default: "#bbdefb",
+            paper: "#0d47a1"
+        },
         primary: {
-             main: "#f00",
-           // main: "#31313a",
-
+            main: "#ff1744"
+        },
+        text: {
+            primary: '#FFFFFF'
         }
     },
 

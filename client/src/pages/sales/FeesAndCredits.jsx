@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Table from '@mui/material/Table';
 import TextField from '@mui/material/TextField'
 import TableBody from '@mui/material/TableBody';
@@ -9,7 +9,10 @@ import { FormatNumber } from '../../utils/Formatter';
 
 
 export default function FeesAndCredits(props) {
-    
+    const downPaymentRef = useRef();
+    // useEffect(() => {
+    //     downPaymentRef.current.focus();
+    // })
     return (
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -77,7 +80,7 @@ export default function FeesAndCredits(props) {
                         <TableCell align='right'>Down Payment</TableCell>
                         
                         <TableCell align="right" sx={{py: 0}}>
-                            <TextField focused={true} fullWidth={false} name='downPayment' value={props.purchase.sale.downPayment} onChange={props.handleChange}/>
+                            <TextField autoFocus fullWidth={false} name='downPayment' value={props.purchase.sale.downPayment} onChange={props.handleChange}/>
                         </TableCell>
                         <TableCell/>
                     </TableRow>

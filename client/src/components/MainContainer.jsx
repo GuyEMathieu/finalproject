@@ -12,8 +12,9 @@ const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     
     ({ theme, open }) => ({
-        height: '100%',
+        height: '100vh',
         flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
         padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
@@ -61,7 +62,7 @@ export default function MainContainer(props) {
     
 
     return (
-        <Box sx={{ display: 'flex', backgroundColor: "#f5f5f5" }}>
+        <Box sx={{ display: 'flex'}}>
             <CssBaseline />
 
             <Header open={open} handleDrawerOpen={handleDrawerOpen} title={props.title}/>

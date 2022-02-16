@@ -1,9 +1,9 @@
 import './App.css';
 import React, {useState, useContext, useEffect} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import { DefaultContext } from './context/default_context/DefaultState';
-import { AuthContext } from './context/auth_context/AuthState';
 
+import { useDefault } from './hooks/customHooks';
+import { DefaultContext } from './context/default_context/DefaultState';
 
 //#region Components
 import Service from './pages/service/Service';
@@ -18,8 +18,6 @@ import RequireAuth from './components/RequireAuth';
 //#endregion
 
 // #region States
-import setAuthToken from './utils/setAuthToken';
-import AuthState from './context/auth_context/AuthState'
 import DefaultState from './context/default_context/DefaultState'
 import EmployeeState from './context/employee_context/EmployeeState'
 import AddressState from './context/address_context/AddressState'
@@ -42,19 +40,16 @@ import Layout from './pages/Layout'
 
 
 function App() {
-
-    const [currentSettings] = useState({darkTheme: false})
-
+    const {currentTheme} = useDefault();
 
     return (
-        <ThemeProvider theme={currentSettings.darkTheme ? darkTheme : lightTheme}> 
+        <ThemeProvider theme={currentTheme === 'light' ? lightTheme : darkTheme}> 
             <CustomerState>
                 <AddressState>
                         <EmployeeState>
                             <BankState>
                                 <BaseVehicleState>
                                     <DeptPosState>
-                                        <DefaultState>
                                             <InventoryState> 
                                                 <ServiceState>
                                                     <SaleState>                                                    
@@ -102,7 +97,6 @@ function App() {
                                                     </SaleState>
                                                 </ServiceState>
                                             </InventoryState>
-                                        </DefaultState>
                                     </DeptPosState>
                                 </BaseVehicleState>
                             </BankState>

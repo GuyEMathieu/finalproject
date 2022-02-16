@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import {
-    List, Box, ListItemAvatar, Avatar
+    List, Box, ListItemAvatar, 
+    Avatar, ListItem, Button, ButtonGroup
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -19,6 +20,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Popup from '../Popup'
 
 import {Link, useNavigate} from 'react-router-dom'
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 
 import BadgeIcon from '@mui/icons-material/Badge';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
@@ -27,7 +30,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { useAuth } from '../../hooks/customHooks';
+
+
+
+import { useAuth, useDefault } from '../../hooks/customHooks';
 
 const drawerWidth = 240;
 
@@ -68,6 +74,14 @@ export default function Header(props) {
     const handleLogout = () => {
         logout();
         navigate(`/login`)
+    }
+
+    const {currentTheme, changeTheme} = useDefault();
+
+    const handleChangeTheme = () => {
+        console.info("current", currentTheme)
+
+        changeTheme(currentTheme === 'light' ? 'dark' : 'light') 
     }
 
 
@@ -162,12 +176,24 @@ export default function Header(props) {
                                 />
                                 <ListItemText>{user.profile.firstName} {user.profile.lastName}</ListItemText>
                             </ListItemAvatar>
+
                             <ListItemButton onClick={() => goToProfile()}>
                                 <ListItemIcon>
                                     <AccountCircleIcon color='primary'/>
                                 </ListItemIcon>
                                 <ListItemText primary="Profile" />
                             </ListItemButton>
+
+
+                            <ListItem>
+                                <div>
+                                    <ListItemText primary={'Mode'} sx={{borderColor: 'black'}}/>
+                                    <ButtonGroup variant="outlined" aria-label="outlined button group">
+                                        <Button startIcon={<LightModeOutlinedIcon />} onClick={() => changeTheme('light')}>Light</Button>
+                                        <Button startIcon={<DarkModeOutlinedIcon />} onClick={() => changeTheme('dark')}>Dark</Button>
+                                    </ButtonGroup>
+                                </div>
+                            </ListItem>
 
                             <Divider />
 
