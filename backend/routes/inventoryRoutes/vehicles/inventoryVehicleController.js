@@ -5,11 +5,12 @@ const { v4: uid } = require('uuid');
 const Manufacturer = require('../../manufacturerRoutes/Manufacturer');
 const Model = require('../../modelRoutes/Model');
 const InventoryVehicle = require('./InventoryVehicle')
+const auth = require('../../auth')
 
 // @route       GET api/inventoryvehicles
 // @desc        Get list
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/',auth,  async (req, res) => {
     try{
         const inventoryVehicles = await InventoryVehicle.find({isSold : false})
             .select('-createdAt').select('-updatedAt').select('-__v')
@@ -23,7 +24,7 @@ router.get('/', async (req, res) => {
 // @route       GET api/inventoryvehicles/id
 // @desc        Get list
 // @access      private
-router.get('/:vehicleId', async (req, res) => {
+router.get('/:vehicleId', auth, async (req, res) => {
     try{
         const vehicleId = req.params.vehicleId;
         const vehicle = await InventoryVehicle.findById(vehicleId)
@@ -39,13 +40,14 @@ router.get('/:vehicleId', async (req, res) => {
 // @route       POST api/inventoryvehicles
 // @desc        Add a single vehicle
 // @access      private
-router.post('/',[
+router.post('/',[auth, 
+    [
         check("year", "A valid vehicle year is required").not().isEmpty(),
         check("vin", "A valid vehicle VIN is required").not().isEmpty(),
         check("make", "A valid vehicle Manufactucturer is required").not().isEmpty(),
         check("model", "A valid vehicle Model is required").not().isEmpty(),
         check("price", "A valid vehicle price is required").not().isEmpty(),
-    ],
+    ]],
     async (req, res) => {
         
         try{
@@ -93,7 +95,7 @@ router.post('/',[
 // @route       POST api/inventoryvehicles
 // @desc        Add a single vehicle
 // @access      private
-router.post('/multiple',
+router.post('/multiple', auth,
     async (req, res) => {
         
         try{

@@ -4,12 +4,12 @@ const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
 const Position = require('./Position')
 const Department = require('../departmentRoutes/Department')
-
+const auth = require('../auth')
 
 // @route       GET api/positions
 // @desc        Get list of positions
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 
     try{
         const positions = await Position.find()
@@ -23,9 +23,10 @@ router.get('/', async (req, res) => {
 // @route       POST api/positions
 // @desc        Add a single Position
 // @access      private
-router.post('/', [
+router.post('/', [auth, 
+    [
         check("name", "A Position name is required").not().isEmpty(),
-    ],
+    ]],
     async (req, res) => {
         try{
             const raw = validationResult(req);
@@ -60,7 +61,7 @@ router.post('/', [
 // @route       POST api/positions/multiple
 // @desc        Add a single Position
 // @access      private
-router.post('/multiple', 
+router.post('/multiple', auth, 
     async (req, res) => {
         try{
 

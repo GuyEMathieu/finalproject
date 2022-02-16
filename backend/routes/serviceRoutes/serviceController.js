@@ -11,11 +11,10 @@ const Employee = require('../employeeRoutes/Employee')
 // @route       POST api/service
 // @desc        GET ALL SERVICEs
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const sales = await Service.find()
             
-
         res.json(sales);
 
     } catch (err) {
@@ -27,7 +26,7 @@ router.get('/', async (req, res) => {
 // @route       POST api/service/multiple
 // @desc        GET ALL SERVICEs
 // @access      private
-router.post('/multiple', async (req, res) => {
+router.post('/multiple', auth, async (req, res) => {
     try {
 
         const repairEmployees = await Employee.find({$and: [

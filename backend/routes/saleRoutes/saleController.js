@@ -7,12 +7,12 @@ const InventoryVehicle = require('../inventoryRoutes/vehicles/InventoryVehicle')
 const Customer = require('../customerRoutes/Customer')
 const Employee = require('../employeeRoutes/Employee');
 const Position = require('../positionRoutes/Position')
-
+const auth = require('../auth')
 
 // @route       GET api/sales
 // @desc        Get list of all Sales objects
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const sales = await Sale.find()
             .select('-lastModified').select('-__v')
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
         res.json(sales);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 // @route       POST api/sales
 // @desc        Add Sale objects
 // @access      private
-router.post('/performance', async (req, res) => {
+router.post('/performance/multiple', auth, async (req, res) => {
     try {
         let sales = []
         const position = await Position.findOne({name: "Sales Representative"});
@@ -65,7 +65,7 @@ router.post('/performance', async (req, res) => {
 // @route       POST api/sales
 // @desc        Add Sale objects
 // @access      private
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
         const {
             vehicle, customer, sale
@@ -106,19 +106,21 @@ router.post('/', async (req, res) => {
         }
 
         await soldCustomer.save();
-
+        
+        newSale.soldBy = req.user.id;
         newSale.vehicle = soldVehicle._id;
         newSale.customer = soldCustomer._id
         newSale.purchasePrice = sale.grandTotal
         newSale.paymentType = sale.paymentType === 'Cash' ? sale.paymentType : "Financed"    
     
-
         const completeSale = new Sale(newSale);
         await completeSale.save();
+
+        console.log(newSale)
         
         res.json(completeSale);
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })

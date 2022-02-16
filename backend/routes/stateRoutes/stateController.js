@@ -4,11 +4,11 @@ const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
 const State = require('./State')
 const Country = require("../countryRoutes/Country")
-
+const auth = require('../auth')
 // @route       GET api/states
 // @desc        Get State list
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 
     try {
         console.info("State Requests Received")
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 // @route       POST api/states/multiple
 // @desc        add multiple State to db
 // @access      private
-router.post('/multiple', async (req, res) => {
+router.post('/multiple', auth, async (req, res) => {
 
     try {
         const country = await Country.findOne({code: "USA"})

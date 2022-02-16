@@ -10,7 +10,7 @@ const State = require('../stateRoutes/State')
 const Country = require('../countryRoutes/Country');
 const Employee = require('../employeeRoutes/Employee');
 const Service = require("../serviceRoutes/Service")
-const { json } = require('express');
+const auth = require('../auth')
 
 
 //#region Customer Profile
@@ -18,7 +18,7 @@ const { json } = require('express');
 // @route       GET api/customers
 // @desc        Get list of customers
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const customers = await Customer.find()
             .select('-lastModified').select('-__v')
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
         res.json(customers);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 // @route       GET api/customers/id
 // @desc        Get Customer by id
 // @access      private
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
         const id = req.params['id'];
         const customer = await Customer.findById(id)
@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
         res.json(customer)
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -52,12 +52,12 @@ router.get('/:id', async (req, res) => {
 // @route       POST api/customers
 // @desc        Add new Customer
 // @access      private
-router.post('/', 
+router.post('/',[auth,  
     [
         check('firstName', 'A firstName name is required').not().isEmpty(),
         check('lastName', 'A firstName name is required').not().isEmpty(),
         check('dateOfBirth', 'A firstName name is required').not().isEmpty(),
-    ],
+    ]],
     async (req, res) => {
         let rawErrors = validationResult(req);
         let errors = []
@@ -117,7 +117,7 @@ router.post('/',
             
             res.json(newCustomer)
         } catch (err) {
-            console.error(err.msg);
+            console.error(err.message);
             res.status(500).send('Server Error');
         }
     }
@@ -126,7 +126,7 @@ router.post('/',
 // @route       PUT api/customers
 // @desc        Update Customer
 // @access      private
-router.put('/:id', async(req, res) => {
+router.put('/:id', auth, async(req, res) => {
     try {
         const id = req.params.id;
         let customer = await Customer.findById(id);
@@ -160,7 +160,7 @@ router.put('/:id', async(req, res) => {
         res.json(customer)
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -169,7 +169,7 @@ router.put('/:id', async(req, res) => {
 // @route       POST api/customers/multiple
 // @desc        Add Multiple customers
 // @access      private
-router.post('/multiple',
+router.post('/multiple', auth, 
     async (req, res) => {
 
     try {
@@ -226,7 +226,7 @@ router.post('/multiple',
         res.json(customerList)
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -236,7 +236,7 @@ router.post('/multiple',
 // @route       POST api/customers/customerId/vehicle
 // @desc        Add Customer Vehicle
 // @access      private
-router.post('/:customerId/vehicle', async(req, res) => {
+router.post('/:customerId/vehicle', auth, async(req, res) => {
     try {
         const customerId = req.params.customerId;
         let customer = await Customer.findById(customerId);
@@ -258,7 +258,7 @@ router.post('/:customerId/vehicle', async(req, res) => {
         res.json(customer)
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -266,7 +266,7 @@ router.post('/:customerId/vehicle', async(req, res) => {
 // @route       POST api/customers/customerId/vehicle/vin/service
 // @desc        Add vehicle service
 // @access      private
-router.post('/:customerId/vehicle/:vin/service', async(req, res) => {
+router.post('/:customerId/vehicle/:vin/service', auth, async(req, res) => {
     try {
         const customerId = req.params.customerId;
         const vin = req.params.vin;
@@ -279,11 +279,6 @@ router.post('/:customerId/vehicle/:vin/service', async(req, res) => {
             return res.json({errors: [{severity: 'error', msg: `Customer vehicle with ${vin} not found`, _id: uid()}]})
         }
 
-        const repairEmployees = await Employee.find({$and: [
-            {team: "Tech_One"}, 
-            {"employmentInfo.position": {$ne: "61ef86f07177568a49026616"}}
-        ]})
-
         const {serviceName, labor, parts, date} = req.body;
 
         let serviceValue = labor.laborRate * labor.duration;
@@ -293,7 +288,7 @@ router.post('/:customerId/vehicle/:vin/service', async(req, res) => {
 
         let newService = new Service({
             date: date,
-            employee: repairEmployees[Math.floor(Math.random() * repairEmployees.length - 0)]._id,
+            employee: req.user.id,
             vehicle: vin,
             serviceName: serviceName,
             serviceValue: serviceValue
@@ -312,12 +307,12 @@ router.post('/:customerId/vehicle/:vin/service', async(req, res) => {
         res.json(customer)
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
 
-router.delete('/:customerId/vehicle/:vin/service', async (req, res) => {
+router.delete('/:customerId/vehicle/:vin/service', auth, async (req, res) => {
     try {
         const customerId = req.params.customerId;
         const vin = req.params.vin;
@@ -339,7 +334,7 @@ router.delete('/:customerId/vehicle/:vin/service', async (req, res) => {
         res.json(customer)
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
@@ -347,7 +342,7 @@ router.delete('/:customerId/vehicle/:vin/service', async (req, res) => {
 // @route       PUT api/customers/customerId/vehicle
 // @desc        udpate Customer Vehicle
 // @access      private
-router.put('/:customerId/vehicle', async(req, res) => {
+router.put('/:customerId/vehicle', auth, async(req, res) => {
     try {
         const customerId = req.params.customerId;
         let customer = await Customer.findById(customerId);
@@ -371,7 +366,7 @@ router.put('/:customerId/vehicle', async(req, res) => {
         res.json(customer)
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })

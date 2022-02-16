@@ -4,11 +4,12 @@ const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
 const Manufacturer = require('../manufacturerRoutes/Manufacturer');
 const Model = require('./Model')
+const auth = require('../auth');
 
 // @route       GET api/models
 // @desc        Get list of all Model objects
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const models = await Model.find()
             .select('-lastModified').select('-__v')
@@ -25,11 +26,11 @@ router.get('/', async (req, res) => {
 // @route       POST api/models
 // @desc        Add a Single Model
 // @access      private
-router.post('/', 
+router.post('/',[auth,  
     [
         check("name", "A valid Model name is required").not().isEmpty(),
         check("manufacturer", "A valid manufacturer is required").not().isEmpty(),
-    ],async (req, res) => {
+    ]],async (req, res) => {
         
         try {
             let rawErrors = validationResult(req);
@@ -66,7 +67,7 @@ router.post('/',
 // @route       POST api/models
 // @desc        Add a Single day Off
 // @access      private
-router.post('/multiple', async (req, res) => 
+router.post('/multiple', auth, async (req, res) => 
     {
         try {
             let models = [];

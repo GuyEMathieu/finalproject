@@ -4,11 +4,12 @@ const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
 const ZipCode = require("./ZipCode")
 const State = require('../stateRoutes/State')
+const auth = require('../auth')
 
 // @route       GET api/zipcodes
 // @desc        Get list of zipcodes
 // @access      private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const zipcodes = await ZipCode.find()
             .select('-lastModified').select('-__v')
@@ -24,7 +25,7 @@ router.get('/', async (req, res) => {
 // @route       GET api/zipcodes
 // @desc        Get list of zipcodes
 // @access      private
-router.get('/:zip', async (req, res) => {
+router.get('/:zip', auth, async (req, res) => {
     try {
         const zip = req.params['zip']
         const zipcodes = await ZipCode.find({zip})
@@ -41,7 +42,7 @@ router.get('/:zip', async (req, res) => {
 // @route       POST api/zipcodes
 // @desc        POST list of zipcodes
 // @access      private
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
         const {state, zip, city} = req.body;
         const zipState = await State.findOne({code: state});
@@ -70,7 +71,7 @@ router.post('/', async (req, res) => {
 // @route       POST api/zipcodes/multiple
 // @desc        add multiple zipcodes to db
 // @access      private
-router.post('/multiple', async (req, res) => {
+router.post('/multiple', auth, async (req, res) => {
 
     try {
         let zipcodes = []
@@ -95,13 +96,10 @@ router.post('/multiple', async (req, res) => {
 
             }
         }
-
-        
-
         res.json({received: req.body.length, created: zipcodes.length, zipcodes});
         
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 })
