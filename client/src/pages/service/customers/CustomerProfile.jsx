@@ -45,6 +45,8 @@ const CustomerProfile = (props) => {
         setExpanded(isExpanded ? panel : false);
     };
 
+    //alert(JSON.stringify(currentProfile, null, 4))
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={4} sx={{display: {sx: 'none', lg: 'block'}}}>

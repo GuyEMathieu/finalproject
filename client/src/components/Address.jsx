@@ -19,7 +19,7 @@ export default function Address (props) {
             setCurrentAddress(address)
         }
 
-        if(address && defaults) {
+        if(defaults) {
             setLoading(false)
         }
     },[address, defaults])

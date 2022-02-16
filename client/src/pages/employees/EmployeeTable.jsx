@@ -62,7 +62,7 @@ export default function EmployeeTable(props) {
                             <TableCell align='center'>{employee.firstName}</TableCell>
                             <TableCell align='center'>{employee.lastName}</TableCell>
                             <TableCell align='center'>{employee.employmentInfo.employeeNumber}</TableCell>
-                            {/* <TableCell align='center'>{getName(defaults.positions, employee.employmentInfo.position)}</TableCell> */}
+                            <TableCell align='center'>{getName(defaults.positions, employee.employmentInfo.position)}</TableCell>
                         </TableRow>
                     ))}
 
