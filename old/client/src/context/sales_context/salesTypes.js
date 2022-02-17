@@ -1,0 +1,9 @@
+export const VEHICLE_SALE = 'VEHICLE_SALE';
+export const GET_VEHICLE_SALES = 'GET_VEHICLE_SALES';
+export const SET_ERRORS = 'SET_ERRORS';
+export const REMOVE_ERROR = 'REMOVE_ERROR';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+
+export const GET_SALES = 'GET_SALES'
+export const ADD_SALE = 'ADD_SALE'
+export const CURRENT_EMPLOYEE_SALE = 'CURRENT_EMPLOYEE_SALE'
