@@ -1,8 +1,0 @@
-[
-    { "name": "Sales Representative", "departmentName": "Sales" },
-    { "name": "Sales Manager", "departmentName": "Sales" },
-    { "name": "Service Manager", "departmentName": "Service" },
-    { "name": "Service Representative", "departmentName": "Service" },
-    { "name": "Repair Manager", "departmentName": "Repair" },
-    { "name": "Repair Technician", "departmentName": "Repair" }
-]
