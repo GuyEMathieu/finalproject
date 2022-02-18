@@ -4,7 +4,7 @@ const {
     loginUser, registerUser,
     getAll, getLoggedInUser
 } = require('../controllers/userController')
-const auth = require('../authMiddleware/auth');
+const auth = require('../middleware/authMiddleware');
 
 
 // @desc    Get current user
@@ -25,7 +25,9 @@ router.post('/login', loginUser)
 // @desc    Register a new user
 // @route   /api/users/register
 // @access  public
-router.post('/register', registerUser)
+router.post('/', registerUser)
+
+
 
 
 module.exports = router;

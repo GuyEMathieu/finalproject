@@ -2,8 +2,7 @@ import './App.css';
 import React, {useState, useContext, useEffect} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
-import { useDefault } from './hooks/customHooks';
-import { DefaultContext } from './context/default_context/DefaultState';
+
 
 //#region Components
 import Service from './pages/service/Service';
@@ -18,7 +17,6 @@ import RequireAuth from './components/RequireAuth';
 //#endregion
 
 // #region States
-import DefaultState from './context/default_context/DefaultState'
 import EmployeeState from './context/employee_context/EmployeeState'
 import AddressState from './context/address_context/AddressState'
 import BankState from './context/bank_context/BankState'
@@ -29,7 +27,7 @@ import InventoryState from './context/inventoryContext/InventoryState';
 import SaleState from './context/sales_context/SaleState';
 import ServiceState from './context/service_context/ServiceState';
 //#endregion
-
+import { useDefault } from './hooks/customHooks';
 import { ThemeProvider } from '@mui/material/styles';
 import {lightTheme} from './themes/lightTheme'
 import {darkTheme} from './themes/darkTheme'

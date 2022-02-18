@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+    BrowserRouter as Router, Routes, Route
+} from 'react-router-dom'
+
+import {  useSettings } from './hooks/customHooks';
+import { ThemeProvider } from '@mui/material/styles';
+import {lightTheme} from './themes/lightTheme'
+import {darkTheme} from './themes/darkTheme'
+
+import Login from './pages/Login'
+import Register from './pages/Register'
+
+import Showroom from './pages/sales/Showroom'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const {currentTheme} = useSettings()
+    return (
+        <ThemeProvider theme={currentTheme === 'light' ? lightTheme : darkTheme}> 
+            <Router>
+                <Routes>
+                    <Route path='/' element={<Showroom />} />
+                    <Route path='/sales/showroom' element={<Showroom />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/register' element={<Register />} />
+                </Routes>
+                
+            </Router>
+            
+        </ThemeProvider>
+    );
 }
 
 export default App;
+
+

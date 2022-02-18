@@ -10,14 +10,16 @@ const dotenv = require('dotenv').config();
 // @route   /api/users
 // @access  public
 const registerUser = async (req, res) => {
-    
     try {
-
         let {username, password} = req.body;
+        if(!username || !password){
+            return res.status(400).json({message: "A valid username and password is required"})
+        }
+
         let newUser = await User.findOne({username: username});
 
         if(newUser){
-            return res.status(400).json({errors: [{severity: "error", msg: "User already exists", _id: uid()}]})
+            return res.status(400).json({message: [{severity: 'error', msg: "User already exists", _id: uid()}]})
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -30,7 +32,7 @@ const registerUser = async (req, res) => {
         });
 
         if(!newUser){
-            return res.status(400).json({errors: [{severity: 'error', msg: 'Invalid user Data', _id: uid()}]})
+            return res.status(400).json({message: [{severity: 'error', msg: 'Invalid user Data', _id: uid()}]})
         }
 
         const payload = {
@@ -39,6 +41,7 @@ const registerUser = async (req, res) => {
                 isAdmin: newUser.isAdmin
             }
         }
+    
 
         jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: 3600
@@ -46,8 +49,7 @@ const registerUser = async (req, res) => {
             if(err) throw err;
             res.json({token})
         })
-
-    } catch (err) {
+    } catch(err){
         console.error(err.message);
         res.status(500).send('Server Error');
     }
@@ -59,6 +61,8 @@ const loginUser = async (req, res) => {
             let user = await User.findOne({username: username});
 
             if(user && (await bcrypt.compare(password, user.password))){
+                const profile = await Employee.findOne({user: user._id})
+                    .select('-createdAt').select('-updatedAt').select('-__v')
                 const payload = {
                     user: {
                         id: user._id,
@@ -70,11 +74,11 @@ const loginUser = async (req, res) => {
                     expiresIn: 3600
                 }, (err, token) => {
                     if(err) throw err;
-                    res.json({token})
+                    res.json({token, profile})
                 })
             }
             else {
-                return res.status(400).json({errors: [{severity: "error", msg: "Invalid username or password", _id: uid()}]})
+                return res.status(400).json({message: [{severity: "error", msg: "Invalid username or password", _id: uid()}]})
             }
         } catch (err) {
             console.error(err.message);
@@ -120,7 +124,7 @@ const getAll = async (req, res) => {
         res.json(users);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 }
