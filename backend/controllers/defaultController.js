@@ -2,24 +2,23 @@ const express = require('express');
 const router = express.Router();
 const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
-const Gender = require('../genderRoutes/Gender')
-const Country = require ('../countryRoutes/Country')
-const State = require ('../stateRoutes/State')
-const ZipCode = require ('../zipcodeRoutes/ZipCode')
-const Bank = require ('../bankRoutes/Bank')
-const DayOff = require('../daysoffRoutes/DayOff')
-const Department = require('../departmentRoutes/Department')
-const Position = require('../positionRoutes/Position')
-const Manufacturer = require('../manufacturerRoutes/Manufacturer')
-const Model = require('../modelRoutes/Model')
-
-
+const Gender = require('../models/genderModel')
+const Country = require ('../models/countryModel')
+const State = require ('../models/stateModel')
+//const ZipCode = require ('../models/ZipCode')
+const Bank = require ('../models/bankModel')
+const DayOff = require('../models/dayOffModel')
+const Department = require('../models/departmentModel')
+const Position = require('../models/positionModel')
+const Manufacturer = require('../models/manufacturerModel')
+const Model = require('../models/carModel')
 
 // @route       GET api/defaults
 // @desc        Get list of all default objects
 // @access      private
-router.get('/', async (req, res) => {
+const getAll = async (req, res) => {
     try {
+        console.log("grabbing defaults")
         const positions = await Position.find()
             .select('-createdAt').select('-updatedAt')
             .select('-__v').select('-lastModified')
@@ -80,20 +79,16 @@ router.get('/', async (req, res) => {
             states,
             genders,
             countries,
-            
         }
         res.json(data);
 
     } catch (err) {
-        console.error(err.msg);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
-})
+}
 
 
 
 
-
-//#endregion
-
-module.exports = router
+module.exports ={ getAll}

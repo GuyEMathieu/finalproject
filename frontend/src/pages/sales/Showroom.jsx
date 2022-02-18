@@ -10,26 +10,33 @@ import VehicleCard from './VehicleCard'
 import VehicleCardSkeleton from '../../components/skeletons/VehicleCardSkeleton';
 // import { useDefault, useInventoryVehicles } from '../../hooks/customHooks';
 
+import { useSelector, useDispatch } from 'react-redux';
+import {getAll} from '../../features/defaults/defaultSlice';
+
 export default function Showroom() {
+    const dispatch = useDispatch();
+
+    const {
+        defaults, isLoading, isSuccess, message, isError
+    } = useSelector((state) => state.defaults)
     // const {getVehicles, inventoryVehicles} = useInventoryVehicles();
 
-    // const {defaults, getAll} = useDefault();
 
     // const [vehicles, setVehicles] = useState([])
     
-    // useEffect(() => {
-    //     if(inventoryVehicles === null){
-    //         getVehicles();
-    //     }
+    useEffect(() => {
+        // if(inventoryVehicles === null){
+        //     getVehicles();
+        // }
 
-    //     if(defaults === null){
-    //         getAll()
-    //     }
-    // }, [inventoryVehicles, getVehicles, getAll, defaults])
+        if(defaults === null){
+            dispatch(getAll())
+        }
+    }, [defaults, dispatch])
 
-    // const [Years, setYears] = useState([])
-    // const [filters, setFilters] = useState({make: 'All', model: "All", year: 'All'})
-    // const {make, model, year} = filters;
+        const [Years, setYears] = useState([])
+        const [filters, setFilters] = useState({make: 'All', model: "All", year: 'All'})
+        const {make, model, year} = filters;
 
     // useEffect(() => {
     //     if(inventoryVehicles){
@@ -60,47 +67,47 @@ export default function Showroom() {
     //     }
     // },[make, inventoryVehicles, model, year])
     
-    // const handleManufacturerChange = e => {
-    //     setFilters({
-    //         make: e.target.value,
-    //         model: 'All',
-    //         year: 'All'
-    //     })
-    // }
+    const handleManufacturerChange = e => {
+        setFilters({
+            make: e.target.value,
+            model: 'All',
+            year: 'All'
+        })
+    }
 
-    // const handleModelChange = e => {
-    //     setFilters(prev => {
-    //         return {
-    //             ...prev,
-    //             model: e.target.value,
-    //             year: 'All'
-    //         }
-    //     })
-    // }
+    const handleModelChange = e => {
+        setFilters(prev => {
+            return {
+                ...prev,
+                model: e.target.value,
+                year: 'All'
+            }
+        })
+    }
 
-    // const handleYearChange = e => {
-    //     const {name, value} = e.target
-    //     setFilters(prev => {
-    //         return {
-    //             ...prev,
-    //             [name]: value
-    //         }
-    //     })
-    // }
+    const handleYearChange = e => {
+        const {name, value} = e.target
+        setFilters(prev => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        })
+    }
 
-    // const FilteredModels = () => {
-    //     let _filteredModels = [];
-    //     if(defaults){
-    //         _filteredModels = defaults.models.filter(i => i.manufacturer === make)
-    //     }
-    //     return _filteredModels;
-    // }
+    const FilteredModels = () => {
+        let _filteredModels = [];
+        if(defaults){
+            _filteredModels = defaults.models.filter(i => i.manufacturer === make)
+        }
+        return _filteredModels;
+    }
 
-    // const displaySkeletons = () => [1, 2, 3, 4, 5, 6, 7, 8]
+    const displaySkeletons = () => [1, 2, 3, 4, 5, 6, 7, 8]
 
     return (
         <MainContainer title='Showroom'>
-            {/* <Grid container spacing={2}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Paper>
                         <Grid container spacing={2}>
@@ -135,7 +142,7 @@ export default function Showroom() {
                                     ))}
                                 </TextField>
                             </Grid>
-                            <Grid item xs={12} md={4}>
+                            {/* <Grid item xs={12} md={4}>
                                 <TextField
                                     value={year} onChange={handleYearChange}
                                     label='Years' name='year' select>
@@ -146,11 +153,11 @@ export default function Showroom() {
                                         <MenuItem key={year} value={year}>{year}</MenuItem>
                                     ))}
                                 </TextField>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </Paper>
                 </Grid>
-
+{/* 
                 <Grid xs={12} item container spacing={2}>
                     {defaults && vehicles 
                         ?   vehicles.map(vehicle => (
@@ -164,8 +171,8 @@ export default function Showroom() {
                                 </Grid>
                             ))
                     }
-                </Grid> 
-            </Grid>*/}
+                </Grid> */}
+            </Grid>
         </MainContainer>
 
     );

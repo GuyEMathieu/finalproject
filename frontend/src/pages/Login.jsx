@@ -42,7 +42,7 @@ const Typo = styled(Typography)(({theme}) => ({
 
 
 const Login = () => {
-        const navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const {
