@@ -17,7 +17,13 @@ export const getInventory = () => async dispatch => {
             payload: err.response.data
         })
     }
-    
+}
+
+export const getVehicleById = (id) => async dispatch => {
+    dispatch({
+        type: ActionTypes.CURRENT_VEHICLE,
+        payload: id
+    })
 }
 
 export const setLoading = () => dispatch => dispatch({type: ActionTypes.INVENTORY_LOADING})

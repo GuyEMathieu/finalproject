@@ -6,6 +6,9 @@ export const loginUser = (userData) => async dispatch => {
         
         setLoading();
         const res = await axios.post('/api/users/login', userData)
+        if(res.data){
+            localStorage.setItem('user', JSON.stringify(res.data))
+        }
         dispatch({
             type: ActionTypes.LOGIN_USER,
             payload: res.data
@@ -19,8 +22,10 @@ export const loginUser = (userData) => async dispatch => {
 }
 
 
-
-export const logout = () => async dispatch => dispatch({type: ActionTypes.LOGOUT_USER})
+export const logout = () => async dispatch => {
+    localStorage.removeItem('user')
+    dispatch({type: ActionTypes.LOGOUT_USER})
+}
 
 
 export const authReset = () => dispatch => dispatch ({ type: ActionTypes.AUTH_RESET})

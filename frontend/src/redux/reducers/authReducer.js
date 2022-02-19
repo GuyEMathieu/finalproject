@@ -1,8 +1,10 @@
 import * as ActionTypes from '../ActionTypes'
 
+// Get user from local storage
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
-    user: null,
+    user: user ? user : null,
     isError: false,
     isLoading: false,
     message: null
@@ -12,13 +14,12 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case ActionTypes.LOGIN_USER:
-            localStorage.setItem('token', action.payload.token)
             return {
                 ...state,
                 user: action.payload,
             }
         case ActionTypes.LOGOUT_USER:
-            localStorage.removeItem('token')
+            localStorage.removeItem('user')
             return {
                 ...state,
                 user: null,
@@ -27,11 +28,11 @@ const reducer = (state = initialState, action) => {
                 message: null
             }
         case ActionTypes.AUTH_ERROR:
-            localStorage.removeItem('token')
+            localStorage.removeItem('user')
             return {
                 ...state,
                 isError: true,
-                message: action.payload
+                message: action.payload.message
             }
         case ActionTypes.AUTH_RESET:
             return {

@@ -3,6 +3,7 @@ import * as ActionTypes from '../ActionTypes'
 
 const initialState = {
     inventoryVehicles: null,
+    currentVehicle: null,
     isError: false,
     isLoading: false,
     message: null
@@ -11,6 +12,11 @@ const initialState = {
 // eslint-disable-next-line import/no-anonymous-default-export
 const reducer = (state = initialState, action) => {
     switch(action.type){
+        case ActionTypes.CURRENT_VEHICLE:
+            return {
+                ...state,
+                currentVehicle: state.inventoryVehicles.find(v => v._id === action.payload)
+            }
         case ActionTypes.GET_INVENTORY:
             return {
                 ...state,

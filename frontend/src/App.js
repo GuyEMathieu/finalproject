@@ -12,7 +12,8 @@ import Register from './pages/Register'
 
 import EmployeeSearch from './pages/employees/EmployeeSearch'
 import Showroom from './pages/sales/Showroom';
-
+import VehicleProfile from './pages/sales/VehicleProfile';
+import Service from './pages/service/Service';
 
 function App() {
     const {currentTheme} = useSettings()
@@ -24,6 +25,10 @@ function App() {
                 <Routes>
                     <Route path='/' element={<EmployeeSearch />} />
                     <Route path='/sales/showroom' element={<Showroom />} />
+                    <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile />} />
+
+                    <Route path='/service' element={<Service />} />
+
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
 

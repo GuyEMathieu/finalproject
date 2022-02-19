@@ -8,7 +8,6 @@ import SimpleBar from 'simplebar-react';
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'
 import VehicleCardSkeleton from '../../components/skeletons/VehicleCardSkeleton';
-// import { useDefault, useInventoryVehicles } from '../../hooks/customHooks';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {getDefaults} from '../../redux/actions/defaultActions';
@@ -20,6 +19,7 @@ export default function Showroom() {
     const {
         defaults
     } = useSelector((state) => state.defaults)
+    
     const {
         inventoryVehicles
     } = useSelector((state) => state.inventory)
