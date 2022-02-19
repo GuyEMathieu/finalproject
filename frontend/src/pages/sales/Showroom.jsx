@@ -11,61 +11,63 @@ import VehicleCardSkeleton from '../../components/skeletons/VehicleCardSkeleton'
 // import { useDefault, useInventoryVehicles } from '../../hooks/customHooks';
 
 import { useSelector, useDispatch } from 'react-redux';
-import {getAll} from '../../features/defaults/defaultSlice';
+import {getDefaults} from '../../redux/actions/defaultActions';
+import {getInventory} from '../../redux/actions/inventoryActions';
 
 export default function Showroom() {
     const dispatch = useDispatch();
 
     const {
-        defaults, isLoading, isSuccess, message, isError
+        defaults
     } = useSelector((state) => state.defaults)
-    // const {getVehicles, inventoryVehicles} = useInventoryVehicles();
+    const {
+        inventoryVehicles
+    } = useSelector((state) => state.inventory)
 
-
-    // const [vehicles, setVehicles] = useState([])
+    const [vehicles, setVehicles] = useState([])
     
     useEffect(() => {
-        // if(inventoryVehicles === null){
-        //     getVehicles();
-        // }
+        if(inventoryVehicles === null){
+            dispatch(getInventory());
+        }
 
         if(defaults === null){
-            dispatch(getAll())
+            dispatch(getDefaults())
         }
-    }, [defaults, dispatch])
+    }, [defaults, dispatch, inventoryVehicles])
 
         const [Years, setYears] = useState([])
         const [filters, setFilters] = useState({make: 'All', model: "All", year: 'All'})
         const {make, model, year} = filters;
 
-    // useEffect(() => {
-    //     if(inventoryVehicles){
-    //         let arr = inventoryVehicles
-    //         if(make !== 'All'){
-    //             arr = inventoryVehicles.filter(v => v.make === make)
-    //         } 
+    useEffect(() => {
+        if(inventoryVehicles){
+            let arr = inventoryVehicles
+            if(make !== 'All'){
+                arr = inventoryVehicles.filter(v => v.make === make)
+            } 
 
-    //         if(model !== 'All'){
-    //             arr = inventoryVehicles.filter(v => v.model === model)
-    //         }
+            if(model !== 'All'){
+                arr = inventoryVehicles.filter(v => v.model === model)
+            }
 
-    //         if(year !== 'All'){
-    //             arr = arr.filter(v => v.year === year)
-    //         }
+            if(year !== 'All'){
+                arr = arr.filter(v => v.year === year)
+            }
 
-    //         let _years = [];
-    //         for(let i = 0; i< inventoryVehicles.length; i++){
-    //             if(!_years.includes(inventoryVehicles[i].year)){
-    //                 _years.push(inventoryVehicles[i].year)
-    //             }
-    //         }
-    //         _years.sort(function(a, b) {return b - a})
+            let _years = [];
+            for(let i = 0; i< inventoryVehicles.length; i++){
+                if(!_years.includes(inventoryVehicles[i].year)){
+                    _years.push(inventoryVehicles[i].year)
+                }
+            }
+            _years.sort(function(a, b) {return b - a})
 
-    //         setYears(_years)
+            setYears(_years)
 
-    //         setVehicles(arr)
-    //     }
-    // },[make, inventoryVehicles, model, year])
+            setVehicles(arr)
+        }
+    },[make, inventoryVehicles, model, year])
     
     const handleManufacturerChange = e => {
         setFilters({
@@ -142,7 +144,8 @@ export default function Showroom() {
                                     ))}
                                 </TextField>
                             </Grid>
-                            {/* <Grid item xs={12} md={4}>
+
+                            <Grid item xs={12} md={4}>
                                 <TextField
                                     value={year} onChange={handleYearChange}
                                     label='Years' name='year' select>
@@ -153,11 +156,11 @@ export default function Showroom() {
                                         <MenuItem key={year} value={year}>{year}</MenuItem>
                                     ))}
                                 </TextField>
-                            </Grid> */}
+                            </Grid> 
                         </Grid>
                     </Paper>
                 </Grid>
-{/* 
+ 
                 <Grid xs={12} item container spacing={2}>
                     {defaults && vehicles 
                         ?   vehicles.map(vehicle => (
@@ -171,7 +174,7 @@ export default function Showroom() {
                                 </Grid>
                             ))
                     }
-                </Grid> */}
+                </Grid> 
             </Grid>
         </MainContainer>
 

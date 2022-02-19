@@ -27,33 +27,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import {logout, reset} from '../../features/auth/authSlice'
-
-
 import { useSettings } from '../../hooks/customHooks';
-import { useDispatch, useSelector } from 'react-redux';
 
-const drawerWidth = 240;
+import { authReset, logout } from '../../redux/actions/authActions';
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-}));
+import {useSelector, useDispatch} from 'react-redux'
 
-const CustomLink = styled(Link)(({theme}) => ({
-    textDecoration: 'none',
-    color: theme.palette.text.primary
-}))
-
-
-export default function Header(props) {
+function Header(props) {
     const navigate = useNavigate()
+    const {user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
-    const {user} = useSelector((state) => state.auth)
 
     const theme = useTheme();
 
@@ -64,7 +47,7 @@ export default function Header(props) {
     },[user, navigate])
 
     const {
-        open, handleDrawerClose
+        open, handleDrawerClose,
     } = props
 
     const [openSetting, setOpenSettings] = useState(false)
@@ -73,13 +56,12 @@ export default function Header(props) {
     };
 
     const goToProfile = () => {
-        // navigate(`/hr/employees/profile/${user.profile._id}`)
+        navigate(`/hr/employees/profile/${user.profile._id}`)
     }
 
     const handleLogout = () => {
         dispatch(logout());
-        dispatch(reset())
-        
+        dispatch(authReset())
     }
 
     const {changeTheme} = useSettings();
@@ -211,3 +193,23 @@ export default function Header(props) {
         </Drawer>
     );
 }
+
+const drawerWidth = 240;
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
+
+const CustomLink = styled(Link)(({theme}) => ({
+    textDecoration: 'none',
+    color: theme.palette.text.primary
+}))
+
+
+
+export default Header;

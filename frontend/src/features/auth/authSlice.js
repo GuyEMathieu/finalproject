@@ -23,7 +23,6 @@ export const registerUser = createAsyncThunk('/register', async (user, thunkAPI)
 })
 
 
-
 export const loginUser = createAsyncThunk('/login', 
     async (user, thunkAPI) => {
         try{
@@ -54,15 +53,15 @@ export const authSlice = createSlice({
         builder
 
             // Register User
-            .addCase(registerUser.pending, (state) => {
+            .addCase(REGISTER_PENDING, (state) => {
                 state.isLoading = true
             })
-            .addCase(registerUser.fulfilled, (state, action) => {
+            .addCase(REGISTER_SUCCESS, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.user = action.payload
             })
-            .addCase(registerUser.rejected, (state, action) => {
+            .addCase(REGISTER_ERROR, (state, action) => {
                 state.isLoading = false;
                 state.user = null;
                 state.message = action.payload;
@@ -71,15 +70,15 @@ export const authSlice = createSlice({
 
 
             // Login User
-            .addCase(loginUser.pending, (state) => {
+            .addCase(LOGIN_PENDING, (state) => {
                 state.isLoading = true
             })
-            .addCase(loginUser.fulfilled, (state, action) => {
+            .addCase(LOGIN_SUCCESS, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.user = action.payload
             })
-            .addCase(loginUser.rejected, (state, action) => {
+            .addCase(LOGIN_ERROR, (state, action) => {
                 state.isLoading = false;
                 state.user = null;
                 state.message = action.payload;
@@ -92,6 +91,14 @@ export const authSlice = createSlice({
             })
     }
 })
+
+const LOGIN_PENDING = 'LOGIN_PENDING'
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+const LOGIN_ERROR = 'LOGIN_ERROR'
+
+const REGISTER_PENDING = 'REGISTER_PENDING'
+const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+const REGISTER_ERROR = 'REGISTER_ERROR'
 
 
 export const {reset} = authSlice.actions;

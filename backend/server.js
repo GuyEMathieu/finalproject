@@ -11,12 +11,10 @@ connectDB();
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
-
-
-
-
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/defaults', require('./routes/defaultRoutes'))
+app.use('/api/inventoryvehicles', require('./routes/inventoryVehicleRoutes'))
+app.use('/api/employees', require('./routes/employeeRoutes'))
 
 app.use(errorHandler)
 

@@ -2,18 +2,18 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import defaultService from './defaultService'
 
 
-//get User from localstorage
 const initialState = {
     defaults: null,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
-    message: ''
+    isDefaultError: false,
+    isDefaultSuccess: false,
+    isDefaultLoading: false,
+    defaultMessage: null
 }
 
-export const getAll = createAsyncThunk('/', async (thunkAPI) => {
+export const getDefaults = createAsyncThunk('/', async (thunkAPI) => {
     try{
-        return await defaultService.getAll();
+        const token = localStorage.getItem('token')
+        return await defaultService.getDefaults(token);
     } catch (err){
         const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
 
@@ -21,33 +21,36 @@ export const getAll = createAsyncThunk('/', async (thunkAPI) => {
     }
 })
 
+
 export const defaultSlice = createSlice({
     name: 'defaults',
     initialState,
     reducers: {
         reset: (state) => {
-            state.isLoading =  false;
-            state.isError =  false;
-            state.isSuccess =  false;
-            state.message =  null;
+            state.isDefaultLoading =  false;
+            state.isDefaultError =  false;
+            state.isDefaultSuccess =  false;
+            state.defaultMessage =  null;
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getAll.pending, (state) => {
-                state.isLoading = true
+
+            .addCase(getDefaults.pending, (state) => {
+                state.isDefaultLoading = true
             })
-            .addCase(getAll.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
+            .addCase(getDefaults.fulfilled, (state, action) => {
+                state.isDefaultLoading = false;
+                state.isDefaultSuccess = true;
                 state.defaults = action.payload
             })
-            .addCase(getAll.rejected, (state, action) => {
-                state.isLoading = false;
+            .addCase(getDefaults.rejected, (state, action) => {
+                state.isDefaultLoading = false;
                 state.defaults = null;
-                state.message = action.payload;
-                state.isError = true;
+                state.defaultMessage = action.payload;
+                state.isDefaultError = true;
             })
+
     }
 })
 

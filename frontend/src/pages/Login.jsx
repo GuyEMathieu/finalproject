@@ -13,33 +13,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import { useSelector, useDispatch } from 'react-redux';
-import {loginUser, reset} from '../features/auth/authSlice';
+
+import {loginUser} from '../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 
-const CustomContainer = styled('div')(({theme}) => ({
-    backgroundColor: theme.palette.background.default,    
-    height: '100vh',
-    maxHeight: '100vh',
-    display: 'flex',
-    position: 'relative'
-}))
-const CustomerPaper = styled(Container)(({theme}) => ({
-    height: '25vh',
-    position: 'absolute',
-    marginTop: '25vh',
-    left: '35vw',
-    width: '30vw',   
-}))
 
-const StyledAvatar = styled(Avatar)(({theme}) => ({
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-}))
-const Typo = styled(Typography)(({theme}) => ({
-    color: theme.palette.text.primary
-}))
-
+ 
 
 const Login = () => {
     const navigate = useNavigate();
@@ -62,7 +42,7 @@ const Login = () => {
             navigate('/sales/showroom')
         }
 
-        dispatch(reset())
+        //dispatch(reset())
     },[isError, isSuccess, navigate, user, message, dispatch])
 
     const handleChange = e => {
@@ -149,32 +129,55 @@ const Login = () => {
     )
 };
 
-    const list = [
-        {
-            username: "Steve.Pudge",
-            label: "Steve Pudge (Sales Manager)",
-            password: 'password'
-        },
-        {
-            username: "Giffy.Willsmore",
-            label: "Giffy Willsmore (Sales Representative)" ,
-            password: 'password'
-        },
-        {
-            username: "Horten.Learie",
-            label: "Horten Learie (Repair Manager)",
-            password: 'password'
-        },
-        {
-            username: "Omero.Lathwell",
-            label: "Omero Lathwell (Repair Technician)",
-            password: 'password'
-        },
-        {
-            username: "",
-            label: "Guest",
-            password: ''
-        },
-    ]
+const list = [
+    {
+        username: "Steve.Pudge",
+        label: "Steve Pudge (Sales Manager)",
+        password: 'password'
+    },
+    {
+        username: "Giffy.Willsmore",
+        label: "Giffy Willsmore (Sales Representative)" ,
+        password: 'password'
+    },
+    {
+        username: "Horten.Learie",
+        label: "Horten Learie (Repair Manager)",
+        password: 'password'
+    },
+    {
+        username: "Omero.Lathwell",
+        label: "Omero Lathwell (Repair Technician)",
+        password: 'password'
+    },
+    {
+        username: "",
+        label: "Guest",
+        password: ''
+    },
+]
+
+const CustomContainer = styled('div')(({theme}) => ({
+    backgroundColor: theme.palette.background.default,    
+    height: '100vh',
+    maxHeight: '100vh',
+    display: 'flex',
+    position: 'relative'
+}))
+const CustomerPaper = styled(Container)(({theme}) => ({
+    height: '25vh',
+    position: 'absolute',
+    marginTop: '25vh',
+    left: '35vw',
+    width: '30vw',   
+}))
+
+const StyledAvatar = styled(Avatar)(({theme}) => ({
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+}))
+const Typo = styled(Typography)(({theme}) => ({
+    color: theme.palette.text.primary
+}))
 
 export default Login;
