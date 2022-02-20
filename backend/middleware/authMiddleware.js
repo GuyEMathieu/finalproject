@@ -17,15 +17,15 @@ module.exports = async function(req, res, next) {
             // Get user from token
             req.user = await User.findById(decoded.user.id)
                 .select('-password');
-
+            console.log("user validated")
             next();
         } catch(err){
             console.log(err.message)
-            res.status(401).json({errors: [{severity: 'error', msg: 'Unauthorized user', _id: uid()}]})
+            res.status(401).json({message: [{severity: 'error', msg: 'Unauthorized user', _id: uid()}]})
         }
     }
 
     if(!token){
-        res.status(401).json({errors: [{severity: 'error', msg: 'Unauthorized user', _id: uid()}]})
+        res.status(401).json({message: [{severity: 'error', msg: 'Invalid token', _id: uid()}]})
     }
 }

@@ -1,6 +1,4 @@
 const express = require('express');
-const router = express.Router();
-const {check,  validationResult } = require('express-validator');
 const { v4: uid } = require('uuid');
 const Gender = require('../models/genderModel')
 const Country = require ('../models/countryModel')
@@ -18,7 +16,6 @@ const Model = require('../models/carModel')
 // @access      private
 const getAll = async (req, res) => {
     try {
-        console.log("grabbing defaults")
         const positions = await Position.find()
             .select('-createdAt').select('-updatedAt')
             .select('-__v').select('-lastModified')

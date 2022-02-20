@@ -21,9 +21,7 @@ export default function SidebarSlidePopup(props) {
             open={props.open}
         >
             <Box sx={{py:'25vh'}}>
-              <Divider  sx={{mb: 3}}/>
                 {props.children}
-              <Divider  sx={{mt: 3}}/>
             </Box>
             
         </Drawer>

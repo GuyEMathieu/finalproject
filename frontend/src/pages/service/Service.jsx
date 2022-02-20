@@ -10,11 +10,12 @@ import {
 
 import ClearIcon from '@mui/icons-material/Clear';
 import MainContainer from '../../components/MainContainer'
-import CustomerSearch from './customers/CustomerSearch'
 
+
+import CustomerSearch from './customers/CustomerSearch'
 import CustomerMain from './customers/CustomerMain'
 
-const Service = () => {
+export default function Service () {
     const [value, setValue] = useState('Customers');
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -64,7 +65,7 @@ const Service = () => {
                     </Paper>
                 </Box>
                 <TabPanel value="Customers" sx={{px: 0, py: 0, my: 0}}>
-                    <CustomerSearch createCustomerTab={createCustomerTab} />
+                    <CustomerSearch createCustomerTab={createCustomerTab} /> 
                 </TabPanel>
                 {tabs.map(tab => (
                     <TabPanel key={tab.label} value={tab.label} sx={{px: 0, py: 1, my: 0}}>
@@ -76,4 +77,4 @@ const Service = () => {
     )
 }
 
-export default Service
+

@@ -1,22 +1,24 @@
-import {useState, useContext, useEffect} from 'react';
+import { useEffect} from 'react';
 import {
-    Grid,TextField, MenuItem, Button, Typography
+    Grid,TextField, MenuItem, Button
 } from '@mui/material';
-import {DefaultContext} from '../context/default_context/DefaultState';
 import Loading from './Loading';
 
+import { useSelector, useDispatch } from 'react-redux';
+import {getDefaults} from '../redux/actions/defaultActions';
+
 export default function NewVehicle(props){
-    const defaultContext = useContext(DefaultContext);
-    const {getAll, defaults} = defaultContext;
+    const dispatch = useDispatch()
+    const {defaults} = useSelector(state => state.defaults);
 
     const {vehicle, handleVehicleChange, addNewVehicle} = props
 
     useEffect(() =>{
         if(defaults === null){
-            getAll();
+            dispatch(getDefaults());
         }
 
-    },[defaults, getAll])
+    },[defaults, dispatch])
 
     const Years = () => {
         let years = [];
@@ -35,7 +37,6 @@ export default function NewVehicle(props){
         if(vehicle && vehicle.vin 
             && vehicle.year && vehicle.make
             && vehicle.model && vehicle.miles){
-            //alert("Saving")
             addNewVehicle(vehicle)
         } else {
             alert("Missing Fields")
@@ -45,7 +46,6 @@ export default function NewVehicle(props){
     return (
         <Grid container spacing={2} justifyContent="space-around">
             <Grid item xs={12} >
-                {/* <Typography >{`VIN: ${vehicle.vin}`}</Typography> */}
                 <TextField 
                     onChange={handleVehicleChange}
                     label="VIN" disabled
@@ -79,7 +79,7 @@ export default function NewVehicle(props){
                 <TextField 
                     onChange={handleVehicleChange}
                     label="Model" name='model' disabled={vehicle.make && vehicle.make.length > 0 ? false : true}
-                    select value={vehicle.make}>
+                    select value={vehicle.model}>
                     <MenuItem disabled>{'-- none --'}</MenuItem>
                     {vehicle.make && defaults.models
                         .filter(model => model.manufacturer === vehicle.make)

@@ -44,7 +44,7 @@ const registerUser = async (req, res) => {
     
 
         jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: 3600
+            expiresIn: 2592000
         }, (err, token) => {
             if(err) throw err;
             res.json({token})
@@ -71,7 +71,7 @@ const loginUser = async (req, res) => {
                 }
 
                 jwt.sign(payload, process.env.JWT_SECRET, {
-                    expiresIn: 3600
+                    expiresIn: 2592000
                 }, (err, token) => {
                     if(err) throw err;
                     res.json({token, profile})
