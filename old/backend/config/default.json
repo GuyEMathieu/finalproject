@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://gemsoft_user:gemsoftAdminPassword@cluster0.oqpxe.mongodb.net/gemsoft?retryWrites=true&w=majority",
-    "jwtSecret": "gemsoft-api"
-}
