@@ -1,5 +1,5 @@
 import {
-    Grid, Paper, TextField, Skeleton
+    Grid, Paper, TextField, Skeleton, Typography
 } from '@mui/material';
 
 import {getName, formatDate} from '../../utils/Formatter'
@@ -11,6 +11,9 @@ export default function PeopleGlance({profile , defaults}) {
     return (
         <Paper>
             <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography align='center'>Quick Glance</Typography>
+                </Grid>
                 <Grid item xs={6}>
                     {(profile && defaults) 
                         ?   <TextField

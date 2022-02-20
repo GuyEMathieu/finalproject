@@ -1,7 +1,9 @@
 const express = require('express');
 const { v4: uid } = require('uuid');
 const Employee = require('../models/employeeModel')
-
+const User = require('../models/userModel')
+const State = require('../models/stateModel')
+const bcrypt = require('bcryptjs')
 
 
 // @route       POST api/employees

@@ -16,6 +16,8 @@ app.use('/api/defaults', require('./routes/defaultRoutes'))
 app.use('/api/inventoryvehicles', require('./routes/inventoryVehicleRoutes'))
 app.use('/api/employees', require('./routes/employeeRoutes'))
 app.use('/api/customers', require('./routes/customerRoutes'))
+app.use('/api/sales', require('./routes/saleRoutes'))
+app.use('/api/services', require('./routes/serviceRoutes'))
 
 app.use(errorHandler)
 

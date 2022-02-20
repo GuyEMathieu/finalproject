@@ -4,14 +4,11 @@ import {
     TextField, Button
 } from '@mui/material'
 import MainContainer from '../../components/MainContainer';
-import SidebarSlidePopup from '../../components/SidebarSlidePopup';
 
 import EmployeeTable from './EmployeeTable';
-import NewCustomerUI from './NewEmployeeUI';
 
 //#region ICONS
 import SearchIcon from '@mui/icons-material/Search';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 //#endregion
 
 //#region COMPONENTS
@@ -26,9 +23,7 @@ import { getDefaults } from '../../redux/actions/defaultActions';
 export default function EmployeeSearch (props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [openNewEmployeePopUp, setOpenNewEmployeePop] = useState(false)
 
-    const [newEmployee, setNewEmployee] = useState(null)
     const {employeeList, filteredEmployees } = useSelector((state) => state.employees)
     const {defaults } = useSelector((state) => state.defaults)
     useEffect(()=>{
@@ -61,12 +56,6 @@ export default function EmployeeSearch (props) {
             dispatch(resetEmployees())
         }
     }
-
-    const onNewEmployee = () => {
-        setNewEmployee(demoEmployee)
-        setOpenNewEmployeePop(true)
-    }
-
     const handleEmployeeSelection = employee => {
         navigate(`/hr/employees/profile/${employee._id}`)
     }
@@ -77,27 +66,22 @@ export default function EmployeeSearch (props) {
                 <Grid item xs={12} >
                     <Paper sx={{margin:0}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={5}>
                                 <TextField
                                     label='First Name' name='firstName' 
                                     placeholder='First Name' value={search.firstName}
                                     onChange={handleSearch}/>
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={5}>
                                 <TextField
                                     label='Last Name' name='lastName' 
                                     placeholder='Last Name' value={search.lastName}
                                     onChange={handleSearch}/>
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <Button
                                     startIcon={<SearchIcon  />}
                                     onClick={onSearch}>Search</Button>
-                            </Grid>
-                            <Grid item xs={12} md={3}>
-                                <Button
-                                    startIcon={<AddCircleIcon  />}
-                                    onClick={onNewEmployee}>New</Button>
                             </Grid>
                         </Grid>
                     </Paper>
@@ -110,27 +94,9 @@ export default function EmployeeSearch (props) {
                     />
                 </Grid>
             </Container>
-
-            <SidebarSlidePopup open={openNewEmployeePopUp}>
-                {openNewEmployeePopUp 
-                    ? <NewCustomerUI 
-                            handleEmployee={handleEmployeeSelection}
-                            employee={newEmployee}
-                            setOpen={setOpenNewEmployeePop} 
-                            setEmployee={setNewEmployee}
-                        />
-                    : null
-                }
-            </SidebarSlidePopup>
         </MainContainer>
 
     )
-}
-
-const demoEmployee = {
-    firstName: '',
-    lastName: '',
-    dateOfBirth: new Date('01/15/1975')
 }
 
 //#region CSS

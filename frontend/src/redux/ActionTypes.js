@@ -37,4 +37,16 @@ export const FILTER_CUSTOMERS = 'FILTER_CUSTOMERS'
 export const ADD_CUSTOMER = 'ADD_CUSTOMER'
 export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER'
 
+// SALES Types
+export const GET_SALES = 'GET_SALES'
+export const SALES_ERROR = 'SALES_ERROR'
+export const SALES_RESET = 'SALES_RESET'
+export const ADD_SALE = 'ADD_SALE'
+
+// SAERVICE Types
+export const GET_SERVICE = 'GET_SERVICE'
+export const SERVICE_ERROR = 'SERVICE_ERROR'
+export const SERVICE_RESET = 'SERVICE_RESET'
+
+
 

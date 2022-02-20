@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 
 
+import EmployeeMain from './pages/employees/EmployeeMain'
 import EmployeeSearch from './pages/employees/EmployeeSearch'
 import Showroom from './pages/sales/Showroom';
 import VehicleProfile from './pages/sales/VehicleProfile';
@@ -33,6 +34,7 @@ function App() {
                     <Route path='/register' element={<Register />} />
 
                     <Route path='/hr/employees' element={<EmployeeSearch  />} />
+                    <Route path='/hr/employees/profile/:employeeId' element={<EmployeeMain  />} />
                 </Routes>
                 
             </Router>
