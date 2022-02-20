@@ -17,6 +17,10 @@ const VehicleInfo = (props) => {
         actions = null
     } = props;
 
+    if(!vehicle && !defaults){
+        return null
+    }
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -54,8 +58,7 @@ const VehicleInfo = (props) => {
                 </Grid>
 
             
-                <Grid item xs={12} md={6}>
-
+                {actions &&  <Grid item xs={12} md={6}>
                     <Grid container spacing={2}>
                         {actions.map(action => (
                             <Grid item xs={12} md={6} key={action.title}>
@@ -67,8 +70,8 @@ const VehicleInfo = (props) => {
                             </Grid>
                         ))}
                     </Grid>
-                </Grid>
-            </Grid>
+                </Grid>}
+            </Grid> 
         </Grid>
         
     )

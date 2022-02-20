@@ -11,6 +11,11 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type){
 
+        case ActionTypes.ADD_SALE:
+            return {
+                ...state,
+                salesList: [...state.salesList, action.payload],
+            }
         case ActionTypes.GET_SALES:
             return {
                 ...state,

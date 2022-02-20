@@ -13,6 +13,7 @@ import Register from './pages/Register'
 import EmployeeMain from './pages/employees/EmployeeMain'
 import EmployeeSearch from './pages/employees/EmployeeSearch'
 import Showroom from './pages/sales/Showroom';
+import VehiclePurchase from './pages/sales/VehiclePurchase';
 import VehicleProfile from './pages/sales/VehicleProfile';
 import Service from './pages/service/Service';
 
@@ -27,6 +28,7 @@ function App() {
                     <Route path='/' element={<EmployeeSearch />} />
                     <Route path='/sales/showroom' element={<Showroom />} />
                     <Route path='/sales/vehicleprofile/:id' element={<VehicleProfile />} />
+                    <Route path='/sales/purchase/:id' element={<VehiclePurchase  />} />
 
                     <Route path='/service' element={<Service />} />
 

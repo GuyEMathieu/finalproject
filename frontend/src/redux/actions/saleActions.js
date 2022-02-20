@@ -26,4 +26,20 @@ export const getSales = () => async dispatch => {
     }
 }
 
+export const addSale = (sale) => async dispatch => {
+    try {
+        const res = await axios.post('/api/sales', sale, config)
+
+        dispatch({
+            type: ActionTypes.ADD_SALE,
+            payload: res.data
+        })
+    } catch(err){
+        dispatch({
+            type: ActionTypes.SALES_ERROR,
+            payload: err.response.data
+        })
+    }
+}
+
 export const resetSalesError = () => dispatch => dispatch({type: ActionTypes.SALES_RESET})

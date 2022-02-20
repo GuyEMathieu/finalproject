@@ -6,10 +6,14 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { FormatNumber } from '../../utils/Formatter';
+import Loading from '../../components/Loading';
 
 
 export default function FeesAndCredits(props) {
 
+    if(!props.purchase && !props.defaults){
+        return <Loading  />
+    }
     return (
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
