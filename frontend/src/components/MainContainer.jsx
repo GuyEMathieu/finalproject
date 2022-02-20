@@ -73,7 +73,7 @@ export default function MainContainer(props) {
             <Main open={open}>
                 <DrawerHeader />
                     {props.children}
-                <Copyright  />
+                <Copyright/>
             </Main>
         </Box>
     )

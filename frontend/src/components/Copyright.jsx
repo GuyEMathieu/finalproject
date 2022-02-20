@@ -10,7 +10,8 @@ const CustomLink = styled(Link)(({theme}) => ({
 const Typo = styled(Typography)(({theme}) => ({
     color: theme.palette.text.primary,
     align:"center",
-    margin: theme.spacing(2)
+    margin: theme.spacing(2),
+    marginLeft: '40vw'
 }))
 
 function Copyright() {

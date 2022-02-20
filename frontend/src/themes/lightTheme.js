@@ -7,14 +7,14 @@ export const lightTheme = createTheme({
     palette: {
         mode: 'dark',
         background: {
-            default: "#bbdefb",
-            paper: "#0d47a1"
+            default: "#5169D4",
+            paper: "#2B4CE0"
         },
         primary: {
-            main: "#ff1744"
+            main: "#E2DBDB"
         },
         text: {
-            primary: '#FFFFFF'
+            primary: '#EEE7E7'
         }
     },
 
