@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 5000
 const app = express();
 const connectDB = require('./config/db');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const path = require('path')
 
 // Connect to DB
 connectDB();
@@ -20,5 +21,15 @@ app.use('/api/sales', require('./routes/saleRoutes'))
 app.use('/api/services', require('./routes/serviceRoutes'))
 
 app.use(errorHandler)
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+    app.get('*', (req, res) => res.sendFile(__dirname, '../', 'frontend', 'build', 'index.html'))
+} else {
+    app.get('/', (req, res) => {
+        res.status(200).json({message: "Welcome to gemsoft API"})
+    })
+}
 
 app.listen(PORT, () => console.log(`SERVER STARTED ON PORT ${PORT}`))
