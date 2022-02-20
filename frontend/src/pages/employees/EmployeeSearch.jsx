@@ -4,10 +4,10 @@ import {
     TextField, Button
 } from '@mui/material'
 import MainContainer from '../../components/MainContainer';
+import SidebarSlidePopup from '../../components/SidebarSlidePopup';
 
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getEmployeeList } from '../../features/employees/employeeSlice';
+import EmployeeTable from './EmployeeTable';
+import NewCustomerUI from './NewEmployeeUI';
 
 //#region ICONS
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,43 +18,56 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 //#endregion
 
 
-//#region CSS
-const Container = styled(Grid)(({ theme }) => ({
-    display: 'flex',
-    width: 'inherit',
-    alignItems: 'center',
-    padding: theme.spacing(0, 0),
-    margin: theme.spacing(0),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-}));
-//#endregion
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {getEmployees, filterEmployees, resetEmployees} from '../../redux/actions/employeeActions'
+import { getDefaults } from '../../redux/actions/defaultActions';
 
 export default function EmployeeSearch (props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [openNewEmployeePopUp, setOpenNewEmployeePop] = useState(false)
 
-    const {employeeList } = useSelector((state) => state.employees)
+    const [newEmployee, setNewEmployee] = useState(null)
+    const {employeeList, filteredEmployees } = useSelector((state) => state.employees)
+    const {defaults } = useSelector((state) => state.defaults)
     useEffect(()=>{
         if(employeeList === null){
-            dispatch(getEmployeeList())
+            dispatch(getEmployees())
         }
-    }, [dispatch, employeeList])
 
-    console.info("employeeList", employeeList)
-    const [search, setSearch] = useState({})
+        if(defaults === null){
+            dispatch(getDefaults())
+        }
+    }, [dispatch, employeeList, defaults])
+
+    const [search, setSearch] = useState({firstName: '', lastName: ''})
     
     const onSearch = () => {
-        alert("Search")
+        if(!search.firstName && !search.lastName){
+            alert("Missing Search Fields")
+            return
+        }
+        dispatch(filterEmployees(search))
+    }
+
+    const handleSearch = e => {
+        const {name, value} = e.target;
+        setSearch({...search, [name]: value})
+        if(
+            (name === 'firstName' && value === '' && search.lastName === '') ||
+            (name === 'lastName' && value === '' && search.firstName === ''))
+        {
+            dispatch(resetEmployees())
+        }
     }
 
     const onNewEmployee = () => {
-        alert("Adding New Employee")
+        setNewEmployee(demoEmployee)
+        setOpenNewEmployeePop(true)
     }
 
     const handleEmployeeSelection = employee => {
-        //props.createEmployeeTab(employee)
         navigate(`/hr/employees/profile/${employee._id}`)
     }
 
@@ -67,14 +80,14 @@ export default function EmployeeSearch (props) {
                             <Grid item xs={12} md={3}>
                                 <TextField
                                     label='First Name' name='firstName' 
-                                    placeholder='First Name'
-                                    onChange={e => setSearch({...search, firstName: e.target.value})}/>
+                                    placeholder='First Name' value={search.firstName}
+                                    onChange={handleSearch}/>
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <TextField
                                     label='Last Name' name='lastName' 
-                                    placeholder='Last Name'
-                                    onChange={e => setSearch({...search, lastName: e.target.value})}/>
+                                    placeholder='Last Name' value={search.lastName}
+                                    onChange={handleSearch}/>
                             </Grid>
                             <Grid item xs={12} md={3}>
                                 <Button
@@ -91,14 +104,44 @@ export default function EmployeeSearch (props) {
                 </Grid>
 
                 <Grid item xs={12}>
-                    {/* <EmployeeTable 
-                        employees={employeeList} 
+                    <EmployeeTable 
+                        employees={filteredEmployees ? filteredEmployees : employeeList} 
                         handleSelection={handleEmployeeSelection}
-                    /> */}
+                    />
                 </Grid>
             </Container>
+
+            <SidebarSlidePopup open={openNewEmployeePopUp}>
+                {openNewEmployeePopUp 
+                    ? <NewCustomerUI 
+                            handleEmployee={handleEmployeeSelection}
+                            employee={newEmployee}
+                            setOpen={setOpenNewEmployeePop} 
+                            setEmployee={setNewEmployee}
+                        />
+                    : null
+                }
+            </SidebarSlidePopup>
         </MainContainer>
 
     )
 }
 
+const demoEmployee = {
+    firstName: '',
+    lastName: '',
+    dateOfBirth: new Date('01/15/1975')
+}
+
+//#region CSS
+const Container = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    width: 'inherit',
+    alignItems: 'center',
+    padding: theme.spacing(0, 0),
+    margin: theme.spacing(0),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
+//#endregion

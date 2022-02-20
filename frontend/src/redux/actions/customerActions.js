@@ -1,6 +1,5 @@
 import * as ActionTypes from '../ActionTypes'
 import axios from 'axios';
-import { alignProperty } from '@mui/material/styles/cssUtils';
 
 const token = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).token : null
 
@@ -47,7 +46,6 @@ export const addCustomer = (newCustomer) => async dispatch => {
 
 export const updateCustomer = (changes) => async dispatch => {
     try {
-        setLoading();
         const res = await axios.put(`/api/customers/${changes._id}`, changes, config)
 
         dispatch({

@@ -115,12 +115,6 @@ const updateCustomer = async(req, res) => {
         const id = req.params.id;
         let customer =  {} //await Customer.findById(id);
 
-        // if(!customer){
-        //     return res.json({message: [{severity: 'error', msg: "Customer not found", _id: uid()}]})
-        // }
-
-        console.log("old gender", customer.gender)
-
         const {firstName, middleName, lastName, dateOfBirth, gender, ssn, phone, email, address} = req.body;
         
         if(firstName) customer.firstName = firstName;
@@ -148,8 +142,6 @@ const updateCustomer = async(req, res) => {
             {$set: customer},
             {new: true}
         )
-
-        // await customer.save();
                 
         res.json(updatedCustomer)
         
