@@ -100,17 +100,19 @@ const addSale = async (req, res) => {
         }
 
         await soldCustomer.save();
+        const employee = await Employee.findOne({user: req.user.id})
         
-        newSale.soldBy = req.user.id;
+        newSale.soldBy = employee._id;
         newSale.vehicle = soldVehicle._id;
         newSale.customer = soldCustomer._id
         newSale.purchasePrice = sale.grandTotal
         newSale.paymentType = sale.paymentType === 'Cash' ? sale.paymentType : "Financed"    
     
         const completeSale = new Sale(newSale);
+        
         await completeSale.save();
 
-        console.log(newSale)
+        console.log(completeSale)
         
         res.json(completeSale);
     } catch (err) {

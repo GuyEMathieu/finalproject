@@ -7,7 +7,6 @@ export default function Alerts({alerts}) {
 
     const [localAlerts, setLocalAlerts] = useState(null)
     useEffect(() => {
-        if(alerts) alert(JSON.stringify(alerts))
         if(alerts) setLocalAlerts(alerts)
     },[alerts])
 

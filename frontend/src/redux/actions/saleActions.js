@@ -13,7 +13,6 @@ const config = {
 export const getSales = () => async dispatch => {
     try {
         const res = await axios.get('/api/sales', config)
-
         dispatch({
             type: ActionTypes.GET_SALES,
             payload: res.data
@@ -29,12 +28,16 @@ export const getSales = () => async dispatch => {
 export const addSale = (sale) => async dispatch => {
     try {
         const res = await axios.post('/api/sales', sale, config)
-
+        console.info("res", res.data)
         dispatch({
             type: ActionTypes.ADD_SALE,
             payload: res.data
         })
     } catch(err){
+        if(err){
+            console.info("err", JSON.stringify(err.response, null, 4))
+        }
+        
         dispatch({
             type: ActionTypes.SALES_ERROR,
             payload: err.response.data

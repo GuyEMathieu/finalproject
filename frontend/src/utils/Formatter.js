@@ -41,7 +41,7 @@ export const formatPhone = (value, previousValue) => {
 
 export function FormatNumber(x) {
     if(x){
-        return `$ ${x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+        return `$ ${Number(x).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
     }
     return "$ 0.00"
 }

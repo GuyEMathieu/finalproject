@@ -20,7 +20,7 @@ export function Member_Prior_Repair(member){
         ]
     }
     
-    if(member) {
+    if(member && member.performance.length > 0) {
         for (let i = 0; i < member.performance.length; i++){
             const perf = member.performance[i];
             data.datasets[0].backgroundColor.push(color)
@@ -38,7 +38,7 @@ export function MTD_Sales(performance){
     const color = Color();
 
     let sales = 0;
-    if(performance){
+    if(performance && performance.length > 0){
         for(let i = 0; i < performance.length; i++){
             sales += performance[i].purchasePrice
         }
@@ -103,7 +103,7 @@ export function YTD_Sales(performance){
             },
         ]
     }
-    if(performance) {
+    if(performance && performance.length > 0) {
         
         for (let i = 0; i < performance.length; i++){
             const perf = performance[i];
@@ -132,7 +132,7 @@ export function YTD_Commission(performance){
             },
         ]
     }
-    if(performance) {
+    if(performance && performance.length > 0) {
         for (let i = 0; i < performance.length; i++){
             const perf = performance[i];
             
@@ -307,7 +307,7 @@ export function YTD_Repair(performance){
         datasets: [
             {
                 label: "YTD Service",
-                data: [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0],
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: [],
                 borderColor: [],
                 borderWidth: 1
@@ -315,7 +315,7 @@ export function YTD_Repair(performance){
         ]
     }
     console.info("performance", performance)
-    if(performance) {
+    if(performance && performance.length > 0) {
 
         
         for (let i = 0; i < performance.length; i++){
@@ -326,7 +326,7 @@ export function YTD_Repair(performance){
             console.info("Month", data.datasets[0].data[month] += perf.serviceValue)
             data.datasets[0].data[month] += perf.serviceValue;
         }
-        data.datasets[0].label = `YTD Service (${new Date(performance[0].date).getFullYear()})`
+        data.datasets[0].label = `YTD Service (${new Date().getFullYear()})`
     }
     return data;
 }

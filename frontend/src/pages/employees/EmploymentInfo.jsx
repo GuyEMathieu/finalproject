@@ -37,10 +37,14 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
                     value={employmentInfo.employeeNumber || ''} disabled/>
             </Grid>
 
+
+
             <Grid item xs={12}md={6}>
                 <TextField  
-                    label='Team' name='team' 
-                    value={employmentInfo.team} disabled/>
+                    disabled={isDisabled}
+                    label='Team' name='team'
+                    value={employmentInfo.team} 
+                    onChange={handleChange}/>
             </Grid>
             
             
@@ -56,10 +60,11 @@ const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) =>
             <Grid item xs={12}md={6}>
                 <TextField  
                     disabled={isDisabled}
-                    label='Salary' name='salary'
-                    value={FormatNumber(employmentInfo.salary)} 
+                    label='Salary' name='salary' type='number'
+                    value={employmentInfo.salary} 
                     onChange={handleChange}/>
             </Grid>
+            
 
             <Grid item xs={12}md={6}>
                 <TextField  

@@ -3,7 +3,8 @@ const Customer = require('../models/customerModel')
 const Gender = require('../models/genderModel')
 const State = require('../models/stateModel')
 const Country = require('../models/countryModel');
-const Service = require("../models/serviceModel")
+const Service = require("../models/serviceModel");
+const Employee = require("../models/employeeModel")
 
 
 //#region Customer Profile
@@ -273,9 +274,10 @@ const addVehicleService = async (req, res) => {
             serviceValue += part.unit * part.quantity
         });
 
+        const employee = await Employee.findOne({user: req.user.id})
         let newService = new Service({
             date: date,
-            employee: req.user.id,
+            employee: employee._id,
             vehicle: vin,
             serviceName: serviceName,
             serviceValue: serviceValue

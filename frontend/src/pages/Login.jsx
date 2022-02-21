@@ -49,9 +49,9 @@ const Login = () => {
         if(name ==='label'){
             const _user = list.find(l => l.label === value)
             setNewUser(_user)
+            return
         } else {
             setNewUser({...newUser, [name]: value})
-            console.info(name, value)
         }
         
     }
@@ -85,16 +85,19 @@ const Login = () => {
                                 <MenuItem key={ele.username} value={ele.label}>{ele.label}</MenuItem>
                             ))}
                         </TextField>
+
+
                         <TextField
-                            label={'Username'} name='username'
-                            value={newUser.username} disabled={newUser.label !== 'Guest' ? true : false}
+                            label={'Username'} name='username' 
+                            value={newUser.username} onChange={handleChange}
+                            disabled={newUser.label !== 'Guest' ? true : false}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <AccountCircle />
                                     </InputAdornment>
                                 ),
-                            }}
+                            }}    
                         />
                         <TextField
                             label={'Password'} name='password' type={'password'}
@@ -134,8 +137,8 @@ const list = [
         password: 'password'
     },
     {
-        username: "Giffy.Willsmore",
-        label: "Giffy Willsmore (Sales Representative)" ,
+        username: "Guy.Mathieu",
+        label: "Guy Mathieu (Sales Representative)" ,
         password: 'password'
     },
     {
@@ -144,8 +147,8 @@ const list = [
         password: 'password'
     },
     {
-        username: "Omero.Lathwell",
-        label: "Omero Lathwell (Repair Technician)",
+        username: "Mercedes.Dunham",
+        label: "Mercedes Dunham (Repair Technician)",
         password: 'password'
     },
     {

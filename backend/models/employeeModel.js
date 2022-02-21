@@ -20,12 +20,10 @@ const employmentInfoSchema = new mongoose.Schema({
     position: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'positions',
-        default: ''
     },
     department: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'departments',
-        default: ''
     },
     salary: {
         type: Number,
@@ -39,11 +37,9 @@ const driverLicenseSchema = new mongoose.Schema({
     dlState: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'states',
-        default: ''
     },
     dlNumber:{
         type: String,
-        default: ''
     }
 },{
     timestamps: true
@@ -71,12 +67,10 @@ const addressSchema = new mongoose.Schema({
     state: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'states',
-        default: ''
     },
     country: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'countries',
-        default: ''
     },
     
 },{

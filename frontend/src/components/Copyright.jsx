@@ -11,7 +11,8 @@ const Typo = styled(Typography)(({theme}) => ({
     color: theme.palette.text.primary,
     align:"center",
     margin: theme.spacing(2),
-    marginLeft: '40vw'
+    width: '100%',
+    margin: 'auto'
 }))
 
 function Copyright() {

@@ -16,9 +16,8 @@ import AccordionShell from '../../components/AccordionShell';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getDefaults } from '../../redux/actions/defaultActions';
-import { getEmployees } from '../../redux/actions/employeeActions';
-import MainContainer from '../../components/MainContainer';
-import Copyright from '../../components/Copyright';
+import { getEmployees, updateEmployee } from '../../redux/actions/employeeActions';
+
 
 const CustomGrid = styled(Grid)(({theme}) => ({
     paddingTop: theme.spacing(1)
@@ -61,6 +60,7 @@ function EmployeeProfile2(props) {
     const onEdit = e =>{
         setDisabled(false)
         setTemp(employee)
+        console.info("changes")
         setChanges({_id: employee._id})
     }
 
@@ -102,7 +102,7 @@ function EmployeeProfile2(props) {
         }
 
         if(
-            name === 'startDate' || name === 'salary'
+            name === 'startDate' || name === 'salary'|| name ==='team'
             || name === 'department' || name === 'position'){
 
             setEmployee({...employee, employmentInfo: {...employee.employmentInfo, [name]: value}})
@@ -111,10 +111,10 @@ function EmployeeProfile2(props) {
     }
 
     const onSave = e => {
-        // updateEmployee(changes)
-        // setChanges(null);
-        // setTemp(null);
-        // setDisabled(true)
+        dispatch(updateEmployee(changes))
+        setChanges(null);
+        setTemp(null);
+        setDisabled(true)
     }
 
     return (

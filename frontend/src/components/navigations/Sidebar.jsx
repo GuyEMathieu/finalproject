@@ -30,12 +30,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useSettings } from '../../hooks/customHooks';
 
 import { authReset, logout } from '../../redux/actions/authActions';
+import {getDefaults} from '../../redux/actions/defaultActions'
 
 import {useSelector, useDispatch} from 'react-redux'
 
 function Header(props) {
     const navigate = useNavigate()
     const {user } = useSelector((state) => state.auth)
+    const {defaults} = useSelector((state) => state.defaults)
     const dispatch = useDispatch()
 
     const theme = useTheme();
@@ -44,7 +46,11 @@ function Header(props) {
         if(!user){
             navigate(`/login`)
         }
-    },[user, navigate])
+
+        if(!defaults){
+            dispatch(getDefaults())
+        }
+    },[user, navigate, dispatch, defaults])
 
     const {
         open, handleDrawerClose,
@@ -65,6 +71,42 @@ function Header(props) {
     }
 
     const {changeTheme} = useSettings();
+
+    const showShowroom = () => {
+        if(defaults && user){
+            const userPosition = user.profile.employmentInfo.position;
+            const pos = defaults.positions.find(p => p._id === userPosition);
+
+            if(pos.name === 'Sales Manager' || pos.name === 'Sales Representative'){
+                return true
+            }
+        }
+        return false;
+    }
+
+    const showCustomers = () => {
+        if(defaults && user){
+            const userPosition = user.profile.employmentInfo.position;
+            const pos = defaults.positions.find(p => p._id === userPosition);
+
+            if(pos.name === 'Repair Manager' || pos.name === 'Repair Technician'){
+                return true
+            }
+        }
+        return false
+    }
+
+    const showEmployees = () => {
+        if(defaults && user){
+            const userPosition = user.profile.employmentInfo.position;
+            const pos = defaults.positions.find(p => p._id === userPosition);
+
+            if(pos.name.split(' ')[1] === 'Manager'){
+                return true
+            }
+        }
+        return false
+    }
 
     return (
         <Drawer
@@ -98,32 +140,43 @@ function Header(props) {
                 aria-labelledby="nested-list-subheader"
                 >
 
-                <CustomLink to={'/sales/showroom'}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <CarRentalIcon color='primary'/>
-                        </ListItemIcon>
-                        <ListItemText primary="Showroom" />
-                    </ListItemButton>
-                </CustomLink>
+                
+                {showShowroom() 
+                    ?   <CustomLink to={'/sales/showroom'}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <CarRentalIcon color='primary'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Showroom" />
+                            </ListItemButton>
+                        </CustomLink>
+                    : null
+                }
 
-                <CustomLink to={'/service'}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <CarRepairIcon color='primary'/>
-                        </ListItemIcon>
-                        <ListItemText primary="Service" />
-                    </ListItemButton>
-                </CustomLink>
+                {showCustomers() 
+                    ?   <CustomLink to={'/service'}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <CarRepairIcon color='primary'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Service" />
+                            </ListItemButton>
+                        </CustomLink>
+                    : null
+                }
+                {showEmployees() 
+                    ?   <CustomLink to={'/hr/employees'}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <BadgeIcon color='primary'/>
+                                </ListItemIcon>
+                                <ListItemText primary="Employees" />
+                            </ListItemButton>
+                        </CustomLink>
+                    : null
+                }
 
-                <CustomLink to={'/hr/employees'}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <BadgeIcon color='primary'/>
-                        </ListItemIcon>
-                        <ListItemText primary="Employees" />
-                    </ListItemButton>
-                </CustomLink>
+                
 
                 <Divider />
                 {user ?  

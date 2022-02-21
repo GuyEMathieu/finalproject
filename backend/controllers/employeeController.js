@@ -1,6 +1,8 @@
 const express = require('express');
 const { v4: uid } = require('uuid');
 const Employee = require('../models/employeeModel')
+const Gender = require('../models/genderModel')
+const Position = require('../models/positionModel')
 const User = require('../models/userModel')
 const State = require('../models/stateModel')
 const bcrypt = require('bcryptjs')
@@ -24,10 +26,14 @@ const getAllEmployees = async (req, res) => {
 // @access      private
 const updateEmployee =  async (req, res) => {
     try {
-        const employeeId = req.params.employeeId
+        console.log("updating employee", req.body)
+        const employeeId = req.params.id
+        console.log("id", employeeId)
         let employee = await Employee.findById(employeeId);
         
+        
         if(!employee){
+            console.info("employee not found")
             return res.status(404).json({errors: [{severity: 'errors', msg:"Employee not found", _id: uid()}]})
         };
 
@@ -47,6 +53,7 @@ const updateEmployee =  async (req, res) => {
         if(gender) employee.gender = gender;
 
         if(driverLicense) {
+            console.log("updating dl")
             const {dlState, dlNumber} = driverLicense;
             if(dlState) employee.driverLicense.dlState = dlState;
             if(dlNumber) employee.driverLicense.dlNumber = dlNumber;
@@ -63,11 +70,12 @@ const updateEmployee =  async (req, res) => {
         }
 
         if(employmentInfo){
-            const {startDate, position, department, salary} = employmentInfo;
+            const {startDate, position, department, salary, team} = employmentInfo;
             if(startDate) employee.employmentInfo.startDate = startDate;
             if(position) employee.employmentInfo.position = position;
             if(department) employee.employmentInfo.department = department;
             if(salary) employee.employmentInfo.salary = salary;
+            if(team) employee.employmentInfo.salary = team;
         }
 
         await employee.save();
@@ -84,7 +92,7 @@ const updateEmployee =  async (req, res) => {
 // @access      private
 const getEmployeeById = async (req, res) => {
     try {
-        const employeeId = req.params.employeeId
+        const employeeId = req.params.id
         const employee = await Employee.findById(employeeId);
         res.json(employee)
     } catch (err) {

@@ -62,6 +62,9 @@ function SalesEmployeePerformance() {
 
     },[salesList, employeeId, dispatch])
 
+    console.info("ytdSale", ytdSale)
+    console.info("mtdSale", mtdSale)
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
