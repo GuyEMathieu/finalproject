@@ -34,10 +34,6 @@ export const addSale = (sale) => async dispatch => {
             payload: res.data
         })
     } catch(err){
-        if(err){
-            console.info("err", JSON.stringify(err.response, null, 4))
-        }
-        
         dispatch({
             type: ActionTypes.SALES_ERROR,
             payload: err.response.data

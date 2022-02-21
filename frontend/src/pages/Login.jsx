@@ -40,7 +40,6 @@ const Login = () => {
             navigate('/sales/showroom')
         }
 
-        //dispatch(reset())
     },[isError, isSuccess, navigate, user, message, dispatch])
 
     const handleChange = e => {

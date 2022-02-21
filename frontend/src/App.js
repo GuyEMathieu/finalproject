@@ -9,7 +9,6 @@ import {darkTheme} from './themes/darkTheme'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
-
 import EmployeeMain from './pages/employees/EmployeeMain'
 import EmployeeSearch from './pages/employees/EmployeeSearch'
 import Showroom from './pages/sales/Showroom';
@@ -20,7 +19,6 @@ import Service from './pages/service/Service';
 function App() {
     const {currentTheme} = useSettings()
     
-
     return (
         <ThemeProvider theme={currentTheme === 'light' ? lightTheme : darkTheme}> 
             <Router>
@@ -44,7 +42,4 @@ function App() {
         </ThemeProvider>
     );
 }
-
 export default App
-
-
