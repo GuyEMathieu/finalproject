@@ -3,7 +3,7 @@ import {
     Grid, TextField, MenuItem
 } from '@mui/material';
 import DatePicker from '@mui/lab/DatePicker';
-import { formatPhone } from '../../utils/Formatter';
+import { formatPhone, formatSSN } from '../../utils/Formatter';
 import Skeleton from '@mui/material/Skeleton';
 import Loading from '../Loading'
 
@@ -73,7 +73,7 @@ export default function PersonalInfo(props) {
             <Grid item xs={12} md={4}>
                 <TextField
                     label='SSN' name='ssn' disabled={isDisabled}
-                    value={ssn} onChange={handleChange}/>
+                    value={formatSSN(ssn)} onChange={handleChange}/>
                 
             </Grid>
             <Grid item xs={12} md={4}>

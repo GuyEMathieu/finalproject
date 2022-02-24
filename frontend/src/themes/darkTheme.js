@@ -4,17 +4,30 @@ import { createTheme } from '@mui/material/styles'
 // // Create theme instance
 export const darkTheme = createTheme({
 
+    // palette: {
+    //     mode: 'dark',
+    //     background: {
+    //         default: "#2E3235",
+    //         paper: "#2E3235"
+    //     },
+    //     primary: {
+    //         main: "#2E3235"
+    //     },
+    //     text: {
+    //         primary: '#fff'
+    //     }
+    // },
     palette: {
         mode: 'dark',
         background: {
-            default: "#0a1929",
-            paper: "#001e3c"
+            default: "#141414",
+            paper: "#141414"
         },
         primary: {
-            main: "#F3DCE1"
+            main: "#5E6F8A"
         },
         text: {
-            primary: '#ffffff'
+            primary: '#FFFFFF'
         }
     },
 
@@ -29,7 +42,8 @@ export const darkTheme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    textTransform: 'none'
+                    textTransform: 'none',
+                    borderColor: 'white'
                 }
             }
         },

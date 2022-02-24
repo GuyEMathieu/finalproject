@@ -24,7 +24,7 @@ const CustomGrid = styled(Grid)(({theme}) => ({
 }))
 
 
-function EmployeeProfile2(props) {
+function EmployeeProfile2({setTitle}) {
     const {employeeId} = useParams();
     const dispatch = useDispatch()
 
@@ -49,9 +49,11 @@ function EmployeeProfile2(props) {
         }
 
         if(employeeList && defaults){
-            setEmployee(employeeList.find(emp => emp._id === employeeId))
+            const selected = employeeList.find(emp => emp._id === employeeId)
+            
+            setEmployee(selected)
         }
-    }, [defaults, dispatch, employeeList, employeeId])
+    }, [defaults, dispatch, employeeList, employeeId, setTitle])
 
     const [temp, setTemp] = useState(null)
     const [changes, setChanges] = useState(null)

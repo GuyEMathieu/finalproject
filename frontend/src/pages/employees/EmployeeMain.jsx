@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getDefaults } from '../../redux/actions/defaultActions';
 import { getEmployees } from '../../redux/actions/employeeActions';
+import { te } from 'date-fns/locale';
 
 export default function EmployeeMain () {
     const {employeeId} = useParams();
@@ -48,23 +49,24 @@ export default function EmployeeMain () {
         setValue(newValue);
     };
 
+
     const displayPerformanceType = () => {
         switch(position){
             case 'Sales Representative':
-                return <SalesEmployeePerformance  />
+                return <SalesEmployeePerformance />
             case 'Sales Manager':
-                return <SalesManagerPerformance  />
+                return <SalesManagerPerformance />
             case 'Repair Technician':
-                return <RepairEmployeePerformance  />
+                return <RepairEmployeePerformance />
             case 'Repair Manager':
-                return <RepairManagerPerformance  />
+                return <RepairManagerPerformance />
             default:
                 return null;
         }
     }
 
     return (
-        <MainContainer>
+        <MainContainer title={'Employee Profile & Performance'}>
             <Box sx={{ width: '100%', typography: 'body1' }}>
                 <TabContext value={value}>
                     <Paper sx={{ py: 0}}>

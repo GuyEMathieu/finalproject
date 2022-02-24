@@ -12,7 +12,7 @@ import {getServices} from '../../redux/actions/serviceActions';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-export default function RepairEmployeePerformance () {
+export default function RepairEmployeePerformance ({setTitle}) {
     const {employeeId} = useParams();
     const dispatch = useDispatch()
     const {serviceList} = useSelector(state => state.services)
@@ -28,6 +28,7 @@ export default function RepairEmployeePerformance () {
         }
 
         if(employeeId && serviceList){
+            
             function customServices (start, end) {
                 return serviceList.filter(s => s.employee === employeeId
                     && new Date(s.date) >= start

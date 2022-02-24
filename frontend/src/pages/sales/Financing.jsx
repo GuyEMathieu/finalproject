@@ -30,7 +30,7 @@ const Financing = (props) => {
                     <TextField
                         onChange={handleBankChange} value={bank._id}
                         label='Financial Institution' name='bank' select>
-                            <MenuItem disabled>Select Bank</MenuItem>
+                            <MenuItem key='' disabled>Select Bank</MenuItem>
                             {props.defaults && props.defaults.banks.map(b => (
                                 <MenuItem key={b._id} value={b._id}>{b.name}</MenuItem>
                             ))}

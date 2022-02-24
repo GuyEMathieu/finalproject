@@ -3,7 +3,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import {
     List, Box, ListItemAvatar, 
-    Avatar, ListItem, Button, ButtonGroup
+    Avatar, ListItem, Button, ButtonGroup, Typography
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -175,73 +175,23 @@ function Header(props) {
                         </CustomLink>
                     : null
                 }
-
-                
-
                 <Divider />
-                {user ?  
-                    <Box sx={{
+                <Box sx={{
                     position: 'fixed',
                     bottom: 0,
                     textAlign: 'center',
                     paddingBottom: 3
-                }}>
-
-                    <ListItemButton onClick={handleClick}>
-                        <ListItemIcon>
-                            <SettingsIcon color='primary'/>
-                        </ListItemIcon>
-                        <ListItemText primary="Settings" />
-                        {openSetting ? <ExpandMore color='primary'/> : <ExpandLess color='primary'/>}
-                    </ListItemButton>
-
-                        <Collapse in={openSetting} timeout="auto" unmountOnExit>
-                            <List component="div" sx={{pl: 1}}>
-                                <ListItemAvatar >
-
-                                    <Avatar 
-                                        alt={`${user.profile.firstName} ${user.profile.lastName}`} 
-                                        src={user.profile.avatar} 
-                                        sx={{width: '100px',
-                                            height: '100px', 
-                                            mx: 'auto',
-                                        }}
-                                    />
-                                    <ListItemText>{user.profile.firstName} {user.profile.lastName}</ListItemText>
-                                </ListItemAvatar>
-
-                                <ListItemButton onClick={() => goToProfile()}>
-                                    <ListItemIcon>
-                                        <AccountCircleIcon color='primary'/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Profile" />
-                                </ListItemButton>
-
-                                <ListItem>
-                                    <div>
-                                        <ListItemText primary={'Mode'} sx={{borderColor: 'black'}}/>
-                                        <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                            <Button startIcon={<LightModeOutlinedIcon />} onClick={() => changeTheme('light')}>Light</Button>
-                                            <Button startIcon={<DarkModeOutlinedIcon />} onClick={() => changeTheme('dark')}>Dark</Button>
-                                        </ButtonGroup>
-                                    </div>
-                                </ListItem>
-
-                                <Divider />
-
-                                <ListItemButton onClick={handleLogout}>
-                                    <ListItemIcon>
-                                        <LogoutIcon color='primary'/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Logout" />
-                                </ListItemButton>
-                            </List>
-                        </Collapse>
-
-                        <Divider  />
-                    </Box>
-                    : null
-                }
+                }}> 
+                    <ListItem>
+                        <div>
+                            <Typography align='left' >Mode</Typography>
+                            <ButtonGroup variant="outlined" aria-label="outlined button group">
+                                <Button startIcon={<LightModeOutlinedIcon />} onClick={() => changeTheme('light')}>Light</Button>
+                                <Button startIcon={<DarkModeOutlinedIcon />} onClick={() => changeTheme('dark')}>Dark</Button>
+                            </ButtonGroup>
+                        </div>
+                    </ListItem>
+                </Box>
             </List>
         </Drawer>
     );

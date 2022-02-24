@@ -16,7 +16,7 @@ export default function AccordionShell(props) {
 
     return (
         <CustomAccordion 
-            sx={{padding: 0}}
+            sx={{padding: 0, }}
             expanded={expanded === title} 
             onChange={handleChange(title)}>
             <AccordionSummary 
@@ -33,11 +33,3 @@ export default function AccordionShell(props) {
         </CustomAccordion>
     );
 }
-
-{/* <AccordionSummary 
-    sx={{backgroundColor: '#f00', px: 1}}
-    expandIcon={<ExpandMoreIcon />}>
-    <Typography sx={{color: 'white'}}>
-        {title}
-    </Typography>
-</AccordionSummary> */}

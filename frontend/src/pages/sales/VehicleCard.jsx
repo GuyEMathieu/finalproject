@@ -27,7 +27,11 @@ export default function MediaCard({vehicle, defaults}) {
     const navigate = useNavigate();
     const title = () => {
         if(vehicle){
-            return `${vehicle.year} ${getName(defaults.manufacturers, vehicle.make)} ${getName(defaults.models, vehicle.model)}`
+            const title = `${vehicle.year} ${getName(defaults.manufacturers, vehicle.make)} ${getName(defaults.models, vehicle.model)}`
+            // if(title.split(' ').length > 3){
+            //     const truncatedTitle = ``
+            // }
+            return title;
         }
         return ''
     }
@@ -47,9 +51,9 @@ export default function MediaCard({vehicle, defaults}) {
                 alt="vehicle"
                 onClick={goToProfile}
             />
-            <CardContent>
+            <CardContent sx={{height: '150px'}}>
                 {vehicle &&
-                    <Textfit>
+                    <Textfit style={{textAlign: 'center'}}>
                         {title()}
                     </Textfit>
                 }

@@ -101,7 +101,6 @@ const addSale = async (req, res) => {
 
         await soldCustomer.save();
         const employee = await Employee.findOne({user: req.user.id})
-        
         newSale.soldBy = employee._id;
         newSale.vehicle = soldVehicle._id;
         newSale.customer = soldCustomer._id

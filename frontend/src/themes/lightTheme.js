@@ -4,19 +4,19 @@ import { createTheme } from '@mui/material/styles'
 // // Create theme instance
 export const lightTheme = createTheme({
 
-    palette: {
-        mode: 'dark',
-        background: {
-            default: "#5169D4",
-            paper: "#2B4CE0"
-        },
-        primary: {
-            main: "#E2DBDB"
-        },
-        text: {
-            primary: '#EEE7E7'
-        }
-    },
+    // palette: {
+    //     mode: 'dark',
+    //     background: {
+    //         default: "#E8E5F1",
+    //         paper: "#123087"
+    //     },
+    //     primary: {
+    //         main: "#E2DBDB"
+    //     },
+    //     text: {
+    //         primary: '#EEE7E7'
+    //     }
+    // },
 
     components: {
         MuiButton: {
@@ -45,6 +45,9 @@ export const lightTheme = createTheme({
         MuiAccordionSummary: {
             styleOverrides: {
                 root: {
+                    
+                    backgroundColor: '#1876d2',
+                    color: '#FBFCFD',
                     padding: '0px',
                     marginTop: '0px'
                 }

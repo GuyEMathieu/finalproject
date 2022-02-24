@@ -64,7 +64,6 @@ export default function MainContainer(props) {
     return (
         
         <Box sx={{ display: 'flex'}}>
-            
             <CssBaseline />
 
             <Header open={open} handleDrawerOpen={handleDrawerOpen} title={props.title}/>
@@ -73,8 +72,17 @@ export default function MainContainer(props) {
             <Main open={open}>
                 <DrawerHeader />
                     {props.children}
-                <Copyright/>
             </Main>
+            <Box sx={{
+                position: 'fixed',
+                bottom: 0,
+                width: '100%',
+                //textAlign: 'center',
+                paddingBottom: 3,
+                backgroundColor: 'inherit'
+            }}>
+                <Copyright />
+            </Box>
         </Box>
     )
 }

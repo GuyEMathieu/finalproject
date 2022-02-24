@@ -9,15 +9,13 @@ const CustomLink = styled(Link)(({theme}) => ({
 }))
 const Typo = styled(Typography)(({theme}) => ({
     color: theme.palette.text.primary,
-    align:"center",
     margin: theme.spacing(2),
     width: '100%',
-    margin: 'auto'
 }))
 
-function Copyright() {
+export default function Copyright() {
     return (
-        <Typo variant="body2" >
+        <Typo variant="body2" align='center'>
             {'Copyright © '}
             <CustomLink color="inherit" to="/">
                 Guy Mathieu
@@ -27,5 +25,3 @@ function Copyright() {
         </Typo>
     );
 }
-
-export default Copyright
