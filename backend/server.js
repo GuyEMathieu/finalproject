@@ -3,11 +3,20 @@ const colors = require('colors')
 const dotenv = require('dotenv').config();
 const PORT = process.env.PORT || 5000
 const app = express();
-const connectDB = require('./config/db');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const path = require('path')
 
 // Connect to DB
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline.bold)
+        
+    } catch (err) {
+        console.log(`Error: ${err.message}`.red.underline.bold)
+        process.exit(1);
+    }
+}
 connectDB();
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
