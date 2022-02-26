@@ -39,11 +39,6 @@ export default function VehiclePurchase  () {
     const {defaults} = useSelector(state => state.defaults)
     const {inventoryVehicles, currentVehicle} = useSelector(state => state.inventory)
     const {customerList} = useSelector(state => state.customers)
-    
-    // const {inventoryVehicles, getVehicles, getVehicleById, currentVehicle} = useInventoryVehicles();
-    // const {saleVehicle, addUIErrors, errors, removeError} = useSales();
-    // const {customerList, getCustomers} = useCustomer();
-    // const {defaults, getAll} = useDefault();
 
     const [isLoading, setLoading] = useState(true)
 
@@ -291,9 +286,8 @@ export default function VehiclePurchase  () {
                                     <MenuItem key={customer._id} value={customer._id}>{customer.firstName} {customer.lastName}</MenuItem>
                                 ))}
                             </TextField>
-
                             <PersonalInfo 
-                                sx={{mx: 0}}
+                                sx={{mx: 0, }}
                                 data={purchase.customer} isDisabled={false} handleChange={handlePurchaseChange} defaults={defaults} />
                         </div>
                 )
@@ -316,7 +310,7 @@ export default function VehiclePurchase  () {
                     handleChange={handlePurchaseChange}
                     />
             case 5:
-                return <Image src='/images/congrats.jpg' alt='congratulates' sx={{width: '100px', pl: '25%'}}/>
+                return <Image src='/images/congrats.jpg' alt='congratulates' />
             default:
                 return null
         }
@@ -376,5 +370,6 @@ function validateStep(activeStep, data){
 const Image = styled('img')(() => ({
     width: '50%',
     objectFit: 'contain',
-    borderRadius: 30
+    marginLeft: '25%',
+    maxHeight: '50vh',
 }))

@@ -20,7 +20,7 @@ function App() {
     const {currentTheme} = useSettings()
     
     return (
-        <ThemeProvider theme={currentTheme === 'light' ? lightTheme : darkTheme}> 
+        <ThemeProvider theme={currentTheme === 'light' ? lightTheme : currentTheme === 'dark' ? darkTheme : null}> 
             <Router>
                 <Routes>
                     <Route path='/' element={<EmployeeSearch />} />

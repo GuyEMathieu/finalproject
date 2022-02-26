@@ -15,6 +15,8 @@ import LockIcon from '@mui/icons-material/Lock';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {loginUser} from '../redux/actions/authActions';
+import {getDefaults} from '../redux/actions/defaultActions';
+
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 
@@ -27,6 +29,8 @@ const Login = () => {
         user, isLoading, isSuccess, message, isError
     } = useSelector((state) => state.auth)
 
+    const { defaults } = useSelector((state) => state.defaults)
+
     const [newUser, setNewUser] = useState(list[1]);
 
     const [alerts, setAlerts] = useState(null)
@@ -36,11 +40,21 @@ const Login = () => {
             setAlerts(message)
         }
 
-        if(isSuccess || user){
-            navigate('/sales/showroom')
+        if(!defaults){
+            dispatch(getDefaults())
         }
 
-    },[isError, isSuccess, navigate, user, message, dispatch])
+        if(user && defaults){
+            const pos = defaults.positions.find(p => p._id === user.profile.employmentInfo.position).name
+            console.info(pos)
+            if(pos === 'Sales Representative'){
+                navigate('/sales/showroom')
+            } else {
+                navigate('/service')
+            }
+        }
+
+    },[isError, isSuccess, navigate, user, message, dispatch, defaults])
 
     const handleChange = e => {
         let {name, value} =  e.target;

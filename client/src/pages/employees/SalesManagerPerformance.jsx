@@ -137,7 +137,7 @@ export default function SalesManagerPerformance() {
 
             {showPriorYear === 'no'
                 ?   <React.Fragment>
-                        <Grid item xs={12} md={12} lg={6}>
+                        <Grid item xs={12} md={6}>
                             <Paper >
                                 <Typography>Y-T-D</Typography>
                                 {chartType === 'Sale' 
@@ -146,7 +146,7 @@ export default function SalesManagerPerformance() {
                             </Paper>
                         </Grid>
                         
-                        <Grid item xs={12} md={12} lg={6}>
+                        <Grid item xs={12} md={6}>
                             <Paper >
                                 <Typography>M-T-D</Typography>
                                 {chartType === 'Sale' 
@@ -162,14 +162,14 @@ export default function SalesManagerPerformance() {
                             </Paper>
                         </Grid>
 
-                        <Grid item xs={12} lg={6}>
+                        <Grid item xs={12} md={6}>
                             <Paper>
                                 <Typography>{new Date().getFullYear() - 1} Sales</Typography>
                                 <BarChart data={Team_YTD_Sales(lastYear)} />
                             </Paper>
                         </Grid>
 
-                        <Grid item xs={12} lg={6}>
+                        <Grid item xs={12} md={6}>
                             <Paper>
                                 <Typography>{new Date().getFullYear() - 1} Commissions</Typography>
                                 <BarChart data={Team_YTD_Commission(lastYear)} />
