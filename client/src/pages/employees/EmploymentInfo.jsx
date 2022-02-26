@@ -3,7 +3,6 @@ import {
     TextField, MenuItem, Grid
 } from '@mui/material'
 import {DatePicker} from '@mui/lab'
-import {FormatNumber} from '../../utils/Formatter';
 import Loading from '../../components/Loading'
 
 const EmploymentInfo = ({defaults, employmentInfo, isDisabled, handleChange}) => {

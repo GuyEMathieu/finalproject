@@ -4,14 +4,12 @@ import {
 } from '@mui/material';
 import DatePicker from '@mui/lab/DatePicker';
 import { formatPhone, formatSSN } from '../../utils/Formatter';
-import Skeleton from '@mui/material/Skeleton';
 import Loading from '../Loading'
 
 
 export default function PersonalInfo(props) {
 
     const {
-        animation = 'wave',
         data,
         isDisabled = true,
         handleChange, defaults

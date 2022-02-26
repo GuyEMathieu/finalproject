@@ -19,7 +19,7 @@ import NewCustomerUI from './NewCustomerUI'
 import {getDefaults, resetDefaultError} from '../../../redux/actions/defaultActions';
 
 import {getCustomers, resetCustomerError, 
-    filterCustomers, resetCustomers, isCustomerSuccess
+    filterCustomers, resetCustomers
 } from '../../../redux/actions/customerActions'
 
 import { useDispatch, useSelector } from 'react-redux';

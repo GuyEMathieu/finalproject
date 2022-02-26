@@ -3,7 +3,6 @@ import {
     Paper, Grid, TextField, 
     MenuItem, 
 } from '@mui/material';
-import SimpleBar from 'simplebar-react';
 
 import MainContainer from '../../components/MainContainer';
 import VehicleCard from './VehicleCard'

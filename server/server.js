@@ -2,9 +2,11 @@ const express = require('express');
 const colors = require('colors')
 const dotenv = require('dotenv').config();
 const PORT = process.env.PORT || 5000
+const mongoose = require('mongoose')
 const app = express();
 const { errorHandler } = require('./middleware/errorMiddleware');
 const path = require('path')
+
 
 // Connect to DB
 const connectDB = async () => {
@@ -18,6 +20,7 @@ const connectDB = async () => {
     }
 }
 connectDB();
+
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 

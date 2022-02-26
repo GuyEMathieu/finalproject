@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom'
 import BarChart from '../../components/charts/BarChart';
 import {
     Grid, Paper, FormControl,
-    FormLabel, RadioGroup, Typography,
+    FormLabel, RadioGroup, 
     FormControlLabel, Radio
 } from '@mui/material'
 

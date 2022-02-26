@@ -10,7 +10,6 @@ import PeopleGlance from '../../components/peopleComponents/PeopleGlance';
 import PersonalInfo from '../../components/peopleComponents/PersonalInfo';
 import EmploymentInfo from './EmploymentInfo'
 import Address from '../../components/Address';
-import Loading from '../../components/Loading';
 import DriverLicense from '../../components/DriverLicense';
 import AccordionShell from '../../components/AccordionShell';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,7 +32,6 @@ function EmployeeProfile2({setTitle}) {
     const {defaults} = useSelector(state => state.defaults);
     const {employeeList} = useSelector(state => state.employees)
 
-    const [isLoading, setLoading] = useState(true)
     const [employee, setEmployee] = useState({
         driverLicense: {},
         employeeInfo: {},

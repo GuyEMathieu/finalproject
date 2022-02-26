@@ -5,7 +5,7 @@ import VehicleInfo from './VehicleInfo';
 import Loading from '../../components/Loading';
 import {useParams, useNavigate} from 'react-router-dom'
 
-import { getVehicleById, getInventory} from '../../redux/actions/inventoryActions';
+import { getInventory} from '../../redux/actions/inventoryActions';
 
 import { getDefaults } from '../../redux/actions/defaultActions';
 import { useDispatch, useSelector } from 'react-redux';

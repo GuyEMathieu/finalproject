@@ -76,7 +76,7 @@ export default function CustomerMain (props) {
     },[
         id, customerList,
         dispatch, isCustomerError, isDefaultError, 
-        customerMessage, defaultMessage
+        customerMessage, defaultMessage, isCustomerSuccess
     ])
 
 

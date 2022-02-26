@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {
-    Grid, TextField, MenuItem, Skeleton
+    Grid, TextField, MenuItem
 } from '@mui/material'
 import Loading from './Loading';
 

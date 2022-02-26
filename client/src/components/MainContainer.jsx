@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {
     Box, CssBaseline, styled,
 } from '@mui/material';
@@ -8,7 +8,6 @@ import {
 import Header from './navigations/Header';
 import Sidebar from './navigations/Sidebar';
 import Copyright from './Copyright';
-import SimpleBar from 'simplebar-react'
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     

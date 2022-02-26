@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {
-    Grid, TextField, MenuItem, Skeleton
+    Grid, TextField, MenuItem, 
 } from '@mui/material'
 import Loading from './Loading'
 
 const DriverLicense = ({driverLicense, handleChange, isDisabled, defaults}) => {
-    const animation = 'wave';
 
     const [isLoading, setLoading] = useState(true)
     

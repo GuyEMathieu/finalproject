@@ -1,5 +1,5 @@
 import {
-    Drawer, Box, Divider
+    Drawer, Box
 } from '@mui/material';
 
 const drawerWidth = 340;

@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import {
-    List, Box, ListItemAvatar, 
-    Avatar, ListItem, Button, ButtonGroup, Typography
+    List, Box,ListItem, Button, 
+    ButtonGroup, Typography
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -12,9 +12,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+
 
 import {Link, useNavigate} from 'react-router-dom'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -23,13 +21,9 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import CarRentalIcon from '@mui/icons-material/CarRental';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
 
 import { useSettings } from '../../hooks/customHooks';
 
-import { authReset, logout } from '../../redux/actions/authActions';
 import {getDefaults} from '../../redux/actions/defaultActions'
 
 import {useSelector, useDispatch} from 'react-redux'
@@ -55,20 +49,6 @@ function Header(props) {
     const {
         open, handleDrawerClose,
     } = props
-
-    const [openSetting, setOpenSettings] = useState(false)
-    const handleClick = () => {
-        setOpenSettings(!openSetting);
-    };
-
-    const goToProfile = () => {
-        navigate(`/hr/employees/profile/${user.profile._id}`)
-    }
-
-    const handleLogout = () => {
-        dispatch(logout());
-        dispatch(authReset())
-    }
 
     const {changeTheme} = useSettings();
 

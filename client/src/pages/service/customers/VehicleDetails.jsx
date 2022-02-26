@@ -17,7 +17,7 @@ import Popup from '../../../components/Popup';
 import NewServiceTrip from './NewServiceTrip';
 
 
-import {getDefaults, resetDefaultError} from '../../../redux/actions/defaultActions';
+import {getDefaults} from '../../../redux/actions/defaultActions';
 import { getCustomers, addVehicleService, resetCustomerError, updateVehicle } from '../../../redux/actions/customerActions';
 import {useSelector, useDispatch} from 'react-redux';
 

@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getDefaults } from '../../redux/actions/defaultActions';
 import { getEmployees } from '../../redux/actions/employeeActions';
-import { te } from 'date-fns/locale';
 
 export default function EmployeeMain () {
     const {employeeId} = useParams();

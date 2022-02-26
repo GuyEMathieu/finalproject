@@ -16,7 +16,6 @@ import Address from '../../../components/Address'
 import { useDispatch, useSelector } from 'react-redux';
 //#endRegion
 
-import { resetCustomers } from '../../../redux/actions/customerActions';
 
 const CustomerProfile = (props) => {
     const {
@@ -28,7 +27,6 @@ const CustomerProfile = (props) => {
     const dispatch = useDispatch()
 
     const {defaults} = useSelector(state => state.defaults)
-    const {customerList, isCustomerSuccess} = useSelector(state => state.customers)
     const [isLoading, setLoading] = useState(true);
     const [currentProfile, setCurrentProfile] = useState({address: {}})
 
