@@ -159,11 +159,11 @@ export default function Showroom() {
                         </Grid>
                     </Paper>
                 </Grid>
- 
+
                 <Grid xs={12} item container spacing={2}>
                     {defaults && vehicles 
                         ?   vehicles.map(vehicle => (
-                                <Grid item xs={12} md={4} lg={3} key={vehicle.vin}>
+                                <Grid item sm={12} md={6} lg={4} xl={2} key={vehicle.vin}>
                                     <VehicleCard vehicle={vehicle} defaults={defaults}/>
                                 </Grid>
                             ))
@@ -176,6 +176,5 @@ export default function Showroom() {
                 </Grid> 
             </Grid>
         </MainContainer>
-
     );
 }

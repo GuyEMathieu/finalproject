@@ -28,6 +28,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         }),
         marginLeft: 0,
         }),
+        marginBottom: 6
     }),
 );
 
@@ -71,16 +72,18 @@ export default function MainContainer(props) {
             <Main open={open}>
                 <DrawerHeader />
                     {props.children}
+                <Copyright />
             </Main>
             <Box sx={{
                 position: 'fixed',
                 bottom: 0,
                 width: '100%',
                 //textAlign: 'center',
-                paddingBottom: 3,
+                pb: 3,
+                pt:3,
                 backgroundColor: 'inherit'
             }}>
-                <Copyright />
+                {/* <Copyright /> */}
             </Box>
         </Box>
     )
